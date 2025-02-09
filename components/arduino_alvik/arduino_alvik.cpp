@@ -1,4 +1,5 @@
 #include "Arduino_Alvik.h"
+#include "arduino_alvik.h"
 
 #include "esphome/core/entity_base.h"
 #include "esphome/core/application.h"
