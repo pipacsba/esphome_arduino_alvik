@@ -1,7 +1,7 @@
 #define D3 6
 #define D4 7
 #define LED_RED 46
-#define LED_GREEN 0
+#define LED_GREEN 45
 
 #pragma once
 
