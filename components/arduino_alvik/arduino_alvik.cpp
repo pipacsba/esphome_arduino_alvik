@@ -15,18 +15,11 @@ static const char *const TAG = "arduinoalvik";
 
 //flexibility is everything
 void AlvikComponent::loop() {
-  if (!this->f_.has_value())
-    return;
-  auto s = (*this->f_)();
-  if (!s.has_value())
-    return;
-
-  this->publish_state(*s);
 }
 
   
 void AlvikComponent::setup() {
-  alvik.begin();
+  this->alvik.begin();
 }
 
 void AlvikComponent::dump_config() {
