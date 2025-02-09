@@ -16,11 +16,12 @@ class AlvikComponent;      // this component
 //this also maybe not even needed, not used for anything
 class AlvikComponent  : public Component {
  public:
-  // add pin
+
   void setup() override;
   void dump_config() override;
-  
+
  protected:
+  Arduino_Alvik alvik;
  
 };
 
