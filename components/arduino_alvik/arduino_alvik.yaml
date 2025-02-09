@@ -1,1 +1,42 @@
-arduino_alvik.yaml
+esphome:
+  name: arduino-alvik
+  friendly_name: Arduino_Alvik
+  libraries:
+    - Wire
+    - EEPROM
+    - ucPack
+    - Arduino_Alvik
+  on_boot:
+    - priority: 780
+      then:
+        - lambda: |-
+            Arduino_Alvik alvik;
+            alvik.begin();
+        - delay: 5s
+        
+esp32:
+  #board: arduino_nano_esp32
+  # https://github.com/esphome/esphome/discussions/6325
+  board: esp32-s3-devkitc-1
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+  - platform: esphome
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Arduino-Alvik Fallback Hotspot"
+
+captive_portal:
+    
