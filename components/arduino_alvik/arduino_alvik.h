@@ -1,7 +1,7 @@
-#define D3 GPIO6
-#define D4 GPIO7
-#define LED_RED GPIO46
-#define LED_GREEN GPIO0
+#define D3 6
+#define D4 7
+#define LED_RED 46
+#define LED_GREEN 0
 
 #pragma once
 
