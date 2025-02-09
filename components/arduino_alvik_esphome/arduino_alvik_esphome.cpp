@@ -15,7 +15,7 @@ namespace alvik {
 static const char *const TAG = "arduinoalvik";
  
 void AlvikComponent::setup() {
-  this->alvik.begin();
+ // this->alvik.begin();
 }
 
 void AlvikComponent::dump_config() {
