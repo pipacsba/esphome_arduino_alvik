@@ -25,16 +25,13 @@ CODEOWNERS = ["pipacsba"]
 
 alvik_ns = cg.esphome_ns.namespace("alvik")
 AlvikComponent = alvik_ns.class_("AlvikComponent", cg.Component)
-ArduinoAlvik = alvik_ns.class_(
-    "ArduinoAlvik", cg.Component
-)
 
 CONFIG_SCHEMA = cv.All(
     cv.Schema(
         {
-            cv.GenerateID(): cv.declare_id(ArduinoAlvik),
+            cv.GenerateID(): cv.declare_id(AlvikComponent),
         }
-    )
+    ).extend(cv.COMPONENT_SCHEMA)
 )
 
 async def to_code(config):
