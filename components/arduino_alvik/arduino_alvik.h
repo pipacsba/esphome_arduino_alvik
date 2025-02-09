@@ -20,9 +20,10 @@ class AlvikComponent  : public Component {
 
   void setup() override;
   void dump_config() override;
+  Arduino_Alvik alvik;
 
  protected:
-  Arduino_Alvik alvik;
+
  
 };
 
