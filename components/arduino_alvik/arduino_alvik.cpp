@@ -13,7 +13,7 @@ namespace alvik {
 static const char *const TAG = "arduinoalvik";
 
 //flexibility is everything
-void HunterZoneSwitch::loop() {
+void AlvikComponent::loop() {
   if (!this->f_.has_value())
     return;
   auto s = (*this->f_)();
@@ -25,9 +25,7 @@ void HunterZoneSwitch::loop() {
 
   
 void AlvikComponent::setup() {
-  ESP_LOGCONFIG(TAG, "Setting up HunterWifiComponent ...");
-
-  pin_->setup();
+  alvik.begin();
 }
 
 void AlvikComponent::dump_config() {
