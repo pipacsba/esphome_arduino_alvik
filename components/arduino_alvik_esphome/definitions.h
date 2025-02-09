@@ -39,7 +39,7 @@
 #define UART_BAUD_RATE 460800
 
 #define LED_RED 46
-#define RED_GREEN 0
+#define LED_GREEN 0
 
 #define DL1 left_led
 #define DL2 right_led
