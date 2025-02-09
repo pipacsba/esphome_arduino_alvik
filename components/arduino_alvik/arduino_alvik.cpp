@@ -12,12 +12,7 @@ namespace esphome {
 namespace alvik {
 
 static const char *const TAG = "arduinoalvik";
-
-//flexibility is everything
-void AlvikComponent::loop() {
-}
-
-  
+ 
 void AlvikComponent::setup() {
   this->alvik.begin();
 }
