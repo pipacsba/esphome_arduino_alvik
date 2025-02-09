@@ -1,3 +1,8 @@
+#define D3 GPIO6
+#define D4 GPIO7
+#define LED_RED GPIO46
+#define LED_GREEN GPIO0
+
 #pragma once
 
 #include "esphome/core/component.h"
