@@ -1,8 +1,3 @@
-#define D3 GPIO6
-#define D4 GPIO7
-#define LED_RED GPIO46
-#define LED_GREEN GPIO0
-
 
 #include "Arduino_Alvik.h"
 #include "arduino_alvik.h"
@@ -24,7 +19,7 @@ void AlvikComponent::setup() {
 }
 
 void AlvikComponent::dump_config() {
-  ESP_LOGCONFIG(TAG, "HunterWifiComponent  :");
+  ESP_LOGCONFIG(TAG, "AlvikComponent  :");
 }
   
 
