@@ -4,16 +4,15 @@
 #ifndef __ALVIK_ESPHOME__
 #define __ALVIK_ESPHOME__
 
-
-namespace esphome {
-namespace alvik {
-
 #include "esphome/core/component.h"
 #include "esphome/components/switch/switch.h"
 #include "esphome/core/hal.h"
 #include "esphome/components/number/number.h"
 #include "Arduino_Alvik.h"
 #include <vector>
+
+namespace esphome {
+namespace alvik {
 
 class AlvikComponent;      // this component
  
@@ -34,3 +33,5 @@ class AlvikComponent  : public Component {
  
 }  // namespace alvik
 }  // namespace esphome
+
+#endif
