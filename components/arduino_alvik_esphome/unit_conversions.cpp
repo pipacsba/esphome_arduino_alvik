@@ -1,3 +1,6 @@
+// created due to:
+//https://stackoverflow.com/questions/75516387/multiple-definitions-error-in-custom-esphome-component
+
 #include "unit_conversions.h"
 
 float convert_distance(const float value, const uint8_t from_unit, const uint8_t to_unit){           
