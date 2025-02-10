@@ -17,6 +17,7 @@ from esphome.const import (
     CONF_MIN_VALUE,
     CONF_RESTORE_VALUE,
     CONF_STEP,
+    UNIT_PERCENT,
 )
 
 MULTI_CONF = False; #can be True in future if I understand the consequences
@@ -24,6 +25,8 @@ AUTO_LOAD = ["number", "switch", "button", "sensor", "text_sensor"]
 CODEOWNERS = ["pipacsba"]
 
 CONF_ALVIK_ID = "mainboard_id"
+CONF_BATTERY_CHARGE_SENSOR = "battery_charge"
+
 
 alvik_ns = cg.esphome_ns.namespace("alvik")
 AlvikComponent = alvik_ns.class_("AlvikComponent", cg.Component)
@@ -31,6 +34,16 @@ AlvikComponent = alvik_ns.class_("AlvikComponent", cg.Component)
 ALVIK_COMPONENT_SCHEMA = cv.Schema(
     {
         cv.Required(CONF_ALVIK_ID): cv.use_id(AlvikComponent),
+    }
+)
+
+CONFIG_SCHEMA = POWERFEATHER_MAINBOARD_COMPONENT_SCHEMA.extend(
+    {
+        cv.Optional(CONF_BATTERY_CHARGE_SENSOR): sensor.sensor_schema(
+            unit_of_measurement=UNIT_PERCENT,
+            device_class=DEVICE_CLASS_BATTERY,
+            state_class=STATE_CLASS_MEASUREMENT
+        ),
     }
 )
 
@@ -45,3 +58,9 @@ CONFIG_SCHEMA = cv.All(
 async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
     await cg.register_component(var, config)
+
+    alvik_id = await cg.get_variable(config[CONF_ALVIK_ID])
+
+    if battery_charge_sensor_config := config.get(CONF_BATTERY_CHARGE_SENSOR):
+        sens = await sensor.new_sensor(battery_charge_sensor_config)
+        cg.add(mainboard.get_battery(sens))
