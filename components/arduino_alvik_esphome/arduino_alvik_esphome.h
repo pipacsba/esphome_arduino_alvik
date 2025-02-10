@@ -26,7 +26,7 @@ class AlvikComponent  : public Component {
 
 
  protected:
-  Arduino_Alvik alvik;
+  //Arduino_Alvik alvik;
  
 };
 
