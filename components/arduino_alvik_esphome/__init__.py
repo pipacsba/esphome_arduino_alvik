@@ -17,6 +17,7 @@ from esphome.const import (
     CONF_MIN_VALUE,
     CONF_RESTORE_VALUE,
     CONF_STEP,
+    DEVICE_CLASS_BATTERY,
     UNIT_PERCENT,
 )
 
