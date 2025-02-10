@@ -10,8 +10,8 @@
 */
 
 
-#ifndef __DEFAULT_COLORS_H__
-#define __DEFAULT_COLORS_H__
+#ifndef __ALVIK_DEFAULT_COLORS_H__
+#define __ALVIK_DEFAULT_COLORS_H__
 
 #include "Arduino.h"
 
