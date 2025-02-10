@@ -11,8 +11,6 @@
 
 
 #include "Arduino_Alvik.h"
-#include "unit_conversions.h"
-#include "default_colors.h"
 
 Arduino_Alvik::Arduino_Alvik():i2c(Wire){
   update_semaphore = xSemaphoreCreateMutex();
