@@ -10,8 +10,8 @@
 */
 
 
-#ifndef __DEFINITIONS_H__
-#define __DEFINITIONS_H__
+#ifndef __ALVIK_DEFINITIONS_H__
+#define __ALVIK_DEFINITIONS_H__
 
 #include "Arduino.h"
 
