@@ -30,7 +30,7 @@ from .. import (
 CONF_FW_VERSION_SENSOR = "firmware_version"
 CONF_LIB_VERSION_SENSOR = "library_version"
 
-ALVIK_COMPONENT_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
+CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
     {
         cv.Optional(CONF_FW_VERSION_SENSOR): text_sensor.text_sensor_schema(
         ),
