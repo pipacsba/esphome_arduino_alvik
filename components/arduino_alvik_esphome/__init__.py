@@ -19,7 +19,7 @@ from esphome.const import (
     CONF_STEP,
     DEVICE_CLASS_BATTERY,
     UNIT_PERCENT,
-    STATE_CLASS_MEASUREMENT.
+    STATE_CLASS_MEASUREMENT,
 )
 
 MULTI_CONF = False; #can be True in future if I understand the consequences
