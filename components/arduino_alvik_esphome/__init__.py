@@ -24,7 +24,7 @@ MULTI_CONF = False; #can be True in future if I understand the consequences
 AUTO_LOAD = ["number", "switch", "button", "sensor", "text_sensor"]
 CODEOWNERS = ["pipacsba"]
 
-CONF_ALVIK_ID = "mainboard_id"
+CONF_ALVIK_ID = "alvik_id"
 CONF_BATTERY_CHARGE_SENSOR = "battery_charge"
 CONF_FW_VERSION_SENSOR = "firmware_version"
 CONF_LIB_VERSION_SENSOR = "library_version"
@@ -38,7 +38,7 @@ ALVIK_COMPONENT_SCHEMA = cv.Schema(
     }
 )
 
-CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
+ALVIK_COMPONENT_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
     {
         cv.Optional(CONF_BATTERY_CHARGE_SENSOR): sensor.sensor_schema(
             unit_of_measurement=UNIT_PERCENT,
