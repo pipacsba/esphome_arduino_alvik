@@ -26,7 +26,8 @@ CODEOWNERS = ["pipacsba"]
 
 CONF_ALVIK_ID = "mainboard_id"
 CONF_BATTERY_CHARGE_SENSOR = "battery_charge"
-
+CONF_FW_VERSION_SENSOR = "firmware_version"
+CONF_LIB_VERSION_SENSOR = "library_version"
 
 alvik_ns = cg.esphome_ns.namespace("alvik")
 AlvikComponent = alvik_ns.class_("AlvikComponent", cg.Component)
@@ -37,12 +38,16 @@ ALVIK_COMPONENT_SCHEMA = cv.Schema(
     }
 )
 
-CONFIG_SCHEMA = POWERFEATHER_MAINBOARD_COMPONENT_SCHEMA.extend(
+CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
     {
         cv.Optional(CONF_BATTERY_CHARGE_SENSOR): sensor.sensor_schema(
             unit_of_measurement=UNIT_PERCENT,
             device_class=DEVICE_CLASS_BATTERY,
             state_class=STATE_CLASS_MEASUREMENT
+        ),
+        cv.Optional(CONF_FW_VERSION_SENSOR): text_sensor.text_sensor_schema(
+        ),
+        cv.Optional(CONF_LIB_VERSION_SENSOR): text_sensor.text_sensor_schema(
         ),
     }
 )
@@ -64,3 +69,11 @@ async def to_code(config):
     if battery_charge_sensor_config := config.get(CONF_BATTERY_CHARGE_SENSOR):
         sens = await sensor.new_sensor(battery_charge_sensor_config)
         cg.add(mainboard.get_battery(sens))
+
+    if fw_version_config := config.get(CONF_FW_VERSION_SENSOR):
+        tsens = await text_sensor.new_text_sensor(fw_version_config)
+        cg.add(mainboard.get_fw_version(tsens))
+
+    if lib_version_config := config.get(CONF_LIB_VERSION_SENSOR):
+        tsens = await text_sensor.new_text_sensor(lib_version_config)
+        cg.add(mainboard.get_fw_version(tsens))
