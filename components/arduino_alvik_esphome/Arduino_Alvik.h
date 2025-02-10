@@ -19,7 +19,7 @@
 #include <EEPROM.h>
 #include "default_colors.h"
 #include "Wire.h"
-
+#include "unit_conversions.h"
 
 class Arduino_Alvik{
   private:
