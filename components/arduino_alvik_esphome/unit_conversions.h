@@ -9,6 +9,8 @@
     
 */
 
+#pragma once
+
 #ifndef __UNIT_CONVERSIONS_H__
 #define __UNIT_CONVERSIONS_H__
 
