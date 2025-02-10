@@ -8,9 +8,8 @@
 #include "esphome/components/switch/switch.h"
 #include "esphome/core/hal.h"
 #include "esphome/components/number/number.h"
-//#include "Arduino_Alvik.h"
+#include "Arduino_Alvik.h"
 #include <vector>
-#define __UNIT_CONVERSIONS_H__
 
 namespace esphome {
 namespace alvik {
@@ -27,7 +26,7 @@ class AlvikComponent  : public Component {
 
 
  protected:
-  //Arduino_Alvik alvik;
+  Arduino_Alvik alvik;
  
 };
 
