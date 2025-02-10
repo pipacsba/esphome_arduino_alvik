@@ -11,8 +11,8 @@
 
 #pragma once
 
-#ifndef __UNIT_CONVERSIONS_H__
-#define __UNIT_CONVERSIONS_H__
+#ifndef __ALVIK_UNIT_CONVERSIONS_H__
+#define __ALVIK_UNIT_CONVERSIONS_H__
 
 #include "Arduino.h"
 #include "definitions.h"
