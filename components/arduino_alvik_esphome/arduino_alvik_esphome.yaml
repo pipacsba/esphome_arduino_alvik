@@ -1,18 +1,11 @@
 esphome:
   name: arduino-alvik
-  friendly_name: Arduino_Alvik
+  friendly_name: arduino-alvik
   libraries:
     - Wire
     - EEPROM
     - ucPack
-    - Arduino_Alvik
-  on_boot:
-    - priority: 780
-      then:
-        - lambda: |-
-            Arduino_Alvik alvik;
-            alvik.begin();
-        - delay: 5s
+#    - Arduino_Alvik
         
 esp32:
   #board: arduino_nano_esp32
@@ -38,5 +31,12 @@ wifi:
   ap:
     ssid: "Arduino-Alvik Fallback Hotspot"
 
-captive_portal:
-    
+external_components:
+  - source:
+      type: git
+      url: https://github.com/pipacsba/esphome_arduino_alvik.git
+    refresh: 1min
+    #refresh: 1days
+
+
+arduino_alvik_esphome:
