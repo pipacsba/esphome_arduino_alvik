@@ -23,8 +23,16 @@ MULTI_CONF = False; #can be True in future if I understand the consequences
 AUTO_LOAD = ["number", "switch", "button", "sensor", "text_sensor"]
 CODEOWNERS = ["pipacsba"]
 
+CONF_ALVIK_ID = "mainboard_id"
+
 alvik_ns = cg.esphome_ns.namespace("alvik")
 AlvikComponent = alvik_ns.class_("AlvikComponent", cg.Component)
+
+ALVIK_COMPONENT_SCHEMA = cv.Schema(
+    {
+        cv.Required(CONF_ALVIK_ID): cv.use_id(AlvikComponent),
+    }
+)
 
 CONFIG_SCHEMA = cv.All(
     cv.Schema(
