@@ -1,6 +1,8 @@
 
 #pragma once
 
+#ifndef __ALVIK_ESPHOME__
+#define __ALVIK_ESPHOME__
 
 
 namespace esphome {
