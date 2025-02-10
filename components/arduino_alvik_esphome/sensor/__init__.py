@@ -29,7 +29,7 @@ from .. import (
 
 CONF_BATTERY_CHARGE_SENSOR = "battery_charge"
 
-ALVIK_COMPONENT_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
+CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
     {
         cv.Optional(CONF_BATTERY_CHARGE_SENSOR): sensor.sensor_schema(
             unit_of_measurement=UNIT_PERCENT,
