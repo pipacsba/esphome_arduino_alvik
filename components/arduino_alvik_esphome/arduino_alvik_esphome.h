@@ -10,6 +10,7 @@
 #include "esphome/components/number/number.h"
 //#include "Arduino_Alvik.h"
 #include <vector>
+#define __UNIT_CONVERSIONS_H__
 
 namespace esphome {
 namespace alvik {
