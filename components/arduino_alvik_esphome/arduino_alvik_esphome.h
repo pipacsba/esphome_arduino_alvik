@@ -79,7 +79,7 @@ class AlvikComponent  : public Component {
 
 };
 
-class AlvikComponent : public switch_::Switch, public Parented<AlvikComponent>, public AlvikUpdateable
+class AlvikSwitch : public switch_::Switch, public Parented<AlvikComponent>, public AlvikUpdateable
 {
   public:
     AlvikSwitch() = default;
