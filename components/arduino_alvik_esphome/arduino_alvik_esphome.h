@@ -79,7 +79,7 @@ class AlvikComponent  : public Component {
 
 };
 
-class PowerFeatherSwitch : public switch_::Switch, public Parented<PowerFeatherMainboard>, public PowerFeatherUpdateable
+class AlvikComponent : public switch_::Switch, public Parented<AlvikComponent>, public AlvikUpdateable
 {
   public:
     AlvikSwitch() = default;
