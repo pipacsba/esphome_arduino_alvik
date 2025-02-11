@@ -21,7 +21,7 @@ void AlvikComponent::setup() {
 }
 
 void AlvikComponent::loop() {
-  if (this->alvik_alive_.state == 0)
+  if (this->alvik_alive_->state == 0)
   {
       bool is_on = this->alvik.is_on();
       if (is_on)
