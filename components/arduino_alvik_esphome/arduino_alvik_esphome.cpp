@@ -26,12 +26,7 @@ namespace alvik {
     }
 
     void AlvikComponent::loop() {
-      if (this->alvik_alive_sensor_->state == 0)
-      {
-          bool is_on = this->alvik.is_on();
-          if (is_on)
-             this->alvik_alive_->publish_state(1);
-      }
+        uint32_t now = millis();
     }
 
     void AlvikComponent::dump_config() {
