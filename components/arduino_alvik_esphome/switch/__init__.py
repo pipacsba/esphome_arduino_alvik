@@ -25,6 +25,7 @@ from esphome.const import (
 from .. import (
     CONF_ALVIK_ID,
     ALVIK_COMPONENT_SCHEMA,
+    TASK_UPDATE_TYPES,
 )
 
 AlvikSwitch = powerfeather_ns.class_("AlvikSwitch", switch.Switch, cg.Component)
