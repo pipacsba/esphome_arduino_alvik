@@ -35,7 +35,8 @@ CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
         cv.Optional(CONF_BATTERY_CHARGE_SENSOR): sensor.sensor_schema(
             unit_of_measurement=UNIT_PERCENT,
             device_class=DEVICE_CLASS_BATTERY,
-            state_class=STATE_CLASS_MEASUREMENT
+            state_class=STATE_CLASS_MEASUREMENT,
+        ),
         cv.Optional(CONF_ALIVE_SENSOR): sensor.sensor_schema(
         ),
     }
