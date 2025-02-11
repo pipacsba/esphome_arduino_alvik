@@ -49,4 +49,4 @@ async def to_code(config):
         cg.add(alvik_id.set_battery_sensor(sens))
     if alive_sensor_config := config.get(CONF_ALIVE_SENSOR):
         sens = await sensor.new_sensor(alive_sensor_config)
-        cg.add(alvik_id.set_battery_sensor(sens))
+        cg.add(alvik_id.set_alive_sensor(sens))
