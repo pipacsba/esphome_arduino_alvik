@@ -16,33 +16,6 @@
 namespace esphome {
 namespace alvik {
 
-   enum TaskUpdateType
-    {
-      SENSORS = 0,
-      ENABLE_ALVIK,
-    };
-
-    typedef struct
-    {
-      TaskUpdateType type;
-      union
-      {
-        bool b;
-        int32_t i;
-        float f;
-        uint32_t u;
-      } data;
-    } TaskUpdate;
-
-    class AlvikUpdateable
-    {
-    public:
-      AlvikUpdateable() = default;
-      void set_update_type(TaskUpdateType type) { type_ = type; }
-    protected:
-      TaskUpdateType type_;
-    };
-
 class AlvikComponent  : public Component {
   public:
 
@@ -81,21 +54,12 @@ class AlvikComponent  : public Component {
 
 };
 
-class AlvikSwitch : public switch_::Switch, public Parented<AlvikComponent>, public AlvikUpdateable
-{
-  public:
-    AlvikSwitch() = default;
+class AlvikLoadSwitch : public button::Button, public Parented<AlvikComponent> {
+ public:
+  AlvikLoadSwitch() = default;
 
-  protected:
-    void write_state(bool state) override
-    {
-        TaskUpdate update;
-        update.type = type_;
-        update.data.b = state;
-        this->parent_->send_task_update(update);
-        this->publish_state(state);
-    }
-};
+ protected:
+  void press_action() override;
 
  
 }  // namespace alvik
