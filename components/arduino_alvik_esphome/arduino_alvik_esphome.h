@@ -28,7 +28,7 @@ class AlvikComponent  : public Component {
     void set_alive_sensor(sensor::Sensor *sensor1) { alvik_alive_sensor_ = sensor1; }
     void set_fw_sensor(text_sensor::TextSensor *sensor1) { fw_version_sensor_ = sensor1; }
     void set_lib_sensor(text_sensor::TextSensor *sensor1) { lib_version_sensor_ = sensor1; }
-    void set_enable_alvik_switch(switch_::Switch *sw) { enable_alvik_switch_ = sw; }
+    void set_enable_alvik_switch(switch::Switch *sw) { enable_alvik_switch_ = sw; }
 
   protected:
 
@@ -48,7 +48,7 @@ class AlvikComponent  : public Component {
 
 };
 
-class EnableAlvikSwitch : public button::Button, public Parented<AlvikComponent> {
+class EnableAlvikSwitch : public switch::Switch, public Parented<AlvikComponent> {
  public:
   EnableAlvikSwitch() = default;
 
