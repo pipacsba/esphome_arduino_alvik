@@ -54,7 +54,7 @@ class EnableAlvikSwitch : public switch_::Switch, public Parented<AlvikComponent
 
  protected:
   void write_state(bool state) override;
-
+};
  
 }  // namespace alvik
 }  // namespace esphome
