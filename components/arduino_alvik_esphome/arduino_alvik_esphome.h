@@ -30,12 +30,8 @@ class AlvikComponent  : public Component {
     void set_lib_sensor(text_sensor::TextSensor *sensor1) { lib_version_sensor_ = sensor1; }
     void set_enable_alvik_switch(switch_::Switch *sw) { enable_alvik_switch_ = sw; }
 
-    void send_task_update(TaskUpdate update);
-
   protected:
-    static const size_t UPDATE_TASK_STACK_SIZE_ = 3192;
-    static const size_t UPDATE_TASK_QUEUE_SIZE_ = 10;
-    static const uint32_t UPDATE_TASK_SENSOR_UPDATE_MS_ = 150;
+
 
     Arduino_Alvik alvik;
     uint8_t battery_;
@@ -49,8 +45,6 @@ class AlvikComponent  : public Component {
     switch_::Switch *enable_alvik_switch_;
 
     static void update_task_(void *param);
-
-    QueueHandle_t update_task_queue_ = NULL;
 
 };
 
