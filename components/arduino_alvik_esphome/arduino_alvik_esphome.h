@@ -52,7 +52,7 @@ class AlvikComponent  : public Component {
     void loop() override;
   
     void set_battery_sensor(sensor::Sensor *sensor1) { battery_sensor_ = sensor1; }
-    void set_alive_sensor(sensor::Sensor *sensor1) { alvik_alive_ = sensor1; }
+    void set_alive_sensor(sensor::Sensor *sensor1) { alvik_alive_sensor_ = sensor1; }
     void set_fw_sensor(text_sensor::TextSensor *sensor1) { fw_version_sensor_ = sensor1; }
     void set_lib_sensor(text_sensor::TextSensor *sensor1) { lib_version_sensor_ = sensor1; }
     void set_enable_alvik_switch(switch_::Switch *sw) { enable_alvik_switch_ = sw; }
@@ -68,7 +68,7 @@ class AlvikComponent  : public Component {
     uint8_t battery_;
 
     sensor::Sensor *battery_sensor_;
-    sensor::Sensor *alvik_alive_;
+    sensor::Sensor *alvik_alive_sensor_;
 
     text_sensor::TextSensor *fw_version_sensor_;
     text_sensor::TextSensor *lib_version_sensor_;
