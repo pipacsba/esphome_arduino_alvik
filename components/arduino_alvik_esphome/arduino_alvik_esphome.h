@@ -54,9 +54,9 @@ class AlvikComponent  : public Component {
 
 };
 
-class AlvikLoadSwitch : public button::Button, public Parented<AlvikComponent> {
+class EnableAlvikSwitch : public button::Button, public Parented<AlvikComponent> {
  public:
-  AlvikLoadSwitch() = default;
+  EnableAlvikSwitch() = default;
 
  protected:
   void press_action() override;
