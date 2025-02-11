@@ -37,7 +37,7 @@ namespace alvik {
     {
         if (state)
         {
-            this->parent->alvik.begin();
+            this->parent_->alvik.begin();
         }
     }
 
