@@ -20,6 +20,7 @@ from esphome.const import (
     DEVICE_CLASS_BATTERY,
     UNIT_PERCENT,
     STATE_CLASS_MEASUREMENT,
+    DEVICE_CLASS_SWITCH,
 )
 
 from .. import (
