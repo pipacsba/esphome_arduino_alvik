@@ -77,6 +77,8 @@ class AlvikComponent  : public Component {
 
     static void update_task_(void *param);
 
+    QueueHandle_t update_task_queue_ = NULL;
+
 };
 
 class AlvikSwitch : public switch_::Switch, public Parented<AlvikComponent>, public AlvikUpdateable
