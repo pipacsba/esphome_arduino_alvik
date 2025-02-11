@@ -28,6 +28,7 @@ from .. import (
 )
 
 CONF_BATTERY_CHARGE_SENSOR = "battery_charge"
+CONF_ALIVE_SENSOR = "alvik_alive"
 
 CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
     {
@@ -35,6 +36,7 @@ CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
             unit_of_measurement=UNIT_PERCENT,
             device_class=DEVICE_CLASS_BATTERY,
             state_class=STATE_CLASS_MEASUREMENT
+        cv.Optional(CONF_ALIVE_SENSOR): sensor.sensor_schema(
         ),
     }
 )
@@ -45,4 +47,6 @@ async def to_code(config):
     if battery_charge_sensor_config := config.get(CONF_BATTERY_CHARGE_SENSOR):
         sens = await sensor.new_sensor(battery_charge_sensor_config)
         cg.add(alvik_id.set_battery_sensor(sens))
-
+    if alive_sensor_config := config.get(CONF_ALIVE_SENSOR):
+        sens = await sensor.new_sensor(alive_sensor_config)
+        cg.add(alvik_id.set_battery_sensor(sens))
