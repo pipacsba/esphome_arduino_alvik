@@ -44,8 +44,8 @@ async def to_code(config):
 
     if fw_version_config := config.get(CONF_FW_VERSION_SENSOR):
         tsens = await text_sensor.new_text_sensor(fw_version_config)
-        cg.add(alvik_id.get_fw_version(tsens))
+        cg.add(alvik_id.set_fw_sensor(tsens))
 
     if lib_version_config := config.get(CONF_LIB_VERSION_SENSOR):
         tsens = await text_sensor.new_text_sensor(lib_version_config)
-        cg.add(alvik_id.get_fw_version(tsens))
+        cg.add(alvik_id.set_lib_sensor(tsens))
