@@ -29,14 +29,14 @@ from .. import (
     alvik_ns,
 )
 
-AlvikSwitch = alvik_ns.class_("AlvikSwitch", switch.Switch, cg.Component)
+AlvikEnableSwitch = alvik_ns.class_("AlvikEnableSwitch", switch.Switch, cg.Component)
 
 CONF_ENABLE_ALVIK_INIT_SWITCH = "enable_alvik"
 
 CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
     {
         cv.Optional(CONF_ENABLE_ALVIK_INIT_SWITCH): switch.switch_schema(
-            AlvikSwitch,
+            AlvikEnableSwitch,
             device_class=DEVICE_CLASS_SWITCH,
         ),
     }
@@ -48,5 +48,5 @@ async def to_code(config):
     if CONF_ENABLE_ALVIK_INIT_SWITCH in config:
         sw = await switch.new_switch(config[CONF_ENABLE_EN_SWITCH])
         await cg.register_parented(sw, mainboard)
-        cg.add(sw.set_update_type(TASK_UPDATE_TYPES["ENABLE_ALVIK"]))
         cg.add(mainboard.set_enable_alvik_switch(sw))
+
