@@ -8,6 +8,8 @@
 #include "esphome/components/switch/switch.h"
 #include "esphome/core/hal.h"
 #include "esphome/components/number/number.h"
+#include "esphome/components/sensor/sensor.h"
+#include "esphome/components/textsensor/textsensor.h"
 #include "Arduino_Alvik.h"
 #include <vector>
 
