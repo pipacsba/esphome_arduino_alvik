@@ -63,6 +63,22 @@ namespace alvik {
       }
     }
 
+    void PowerFeatherMainboard::update()
+    {
+      uint32_t now = millis();
+      ESP_LOGD(TAG, "Publishing sensor values t=%u ms", now);
+      if (this->battery_sensor_ != nullptr)
+      {
+        this->battery_sensor_->publish_state(0);
+      }
+      if (this->alvik_alive_ != nullptr)
+      {
+        this->alvik_alive_sensor_->publish_state(0);
+      }
+      sensors_publish_time_ = now;
+      sensors_updated_ = false;
+    }
+
 
 
 }  // namespace alvik
