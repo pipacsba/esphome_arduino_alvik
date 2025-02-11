@@ -21,28 +21,38 @@ class AlvikComponent;      // this component
 //main hunterwifi component (controller)
 //this also maybe not even needed, not used for anything
 class AlvikComponent  : public Component {
- public:
+  public:
 
-  void setup() override;
-  void dump_config() override;
-
-  void loop() override;
-
-  void set_battery_sensor(sensor::Sensor *sensor1) { battery_sensor_ = sensor1; }
-  void set_alive_sensor(sensor::Sensor *sensor1) { alvik_alive_ = sensor1; }
-  void set_fw_sensor(text_sensor::TextSensor *sensor1) { fw_version_sensor_ = sensor1; }
-  void set_lib_sensor(text_sensor::TextSensor *sensor1) { lib_version_sensor_ = sensor1; }
-
- protected:
-  Arduino_Alvik alvik;
-  uint8_t battery_;
-  sensor::Sensor *battery_sensor_;
-  sensor::Sensor *alvik_alive_;
-  text_sensor::TextSensor *fw_version_sensor_;
-  text_sensor::TextSensor *lib_version_sensor_;
-  
-  
+   void setup() override;
+   void dump_config() override;
  
+   void loop() override;
+ 
+   void set_battery_sensor(sensor::Sensor *sensor1) { battery_sensor_ = sensor1; }
+   void set_alive_sensor(sensor::Sensor *sensor1) { alvik_alive_ = sensor1; }
+   void set_fw_sensor(text_sensor::TextSensor *sensor1) { fw_version_sensor_ = sensor1; }
+   void set_lib_sensor(text_sensor::TextSensor *sensor1) { lib_version_sensor_ = sensor1; }
+
+  protected:
+   Arduino_Alvik alvik;
+   uint8_t battery_;
+   sensor::Sensor *battery_sensor_;
+   sensor::Sensor *alvik_alive_;
+   text_sensor::TextSensor *fw_version_sensor_;
+   text_sensor::TextSensor *lib_version_sensor_;
+};
+
+class PowerFeatherSwitch : public switch_::Switch, public Parented<PowerFeatherMainboard>, public PowerFeatherUpdateable
+{
+  public:
+    AlvikSwitch() = default;
+
+  protected:
+    void write_state(bool state) override
+    {
+       this->parent_->send_task_update(update);
+       this->publish_state(state);
+    }
 };
 
  
