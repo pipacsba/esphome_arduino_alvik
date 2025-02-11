@@ -16,33 +16,64 @@
 namespace esphome {
 namespace alvik {
 
-class AlvikComponent;      // this component
- 
-//main hunterwifi component (controller)
-//this also maybe not even needed, not used for anything
+   enum TaskUpdateType
+    {
+      SENSORS = 0,
+      ENABLE_ALVIK,
+    };
+
+    typedef struct
+    {
+      TaskUpdateType type;
+      union
+      {
+        bool b;
+        int32_t i;
+        float f;
+        uint32_t u;
+      } data;
+    } TaskUpdate;
+
+    class AlvikUpdateable
+    {
+    public:
+      AlvikUpdateable() = default;
+      void set_update_type(TaskUpdateType type) { type_ = type; }
+    protected:
+      TaskUpdateType type_;
+    };
+
 class AlvikComponent  : public Component {
   public:
 
-   void setup() override;
-   void dump_config() override;
- 
-   void loop() override;
- 
-   void set_battery_sensor(sensor::Sensor *sensor1) { battery_sensor_ = sensor1; }
-   void set_alive_sensor(sensor::Sensor *sensor1) { alvik_alive_ = sensor1; }
-   void set_fw_sensor(text_sensor::TextSensor *sensor1) { fw_version_sensor_ = sensor1; }
-   void set_lib_sensor(text_sensor::TextSensor *sensor1) { lib_version_sensor_ = sensor1; }
-   void set_enable_alvik_switch(switch_::Switch *sw) { enable_alvik_switch_ = sw; }
+    void setup() override;
+    void dump_config() override;
+  
+    void loop() override;
+  
+    void set_battery_sensor(sensor::Sensor *sensor1) { battery_sensor_ = sensor1; }
+    void set_alive_sensor(sensor::Sensor *sensor1) { alvik_alive_ = sensor1; }
+    void set_fw_sensor(text_sensor::TextSensor *sensor1) { fw_version_sensor_ = sensor1; }
+    void set_lib_sensor(text_sensor::TextSensor *sensor1) { lib_version_sensor_ = sensor1; }
+    void set_enable_alvik_switch(switch_::Switch *sw) { enable_alvik_switch_ = sw; }
+
+    void send_task_update(TaskUpdate update);
 
   protected:
-   Arduino_Alvik alvik;
-   uint8_t battery_;
-   sensor::Sensor *battery_sensor_;
-   sensor::Sensor *alvik_alive_;
-   text_sensor::TextSensor *fw_version_sensor_;
-   text_sensor::TextSensor *lib_version_sensor_;
+    static const size_t UPDATE_TASK_STACK_SIZE_ = 3192;
+    static const size_t UPDATE_TASK_QUEUE_SIZE_ = 10;
+    static const uint32_t UPDATE_TASK_SENSOR_UPDATE_MS_ = 150;
 
-   switch_::Switch *enable_alvik_switch_;
+    Arduino_Alvik alvik;
+    uint8_t battery_;
+
+    sensor::Sensor *battery_sensor_;
+    sensor::Sensor *alvik_alive_;
+
+    text_sensor::TextSensor *fw_version_sensor_;
+    text_sensor::TextSensor *lib_version_sensor_;
+ 
+    switch_::Switch *enable_alvik_switch_;
 
 };
 
@@ -54,8 +85,11 @@ class PowerFeatherSwitch : public switch_::Switch, public Parented<PowerFeatherM
   protected:
     void write_state(bool state) override
     {
-       this->parent_->send_task_update(update);
-       this->publish_state(state);
+        TaskUpdate update;
+        update.type = type_;
+        update.data.b = state;
+        this->parent_->send_task_update(update);
+        this->publish_state(state);
     }
 };
 
