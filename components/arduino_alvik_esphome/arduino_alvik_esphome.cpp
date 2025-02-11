@@ -18,6 +18,10 @@ void AlvikComponent::setup() {
   this->alvik.begin();
 }
 
+void AlvikComponent::loop() {
+  this->alvik.is_on();
+}
+
 void AlvikComponent::dump_config() {
   ESP_LOGCONFIG(TAG, "AlvikComponent  :");
 }
