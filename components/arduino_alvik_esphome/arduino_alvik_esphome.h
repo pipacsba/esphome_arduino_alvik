@@ -53,7 +53,7 @@ class EnableAlvikSwitch : public button::Button, public Parented<AlvikComponent>
   EnableAlvikSwitch() = default;
 
  protected:
-  void press_action() override;
+  void write_state() override;
 
  
 }  // namespace alvik
