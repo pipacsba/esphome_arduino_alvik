@@ -9,7 +9,7 @@
 #include "esphome/core/hal.h"
 #include "esphome/components/number/number.h"
 #include "esphome/components/sensor/sensor.h"
-#include "esphome/components/textsensor/textsensor.h"
+#include "esphome/components/text_sensor/text_sensor.h"
 #include "Arduino_Alvik.h"
 #include <vector>
 
