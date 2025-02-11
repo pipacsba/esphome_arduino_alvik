@@ -33,7 +33,7 @@ namespace alvik {
       ESP_LOGCONFIG(TAG, "AlvikComponent  : something is done!");
     }
 
-    void write_state(bool state) override
+    void write_state(bool state)
     {
         if (state)
         {
