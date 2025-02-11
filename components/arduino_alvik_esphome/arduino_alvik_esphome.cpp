@@ -16,10 +16,17 @@ static const char *const TAG = "arduinoalvik";
  
 void AlvikComponent::setup() {
   this->alvik.begin();
+  if (this->alvik_alive_ != nullptr)
+      this->alvik_alive_->publish_state(0);
 }
 
 void AlvikComponent::loop() {
-  this->alvik.is_on();
+  if (this->alvik_alive_.state == 0)
+  {
+      bool is_on = this->alvik.is_on();
+      if (is_on)
+         this->alvik_alive_->publish_state(1);
+  }
 }
 
 void AlvikComponent::dump_config() {
