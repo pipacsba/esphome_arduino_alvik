@@ -33,31 +33,6 @@ namespace alvik {
       ESP_LOGCONFIG(TAG, "AlvikComponent  : something is done!");
     }
 
-    void AlvikComponent::update_task_(void *param)
-    {
-      alvik::AlvikComponent *alvik_component =
-        reinterpret_cast<alvik::AlvikComponent *>(param);
-
-      while (true)
-      {
-        TaskUpdate update;
-        update.type = TaskUpdateType::SENSORS;
-        xQueueReceive(alvik_component->update_task_queue_, &update, portMAX_DELAY);
-        switch (update.type)
-        {
-        case TaskUpdateType::ENABLE_ALVIK:
-          this->alvik.begin;
-          break;
-        default:
-        {
-          ESP_LOGD(TAG, "Recieved some update request");
-          //powerfeather_mainboard->update_sensors_();
-        }
-        break;
-        }
-      }
-    }
-
     void PowerFeatherMainboard::update()
     {
       uint32_t now = millis();
@@ -74,7 +49,13 @@ namespace alvik {
       sensors_updated_ = false;
     }
 
-
+    void write_state(bool state) override
+    {
+        if (state)
+        {
+            this->parent->alvic.begin();
+        }
+    }
 
 }  // namespace alvik
 }  // namespace esphome
