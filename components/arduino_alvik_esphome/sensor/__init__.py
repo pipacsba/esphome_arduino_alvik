@@ -44,5 +44,5 @@ async def to_code(config):
 
     if battery_charge_sensor_config := config.get(CONF_BATTERY_CHARGE_SENSOR):
         sens = await sensor.new_sensor(battery_charge_sensor_config)
-        cg.add(alvik_id.get_battery(sens))
+        cg.add(alvik_id.set_battery_sensor(sens))
 
