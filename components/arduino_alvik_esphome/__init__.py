@@ -31,7 +31,7 @@ CONF_ALVIK_ID = "alvik_id"
 alvik_ns = cg.esphome_ns.namespace("alvik")
 AlvikComponent = alvik_ns.class_("AlvikComponent", cg.Component)
 
-TaskUpdateType = powerfeather_ns.enum("TaskUpdateType")
+TaskUpdateType = alvik_ns.enum("TaskUpdateType")
 TASK_UPDATE_TYPES = {
     "ENABLE_ALVIK" : TaskUpdateType.ENABLE_ALVIK,
 }
