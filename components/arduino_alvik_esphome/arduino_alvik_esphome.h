@@ -24,9 +24,20 @@ class AlvikComponent  : public Component {
   void setup() override;
   void dump_config() override;
 
+  void loop() override;
+
+  void set_battery_sensor(sensor::Sensor *sensor1) { battery_sensor_ = sensor1; }
+  void set_fw_sensor(text_sensor::TextSensor *sensor1) { fw_version_sensor_ = sensor1; }
+  void set_lib_sensor(text_sensor::TextSensor *sensor1) { lib_version_sensor_ = sensor1; }
 
  protected:
   Arduino_Alvik alvik;
+  uint8_t battery_;
+  sensor::Sensor *battery_sensor_;
+  text_sensor::TextSensor *fw_version_sensor_;
+  text_sensor::TextSensor *lib_version_sensor_;
+  
+  
  
 };
 
