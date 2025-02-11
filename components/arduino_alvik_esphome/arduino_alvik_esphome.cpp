@@ -45,8 +45,8 @@ namespace alvik {
         xQueueReceive(alvik_component->update_task_queue_, &update, portMAX_DELAY);
         switch (update.type)
         {
-        case TaskUpdateType::ENABLE_EN:
-          PowerFeather::Board.setEN(powerfeather_mainboard->enable_EN_);
+        case TaskUpdateType::ENABLE_ALVIK:
+          this->alvik.begin;
           break;
         default:
         {
