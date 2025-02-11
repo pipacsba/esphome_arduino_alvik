@@ -33,7 +33,7 @@ namespace alvik {
       ESP_LOGCONFIG(TAG, "AlvikComponent  : something is done!");
     }
 
-    void PowerFeatherMainboard::update()
+    void AlvikComponent::update()
     {
       uint32_t now = millis();
       ESP_LOGD(TAG, "Publishing sensor values t=%u ms", now);
