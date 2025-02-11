@@ -50,9 +50,9 @@ class AlvikComponent  : public Component {
 
 };
 
-class EnableAlvikSwitch : public switch_::Switch, public Parented<AlvikComponent> {
+class AlvikEnableSwitch : public switch_::Switch, public Parented<AlvikComponent> {
  public:
-  EnableAlvikSwitch() = default;
+  AlvikEnableSwitch() = default;
 
  protected:
   void write_state(bool state) override;
