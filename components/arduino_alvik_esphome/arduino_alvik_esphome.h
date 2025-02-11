@@ -75,6 +75,8 @@ class AlvikComponent  : public Component {
  
     switch_::Switch *enable_alvik_switch_;
 
+    static void update_task_(void *param);
+
 };
 
 class PowerFeatherSwitch : public switch_::Switch, public Parented<PowerFeatherMainboard>, public PowerFeatherUpdateable
