@@ -26,9 +26,10 @@ from .. import (
     CONF_ALVIK_ID,
     ALVIK_COMPONENT_SCHEMA,
     TASK_UPDATE_TYPES,
+    alvik_ns,
 )
 
-AlvikSwitch = powerfeather_ns.class_("AlvikSwitch", switch.Switch, cg.Component)
+AlvikSwitch = alvik_ns.class_("AlvikSwitch", switch.Switch, cg.Component)
 
 CONF_ENABLE_ALVIK_INIT_SWITCH = "enable_alvik"
 
@@ -47,4 +48,5 @@ async def to_code(config):
     if CONF_ENABLE_ALVIK_INIT_SWITCH in config:
         sw = await switch.new_switch(config[CONF_ENABLE_EN_SWITCH])
         await cg.register_parented(sw, mainboard)
+        cg.add(sw.set_update_type(TASK_UPDATE_TYPES["ENABLE_ALVIK"]))
         cg.add(mainboard.set_enable_alvik_switch(sw))
