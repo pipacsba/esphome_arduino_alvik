@@ -30,10 +30,12 @@ class AlvikComponent  : public Component {
     void set_lib_sensor(text_sensor::TextSensor *sensor1) { lib_version_sensor_ = sensor1; }
     void set_enable_alvik_switch(switch_::Switch *sw) { enable_alvik_switch_ = sw; }
 
+    Arduino_Alvik alvik;
+
   protected:
 
 
-    Arduino_Alvik alvik;
+
     uint8_t battery_;
 
     sensor::Sensor *battery_sensor_;
