@@ -21,8 +21,8 @@ namespace alvik {
 
     void AlvikComponent::setup() {
       //this->alvik.begin();
-      if (this->alvik_alive_ != nullptr)
-          this->alvik_alive_->publish_state(0);
+      if (this->alvik_alive_sensor_ != nullptr)
+          this->alvik_alive_sensor_->publish_state(0);
     }
 
     void AlvikComponent::loop() {
