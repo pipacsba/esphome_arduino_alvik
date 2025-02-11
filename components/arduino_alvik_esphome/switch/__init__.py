@@ -49,5 +49,5 @@ async def to_code(config):
     if CONF_ENABLE_ALVIK_INIT_SWITCH in config:
         sw = await switch.new_switch(config[CONF_ENABLE_ALVIK_INIT_SWITCH])
         await cg.register_parented(sw, alvik_id)
-        cg.add(mainboard.set_enable_alvik_switch(sw))
+        cg.add(alvik_id.set_enable_alvik_switch(sw))
 
