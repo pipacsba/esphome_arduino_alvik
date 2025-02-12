@@ -17,7 +17,7 @@
 namespace esphome {
 namespace alvik {
 
-const uint8_t BATTERY_REGISTER          = 0x36;
+const uint8_t BATTERY_REGISTER          = 0x06;
 
 class AlvikComponent  : public Component, public i2c::I2CDevice {
   public:
