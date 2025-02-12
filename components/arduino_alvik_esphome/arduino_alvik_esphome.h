@@ -11,6 +11,7 @@
 #include "esphome/components/sensor/sensor.h"
 #include "esphome/components/text_sensor/text_sensor.h"
 #include "esphome/components/i2c/i2c.h"
+#include "esphome/components/uart/uart.h"
 //include "Arduino_Alvik.h"
 #include <vector>
 
@@ -19,7 +20,7 @@ namespace alvik {
 
 const uint8_t BATTERY_REGISTER          = 0x06;
 
-class AlvikComponent  : public Component, public i2c::I2CDevice {
+class AlvikComponent  : public Component, public i2c::I2CDevice, public uart::UARTDevice {
   public:
 
     void setup() override;
