@@ -21,7 +21,7 @@ namespace alvik {
 
     void AlvikComponent::setup() {
           uint8_t battery_regs[] = {0, 0};
-          if ((this->write(0x36, 1, false) != i2c::ERROR_OK) || !this->read_bytes_raw(device_id, 2)) {
+          if ((this->write(0x36, 1, false) != i2c::ERROR_OK) || !this->read_bytes_raw(battery_regs, 2)) {
                 ESP_LOGE(TAG, "Unable to i2c battery data");
                 this->mark_failed();
                 return;
