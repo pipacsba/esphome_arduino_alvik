@@ -34,6 +34,8 @@ class AlvikComponent  : public Component, public i2c::I2CDevice {
     void set_fw_sensor(text_sensor::TextSensor *sensor1) { fw_version_sensor_ = sensor1; }
     void set_lib_sensor(text_sensor::TextSensor *sensor1) { lib_version_sensor_ = sensor1; }
     void set_enable_alvik_switch(switch_::Switch *sw) { enable_alvik_switch_ = sw; }
+    
+    float get_setup_priority() const override { return setup_priority::DATA; }
 
   protected:
     uint8_t battery_;
