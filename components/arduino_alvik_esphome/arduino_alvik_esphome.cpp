@@ -26,7 +26,7 @@ namespace alvik {
                 this->mark_failed();
                 return;
           }
-          uint16_t battery_val = = encode_uint16(battery_regs[1], battery_regs[0]);
+          uint16_t battery_val = encode_uint16(battery_regs[1], battery_regs[0]);
           float battery_soc = battery_val * 0.00390625;
           ESP_LOGD(TAG, "Read battery data: %d, %0.1f", battery_val, battery_soc);
     }
