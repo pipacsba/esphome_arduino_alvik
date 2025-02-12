@@ -55,7 +55,7 @@ CONFIG_SCHEMA = cv.All(
     )
     .extend(cv.COMPONENT_SCHEMA)
     .extend(i2c.i2c_device_schema(0x36))
-    .extend(uart.UART_DEVICE_SCHEMA)
+#    .extend(uart.UART_DEVICE_SCHEMA)
 )
 
 async def to_code(config):
