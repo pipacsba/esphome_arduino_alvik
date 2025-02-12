@@ -10,13 +10,14 @@
 #include "esphome/components/number/number.h"
 #include "esphome/components/sensor/sensor.h"
 #include "esphome/components/text_sensor/text_sensor.h"
+#include "esphome/components/i2c/i2c.h"
 //include "Arduino_Alvik.h"
 #include <vector>
 
 namespace esphome {
 namespace alvik {
 
-class AlvikComponent  : public Component {
+class AlvikComponent  : public Component, public i2c::I2CDevice {
   public:
 
     void setup() override;
