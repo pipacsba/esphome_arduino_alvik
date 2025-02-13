@@ -121,17 +121,26 @@ namespace alvik {
             }
             else
             {
-                this->set_cycle(this->cycle_ + 1);
-                //ESP_LOGD(TAG, "Alvik cycle is %d", this->cycle_);
-                if (this->cycle_ == 1500)
+                if (this->alvik_state >0)
                 {
-                    this->set_servo_positions(0,0);
+                    this->set_cycle(this->cycle_ + 1);
+                    //ESP_LOGD(TAG, "Alvik cycle is %d", this->cycle_);
+                    if (this->cycle_ == 1500)
+                    {
+                        this->set_servo_positions(0,0);
+                    }
+                    if (this->cycle_ == 2000)
+                    {
+                        this->move(100);
+                    }
                 }
-                if (this->cycle_ == 2000)
+                else
                 {
-                    this->move(100);
+                    if (this->last_ack == this->last_ack)
+                    {
+                        this->alvik_state = 1;
+                    }
                 }
-
                 
             }
             
