@@ -50,7 +50,7 @@ CONFIG_SCHEMA = cv.All(
         {
             cv.GenerateID(): cv.declare_id(AlvikComponent),
             cv.Required(CONF_CHECK_STM32_PIN): pins.gpio_input_pin_schema,
-            cv.Required(CONF_CHECK_NANO_PIN): pins.gpio_input_pin_schema,
+            cv.Required(CONF_CHECK_NANO_PIN): pins.gpio_output_pin_schema,
         }
     )
     .extend(cv.COMPONENT_SCHEMA)
