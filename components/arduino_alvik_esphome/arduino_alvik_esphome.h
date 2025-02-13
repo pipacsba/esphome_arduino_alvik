@@ -122,10 +122,10 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     bool stm32_is_on_;
 
     //ucPack * packeter;
-    uint8_t msg_size;
+    //uint8_t msg_size;
 
-    uint8_t last_ack;
-    uint8_t waiting_ack;
+    //uint8_t last_ack;
+    //uint8_t waiting_ack;
 
     uint8_t fw_version[3];
     uint8_t lib_version[3];
