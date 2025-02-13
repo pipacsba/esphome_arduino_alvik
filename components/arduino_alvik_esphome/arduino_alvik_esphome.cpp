@@ -178,6 +178,7 @@ namespace alvik {
       this->msg_size = this->packeter->packetC1F('G', distance);
       this->write_array(this->packeter->msg, this->msg_size);
       this->waiting_ack = 'M';
+      ESP_LOGD(TAG, "Move message sent!");
     }
 
 
