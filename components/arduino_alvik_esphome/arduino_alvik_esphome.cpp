@@ -46,12 +46,6 @@ namespace alvik {
         color_sensor[0] = 0;
         color_sensor[1] = 0;
         color_sensor[2] = 0;
-        rgb_normalized[0] = 0.0;
-        rgb_normalized[1] = 0.0;
-        rgb_normalized[2] = 0.0;
-        hsv[0] = 0.0;
-        hsv[1] = 0.0;
-        hsv[2] = 0.0;
         
         servo_positions[0] = 90;
         servo_positions[1] = 90;
