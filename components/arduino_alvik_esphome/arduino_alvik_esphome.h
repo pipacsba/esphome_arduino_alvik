@@ -29,6 +29,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void setup() override;
     void dump_config() override;
     void set_check_stm32_pin(GPIOPin *pin) { pin_ = pin; };
+    void set_stm32_state(bool ison) { stm32_is_on_ = ison; }
     
     void loop() override;
   
@@ -95,9 +96,6 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void get_lib_version(uint8_t & upper, uint8_t & middle, uint8_t & lower);
     void get_required_fw_version(uint8_t & upper, uint8_t & middle, uint8_t & lower);
     bool check_firmware_compatibility();
-
-
-
 
   protected:
     GPIOPin *pin_{nullptr};
