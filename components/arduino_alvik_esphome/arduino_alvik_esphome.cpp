@@ -137,7 +137,7 @@ namespace alvik {
                 }
                 else
                 {
-                    if (this->last_ack == this->last_ack)
+                    if (this->last_ack == this->waiting_ack)
                     {
                         this->alvik_state = 1;
                         ESP_LOGD(TAG, "Wait_for_Ack completed!");
