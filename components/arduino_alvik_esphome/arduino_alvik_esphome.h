@@ -41,21 +41,21 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     
     float get_setup_priority() const override { return setup_priority::DATA; }
 
-    void get_wheels_speed(float & left, float & righ, const uint8_t unit = RPM);
-    void set_wheels_speed(const float left, const float right, const uint8_t unit = RPM);
+    void get_wheels_speed(float & left, float & right);
+    void set_wheels_speed(const float left, const float right);
 
-    void get_wheels_position(float & left, float & right, const uint8_t unit = DEG);
-    void set_wheels_position(const float left, const float right, const uint8_t unit = DEG, const bool blocking = true);
+    void get_wheels_position(float & left, float & right);
+    void set_wheels_position(const float left, const float right, const bool blocking = true);
 
-    void get_drive_speed(float & linear, float & angular, const uint8_t linear_unit = CM_S, const uint8_t angular_unit = DEG_S);
-    void drive(const float linear, const float angular, const uint8_t linear_unit = CM_S, const uint8_t angular_unit = DEG_S);
+    void get_drive_speed(float & linear, float & angular, const uint8_t angular_unit = DEG_S);
+    void drive(const float linear, const float angular, const uint8_t angular_unit = DEG_S);
 
-    void get_pose(float & x, float & y, float & theta, const uint8_t distance_unit = CM, const uint8_t angle_unit = DEG);
-    void reset_pose(const float x = 0.0, const float y = 0.0, const float theta = 0.0, const uint8_t distance_unit = CM, const uint8_t angle_unit = DEG);
+    void get_pose(float & x, float & y, float & theta);
+    void reset_pose(const float x = 0.0, const float y = 0.0, const float theta = 0.0);
 
     bool is_target_reached();
-    void rotate(const float angle, const uint8_t unit = DEG, const bool blocking = true);
-    void move(const float distance, const uint8_t unit = CM, const bool blocking = true);
+    void rotate(const float angle, const bool blocking = true);
+    void move(const float distance, const bool blocking = true);
 
     void brake();
     
@@ -68,9 +68,9 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     bool get_shake();
     String get_tilt();
 
-    void get_distance(float & left, float & center_left, float & center, float & center_right, float & right, const uint8_t unit = CM);
-    float get_distance_top(const uint8_t unit = CM);
-    float get_distance_bottom(const uint8_t unit = CM);
+    void get_distance(float & left, float & center_left, float & center, float & center_right, float & right);
+    float get_distance_top();
+    float get_distance_bottom();
 
 
     bool get_touch_any();
