@@ -139,6 +139,7 @@ namespace alvik {
                     if (this->last_ack == this->last_ack)
                     {
                         this->alvik_state = 1;
+                        ESP_LOGD(TAG, "Wait_for_Ack completed!);
                     }
                 }
                 
@@ -158,8 +159,8 @@ namespace alvik {
         this->b = this->read();
         this->packeter->buffer.push(b);
         if (this->packeter->checkPayload()){
-            return true;
             ESP_LOGD(TAG, "Incoming Message found!"); 
+            return true;
         }
       }
       return false;
@@ -170,16 +171,18 @@ namespace alvik {
       switch(code){
         // get ack code
         case 'x':
-          if (this->waiting_ack == NO_ACK){
+          if (this->waiting_ack == NO_ACK)
+          {
             this->packeter->unpacketC1B(this->code, last_ack);
             last_ack = 0x00;
-          } else {
+          } 
+          else 
+          {
             this->packeter->unpacketC1B(this->code, last_ack);
-            ESP_LOGD(TAG, "Acknowledgement recieved!");
           }
+          ESP_LOGD(TAG, "Acknowledgement recieved!");
           break;
-    
-    
+       
         // motion
     
         // get joints velocity in RPM
