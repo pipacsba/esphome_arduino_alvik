@@ -28,6 +28,13 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     ucPack * packeter = new ucPack(200);
     bool read_message();
     int parse_message();
+    uint8_t b;
+    uint8_t code;
+    ucPack * packeter;
+    uint8_t msg_size;
+
+    uint8_t last_ack;
+    uint8_t waiting_ack;
 
     void setup() override;
     void dump_config() override;
