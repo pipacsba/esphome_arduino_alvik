@@ -51,7 +51,7 @@ namespace alvik {
             else
             {
                 this->set_cycle(this->cycle_ + 1);
-                if (this->cycle == 10)
+                if (this->cycle_ == 10)
                 {
                     this->move(100);
                 }
