@@ -47,8 +47,8 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void get_wheels_position(float & left, float & right);
     void set_wheels_position(const float left, const float right, const bool blocking = true);
 
-    void get_drive_speed(float & linear, float & angular, const uint8_t angular_unit = DEG_S);
-    void drive(const float linear, const float angular, const uint8_t angular_unit = DEG_S);
+    void get_drive_speed(float & linear, float & angular);
+    void drive(const float linear, const float angular);
 
     void get_pose(float & x, float & y, float & theta);
     void reset_pose(const float x = 0.0, const float y = 0.0, const float theta = 0.0);
