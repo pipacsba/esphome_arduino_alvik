@@ -120,6 +120,10 @@ namespace alvik {
             {
                 this->set_cycle(this->cycle_ + 1);
                 //ESP_LOGD(TAG, "Alvik cycle is %d", this->cycle_);
+                if (this->cycle_ == 5000)
+                {
+                    this->set_servo_positions(0,0);
+                }
                 if (this->cycle_ == 1000)
                 {
                     this->move(100);
@@ -250,6 +254,12 @@ namespace alvik {
       ESP_LOGD(TAG, "Move message sent!");
     }
 
+    void AlvikComponent::set_servo_positions(const uint8_t a_position, const uint8_t b_position){
+      servo_positions[0] = a_position;
+      servo_positions[1] = b_position;
+      this->msg_size = this->packeter->packetC2B('S', a_position, b_position);
+      this->write_array(this->packeter->msg, this->msg_size);
+    }
 
     void AlvikComponent::dump_config() {
       ESP_LOGCONFIG(TAG, "AlvikComponent  : something is done!");
