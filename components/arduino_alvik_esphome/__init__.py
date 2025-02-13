@@ -32,21 +32,16 @@ DEPENDENCIES = ["uart"]
 CODEOWNERS = ["pipacsba"]
 
 CONF_ALVIK_ID = "alvik_id"
+CONF_CHECK_STM32_PIN = "check_stm32_pin"
 
 alvik_ns = cg.esphome_ns.namespace("alvik")
 #AlvikComponent = alvik_ns.class_("AlvikComponent", cg.Component, i2c.I2CDevice)
 AlvikComponent = alvik_ns.class_("AlvikComponent", cg.Component, uart.UARTDevice)
 
-TaskUpdateType = alvik_ns.enum("TaskUpdateType")
-TASK_UPDATE_TYPES = {
-    "ENABLE_ALVIK" : TaskUpdateType.ENABLE_ALVIK,
-}
-
-
-
 ALVIK_COMPONENT_SCHEMA = cv.Schema(
     {
         cv.Required(CONF_ALVIK_ID): cv.use_id(AlvikComponent),
+        cv.Required(CONF_CHECK_STM32_PIN): pins.gpio_input_pin_schema,
     }
 )
 
@@ -66,3 +61,6 @@ async def to_code(config):
     await cg.register_component(var, config)
 #    await i2c.register_i2c_device(var, config)
     await uart.register_uart_device(var, config)
+
+    pin = await cg.gpio_pin_expression(config[CONF_CHECK_STM32_PIN])
+    cg.add(var.set_pin(pin))
