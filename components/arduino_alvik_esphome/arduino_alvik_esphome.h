@@ -25,13 +25,13 @@ const uint8_t BATTERY_REGISTER          = 0x06;
 //class AlvikComponent  : public Component, public i2c::I2CDevice, public uart::UARTDevice {
 class AlvikComponent  : public Component, public uart::UARTDevice {
   public:
-    packeter = new ucPack(200);
+    ucPack * packeter = new ucPack(200);
 
     void setup() override;
     void dump_config() override;
     void set_check_stm32_pin(GPIOPin *pin) { pin_ = pin; };
     void set_stm32_state(bool ison) { stm32_is_on_ = ison; }
-    void set_cycle(int a_cycle) { cycle = a_cycle; };
+    void set_cycle(int a_cycle) { cycle_ = a_cycle; };
 
     void loop() override;
   
@@ -104,7 +104,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     GPIOPin *pin_{nullptr};
     bool stm32_is_on_;
 
-    ucPack * packeter;
+    //ucPack * packeter;
     uint8_t msg_size;
 
     uint8_t last_ack;
