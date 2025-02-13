@@ -62,8 +62,8 @@ namespace alvik {
 bool AlvikComponent::read_message(){                                               //it is private
   while (this->available()){
     b = this->read();
-    packeter->buffer.push(b);
-    if (packeter->checkPayload()){
+    this->packeter->buffer.push(b);
+    if (this->packeter->checkPayload()){
       return true;
     }
   }
@@ -71,15 +71,15 @@ bool AlvikComponent::read_message(){                                            
 }
 
 int AlvikComponent::parse_message(){                                               //it is private
-  code = packeter->payloadTop();
+  code = this->packeter->payloadTop();
   switch(code){
     // get ack code
     case 'x':
       if (waiting_ack == NO_ACK){
-        packeter->unpacketC1B(code, last_ack);
+        this->packeter->unpacketC1B(code, last_ack);
         last_ack = 0x00;
       } else {
-        packeter->unpacketC1B(code, last_ack);
+        this->packeter->unpacketC1B(code, last_ack);
       }
       break;
 
@@ -88,30 +88,22 @@ int AlvikComponent::parse_message(){                                            
 
     // get joints velocity in RPM
     case 'j':
-      while (!xSemaphoreTake(joint_vel_semaphore, 5)){}
-      packeter->unpacketC2F(code, joints_velocity[0], joints_velocity[1]);
-      xSemaphoreGive(joint_vel_semaphore);
+      this->packeter->unpacketC2F(code, joints_velocity[0], joints_velocity[1]);
       break;
 
     // get joints position in degrees
     case 'w':
-      while (!xSemaphoreTake(joint_pos_semaphore, 5)){}
-      packeter->unpacketC2F(code, joints_position[0], joints_position[1]);
-      xSemaphoreGive(joint_pos_semaphore);
+      this->packeter->unpacketC2F(code, joints_position[0], joints_position[1]);
       break;
 
     // get robot linear and angular velocities in mm/s and degrees/s
     case 'v':
-      while (!xSemaphoreTake(robot_vel_semaphore, 5)){}
-      packeter->unpacketC2F(code, robot_velocity[0], robot_velocity[1]);
-      xSemaphoreGive(robot_vel_semaphore);
+      this->packeter->unpacketC2F(code, robot_velocity[0], robot_velocity[1]);
       break;
 
     // get robot pose in mm and degrees, x, y, theta
     case 'z':
-      while (!xSemaphoreTake(robot_pos_semaphore, 5)){}
-      packeter->unpacketC3F(code, robot_pose[0], robot_pose[1], robot_pose[2]);
-      xSemaphoreGive(robot_pos_semaphore);
+      this->packeter->unpacketC3F(code, robot_pose[0], robot_pose[1], robot_pose[2]);
       break;
 
 
@@ -119,61 +111,47 @@ int AlvikComponent::parse_message(){                                            
 
     // get line follower sensors, low is white - high is black: Left, Center, Right
     case 'l':
-      while (!xSemaphoreTake(line_semaphore, 5)){}
-      packeter->unpacketC3I(code, line_sensors[0], line_sensors[1], line_sensors[2]);
-      xSemaphoreGive(line_semaphore);
+      this->packeter->unpacketC3I(code, line_sensors[0], line_sensors[1], line_sensors[2]);
       break;
 
     // get colors: red, green, blue
     case 'c':
-      while (!xSemaphoreTake(color_semaphore, 5)){}
-      packeter->unpacketC3I(code, color_sensor[0], color_sensor[1], color_sensor[2]);
-      xSemaphoreGive(color_semaphore);
+      this->packeter->unpacketC3I(code, color_sensor[0], color_sensor[1], color_sensor[2]);
       break;
     
     // get orientation in deg: roll, pitch, yaw
     case 'q':
-      while (!xSemaphoreTake(orientation_semaphore, 5)){}
-      packeter->unpacketC3F(code, orientation[0], orientation[1], orientation[2]);
-      xSemaphoreGive(orientation_semaphore);
+      this->packeter->unpacketC3F(code, orientation[0], orientation[1], orientation[2]);
       break;
 
     // get tilt and shake
     case 'm':
-      packeter->unpacketC1B(code, move_bits);
+      this->packeter->unpacketC1B(code, move_bits);
       break;
 
     // get imu data in g and deg/s: aX, aY, aZ, gX, gY, gZ
     case 'i':
-      while (!xSemaphoreTake(imu_semaphore, 5)){}
-      packeter->unpacketC6F(code, imu[0], imu[1], imu[2], imu[3], imu[4], imu[5]);
-      xSemaphoreGive(imu_semaphore);
+      this->packeter->unpacketC6F(code, imu[0], imu[1], imu[2], imu[3], imu[4], imu[5]);
       break;       
     
     // get data from ToF in mm: L, CL, C, CR, R, B, T
     case 'f':
-      while (!xSemaphoreTake(distance_semaphore, 5)){}
-      packeter->unpacketC7I(code, distances[0], distances[1], distances[2], distances[3], distances[4], distances[5], distances[6]);
-      xSemaphoreGive(distance_semaphore);
+      this->packeter->unpacketC7I(code, distances[0], distances[1], distances[2], distances[3], distances[4], distances[5], distances[6]);
       break;    
 
     // get data from touch pads: any, ok, delete, center, left, down, right, up
     case 't':
-      while (!xSemaphoreTake(touch_semaphore, 5)){}
-      packeter->unpacketC1B(code, touch);
-      xSemaphoreGive(touch_semaphore);
+      this->packeter->unpacketC1B(code, touch);
       break;   
     
     // get fw_version: Up, Mid, Low
     case 0x7E:
-      while (!xSemaphoreTake(version_semaphore, 5)){}
-      packeter->unpacketC3B(code, fw_version[0], fw_version[1], fw_version[2]);
-      xSemaphoreGive(version_semaphore);
+      this->packeter->unpacketC3B(code, fw_version[0], fw_version[1], fw_version[2]);
       break;
 
     // get battery parcentage: state of charge
     case 'p':
-      packeter->unpacketC1F(code, battery);
+      this->packeter->unpacketC1F(code, battery);
       battery_is_charging = (battery > 0) ? true : false;
       battery = abs(battery);
       break;
