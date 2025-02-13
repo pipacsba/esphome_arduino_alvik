@@ -1,4 +1,4 @@
-import esphome.codegen as cg
+kimport esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.components import number
 from esphome.components import switch
@@ -63,4 +63,4 @@ async def to_code(config):
     await uart.register_uart_device(var, config)
 
     pin = await cg.gpio_pin_expression(config[CONF_CHECK_STM32_PIN])
-    cg.add(var.set_pin(pin))
+    cg.add(var.set_check_stm32_pin(pin))
