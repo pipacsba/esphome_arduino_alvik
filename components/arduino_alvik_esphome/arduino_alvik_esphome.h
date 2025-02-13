@@ -25,12 +25,12 @@ const uint8_t BATTERY_REGISTER          = 0x06;
 //class AlvikComponent  : public Component, public i2c::I2CDevice, public uart::UARTDevice {
 class AlvikComponent  : public Component, public uart::UARTDevice {
   public:
-
     void setup() override;
     void dump_config() override;
     void set_check_stm32_pin(GPIOPin *pin) { pin_ = pin; };
     void set_stm32_state(bool ison) { stm32_is_on_ = ison; }
-    
+    void set_cycle(int a_cycle) { cycle = a_cycle; };
+
     void loop() override;
   
     void set_battery_sensor(sensor::Sensor *sensor1) { battery_sensor_ = sensor1; }
@@ -98,6 +98,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     bool check_firmware_compatibility();
 
   protected:
+    int cycle_;
     GPIOPin *pin_{nullptr};
     bool stm32_is_on_;
 
