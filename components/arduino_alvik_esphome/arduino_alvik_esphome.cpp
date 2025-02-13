@@ -92,6 +92,10 @@ namespace alvik {
         battery_is_charging = false;
 
         this->flush();
+        while (this->available()){
+            this->read();
+        }
+        
 
     }
 
@@ -114,7 +118,7 @@ namespace alvik {
             {
                 this->set_cycle(this->cycle_ + 1);
                 ESP_LOGD(TAG, "Alvik cycle is %d", this->cycle_);
-                if (this->cycle_ == 100)
+                if (this->cycle_ == 1000)
                 {
                     this->move(100);
                 }
