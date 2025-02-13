@@ -39,7 +39,7 @@ namespace alvik {
         if (ison & !this->stm32_is_on_)
         {
            this->set_stm32_state(ison);
-           ESP_LOGCONFIG(TAG, "The STM32 is turned on!");
+           ESP_LOGD(TAG, "The STM32 is turned on!");
            this->set_cycle(0);
         }
         else if (ison & this->stm32_is_on_)
@@ -51,6 +51,12 @@ namespace alvik {
             else
             {
                 this->set_cycle(this->cycle_ + 1);
+                if (this->cycle == 10)
+                {
+                    this->move(100);
+                }
+
+                
             }
             
             //this is were we can do something with the Alvik
@@ -58,113 +64,121 @@ namespace alvik {
         else if  (!ison & this->stm32_is_on_)
         {
            this->set_stm32_state(ison);
-           ESP_LOGCONFIG(TAG, "The STM32 is turned off!");            
+           ESP_LOGD(TAG, "The STM32 is turned off!");            
         }
     }
 
-bool AlvikComponent::read_message(){                                               //it is private
-  while (this->available()){
-    this->b = this->read();
-    this->packeter->buffer.push(b);
-    if (this->packeter->checkPayload()){
-      return true;
-    }
-  }
-  return false;
-}
-
-int AlvikComponent::parse_message(){                                               //it is private
-  this->code = this->packeter->payloadTop();
-  switch(code){
-    // get ack code
-    case 'x':
-      if (this->waiting_ack == NO_ACK){
-        this->packeter->unpacketC1B(this->code, last_ack);
-        last_ack = 0x00;
-      } else {
-        this->packeter->unpacketC1B(this->code, last_ack);
+    bool AlvikComponent::read_message(){                                               //it is private
+      while (this->available()){
+        this->b = this->read();
+        this->packeter->buffer.push(b);
+        if (this->packeter->checkPayload()){
+            return true;
+            ESP_LOGD(TAG, "Incoming Message found!"); 
+        }
       }
-      break;
-
-
-    // motion
-
-    // get joints velocity in RPM
-    case 'j':
-      this->packeter->unpacketC2F(this->code, joints_velocity[0], joints_velocity[1]);
-      break;
-
-    // get joints position in degrees
-    case 'w':
-      this->packeter->unpacketC2F(this->code, joints_position[0], joints_position[1]);
-      break;
-
-    // get robot linear and angular velocities in mm/s and degrees/s
-    case 'v':
-      this->packeter->unpacketC2F(this->code, robot_velocity[0], robot_velocity[1]);
-      break;
-
-    // get robot pose in mm and degrees, x, y, theta
-    case 'z':
-      this->packeter->unpacketC3F(this->code, robot_pose[0], robot_pose[1], robot_pose[2]);
-      break;
-
-
-    // sensors
-
-    // get line follower sensors, low is white - high is black: Left, Center, Right
-    case 'l':
-      this->packeter->unpacketC3I(this->code, line_sensors[0], line_sensors[1], line_sensors[2]);
-      break;
-
-    // get colors: red, green, blue
-    case 'c':
-      this->packeter->unpacketC3I(this->code, color_sensor[0], color_sensor[1], color_sensor[2]);
-      break;
+      return false;
+    }
     
-    // get orientation in deg: roll, pitch, yaw
-    case 'q':
-      this->packeter->unpacketC3F(this->code, orientation[0], orientation[1], orientation[2]);
-      break;
-
-    // get tilt and shake
-    case 'm':
-      this->packeter->unpacketC1B(this->code, move_bits);
-      break;
-
-    // get imu data in g and deg/s: aX, aY, aZ, gX, gY, gZ
-    case 'i':
-      this->packeter->unpacketC6F(this->code, imu[0], imu[1], imu[2], imu[3], imu[4], imu[5]);
-      break;       
+    int AlvikComponent::parse_message(){                                               //it is private
+      this->code = this->packeter->payloadTop();
+      switch(code){
+        // get ack code
+        case 'x':
+          if (this->waiting_ack == NO_ACK){
+            this->packeter->unpacketC1B(this->code, last_ack);
+            last_ack = 0x00;
+          } else {
+            this->packeter->unpacketC1B(this->code, last_ack);
+          }
+          break;
     
-    // get data from ToF in mm: L, CL, C, CR, R, B, T
-    case 'f':
-      this->packeter->unpacketC7I(this->code, distances[0], distances[1], distances[2], distances[3], distances[4], distances[5], distances[6]);
-      break;    
-
-    // get data from touch pads: any, ok, delete, center, left, down, right, up
-    case 't':
-      this->packeter->unpacketC1B(this->code, touch);
-      break;   
     
-    // get fw_version: Up, Mid, Low
-    case 0x7E:
-      this->packeter->unpacketC3B(this->code, fw_version[0], fw_version[1], fw_version[2]);
-      break;
+        // motion
+    
+        // get joints velocity in RPM
+        case 'j':
+          this->packeter->unpacketC2F(this->code, joints_velocity[0], joints_velocity[1]);
+          break;
+    
+        // get joints position in degrees
+        case 'w':
+          this->packeter->unpacketC2F(this->code, joints_position[0], joints_position[1]);
+          break;
+    
+        // get robot linear and angular velocities in mm/s and degrees/s
+        case 'v':
+          this->packeter->unpacketC2F(this->code, robot_velocity[0], robot_velocity[1]);
+          break;
+    
+        // get robot pose in mm and degrees, x, y, theta
+        case 'z':
+          this->packeter->unpacketC3F(this->code, robot_pose[0], robot_pose[1], robot_pose[2]);
+          break;
+    
+    
+        // sensors
+    
+        // get line follower sensors, low is white - high is black: Left, Center, Right
+        case 'l':
+          this->packeter->unpacketC3I(this->code, line_sensors[0], line_sensors[1], line_sensors[2]);
+          break;
+    
+        // get colors: red, green, blue
+        case 'c':
+          this->packeter->unpacketC3I(this->code, color_sensor[0], color_sensor[1], color_sensor[2]);
+          break;
+        
+        // get orientation in deg: roll, pitch, yaw
+        case 'q':
+          this->packeter->unpacketC3F(this->code, orientation[0], orientation[1], orientation[2]);
+          break;
+    
+        // get tilt and shake
+        case 'm':
+          this->packeter->unpacketC1B(this->code, move_bits);
+          break;
+    
+        // get imu data in g and deg/s: aX, aY, aZ, gX, gY, gZ
+        case 'i':
+          this->packeter->unpacketC6F(this->code, imu[0], imu[1], imu[2], imu[3], imu[4], imu[5]);
+          break;       
+        
+        // get data from ToF in mm: L, CL, C, CR, R, B, T
+        case 'f':
+          this->packeter->unpacketC7I(this->code, distances[0], distances[1], distances[2], distances[3], distances[4], distances[5], distances[6]);
+          break;    
+    
+        // get data from touch pads: any, ok, delete, center, left, down, right, up
+        case 't':
+          this->packeter->unpacketC1B(this->code, touch);
+          break;   
+        
+        // get fw_version: Up, Mid, Low
+        case 0x7E:
+          this->packeter->unpacketC3B(this->code, fw_version[0], fw_version[1], fw_version[2]);
+          break;
+    
+        // get battery parcentage: state of charge
+        case 'p':
+          this->packeter->unpacketC1F(this->code, battery);
+          this->battery_is_charging = (battery > 0) ? true : false;
+          battery = abs(battery);
+          break;
+    
+        // nothing is parsed, the command is newer to this library
+        default:
+          return -1;
+      }
+      return 0;
+    }
 
-    // get battery parcentage: state of charge
-    case 'p':
-      this->packeter->unpacketC1F(this->code, battery);
-      this->battery_is_charging = (battery > 0) ? true : false;
-      battery = abs(battery);
-      break;
+    void AlvikComponent::move(const float distance){
+      msg_size = packeter->packetC1F('G', distance);
+      uart->write(packeter->msg, msg_size);
+      waiting_ack = 'M';
+    }
 
-    // nothing is parsed, the command is newer to this library
-    default:
-      return -1;
-  }
-  return 0;
-}
 
     void AlvikComponent::dump_config() {
       ESP_LOGCONFIG(TAG, "AlvikComponent  : something is done!");
