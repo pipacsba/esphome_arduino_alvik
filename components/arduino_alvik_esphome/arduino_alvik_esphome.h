@@ -33,7 +33,6 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     int parse_message();
     uint8_t b;
     uint8_t code;
-    ucPack * packeter;
     uint8_t msg_size;
 
     float battery;
