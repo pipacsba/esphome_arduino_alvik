@@ -44,11 +44,14 @@ namespace alvik {
         }
         else if (ison & this->stm32_is_on_)
         {
-            this->set_cycle(this->cycle_ + 1);
-            if (read_message()){
-              parse_message();
+            if (read_message())
+            {
+                parse_message();
             }
-
+            else
+            {
+                this->set_cycle(this->cycle_ + 1);
+            }
             
             //this is were we can do something with the Alvik
         }
