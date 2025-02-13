@@ -25,6 +25,8 @@ const uint8_t BATTERY_REGISTER          = 0x06;
 //class AlvikComponent  : public Component, public i2c::I2CDevice, public uart::UARTDevice {
 class AlvikComponent  : public Component, public uart::UARTDevice {
   public:
+    packeter = new ucPack(200);
+
     void setup() override;
     void dump_config() override;
     void set_check_stm32_pin(GPIOPin *pin) { pin_ = pin; };
