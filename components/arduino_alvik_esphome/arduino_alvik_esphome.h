@@ -119,6 +119,11 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
 
   protected:
     int cycle_;
+
+    //0: init
+    //1: first ackarrived
+    int alvik_state;
+
     GPIOPin *stm32_pin_{nullptr};
     GPIOPin *nano_pin_{nullptr};
     bool stm32_is_on_;
