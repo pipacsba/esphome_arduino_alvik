@@ -30,7 +30,75 @@ namespace alvik {
 //          uint16_t battery_val = encode_uint16(battery_regs[1], battery_regs[0]);
 //          float battery_soc = battery_val * 0.00390625;
 //          ESP_LOGD(TAG, "Read battery data: %d, %0.1f", battery_val, battery_soc);
-           
+        last_ack = NO_ACK;
+        waiting_ack = NO_ACK;
+        
+        fw_version[0] = 0;
+        fw_version[1] = 0;
+        fw_version[2] = 0;
+        
+        led_state = 0;
+        
+        line_sensors[0] = 0;
+        line_sensors[1] = 0;
+        line_sensors[2] = 0;
+        
+        color_sensor[0] = 0;
+        color_sensor[1] = 0;
+        color_sensor[2] = 0;
+        rgb_normalized[0] = 0.0;
+        rgb_normalized[1] = 0.0;
+        rgb_normalized[2] = 0.0;
+        hsv[0] = 0.0;
+        hsv[1] = 0.0;
+        hsv[2] = 0.0;
+        
+        servo_positions[0] = 90;
+        servo_positions[1] = 90;
+        
+        orientation[0] = 0.0;
+        orientation[1] = 0.0;
+        orientation[2] = 0.0;
+        
+        move_bits = 0;
+        
+        imu[0] = 0.0;
+        imu[1] = 0.0;
+        imu[2] = 0.0;
+        imu[3] = 0.0;
+        imu[4] = 0.0;
+        imu[5] = 0.0;
+        
+        distances[0] = 0.0;
+        distances[1] = 0.0;
+        distances[2] = 0.0;
+        distances[3] = 0.0;
+        distances[4] = 0.0;
+        distances[5] = 0.0;
+        distances[6] = 0.0;
+        
+        touch = 0;
+        touch_bits = 0;
+        
+        joints_velocity[0] = 0.0;
+        joints_velocity[1] = 0.0;
+      
+        joints_position[0] = 0.0;
+        joints_position[1] = 0.0;
+       
+        robot_velocity[0] = 0.0;
+        robot_velocity[1] = 0.0;
+        
+        robot_pose[0] = 0.0;
+        robot_pose[1] = 0.0;
+        robot_pose[2] = 0.0;
+        
+        battery = 0.0;
+        battery_soc = 0.0;
+        battery_is_charging = false;
+
+        this->flush();
+
     }
 
     void AlvikComponent::loop() {
