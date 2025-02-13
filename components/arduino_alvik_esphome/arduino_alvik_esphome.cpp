@@ -95,13 +95,15 @@ namespace alvik {
         while (this->available()){
             this->read();
         }
+
+        this->nano_pin_->digital_write(LOW);
         
         ESP_LOGD(TAG, "Setup is finished");
     }
 
     void AlvikComponent::loop() {
         uint32_t now = millis();
-        bool ison = this->pin_->digital_read();
+        bool ison = this->stm32_pin_->digital_read();
         if (ison & !this->stm32_is_on_)
         {
            this->set_stm32_state(ison);
