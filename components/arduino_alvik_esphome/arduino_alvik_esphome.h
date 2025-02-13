@@ -21,7 +21,7 @@ namespace alvik {
 const uint8_t BATTERY_REGISTER          = 0x06;
 
 //class AlvikComponent  : public Component, public i2c::I2CDevice, public uart::UARTDevice {
-class AlvikComponent  : public Component, public i2c::I2CDevice {
+class AlvikComponent  : public Component, public uart::UARTDevice {
   public:
 
     void setup() override;
