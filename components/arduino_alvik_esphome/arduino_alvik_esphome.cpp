@@ -112,6 +112,7 @@ namespace alvik {
             ESP_LOGD(TAG, "The STM32 is turned on!");
             this->set_cycle(0);
             this->waiting_ack = 0x00;
+            this->alvik_state = 0;
         }
         else if (ison & this->stm32_is_on_)
         {
