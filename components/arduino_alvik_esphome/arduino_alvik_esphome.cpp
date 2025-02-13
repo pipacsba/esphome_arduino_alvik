@@ -106,9 +106,10 @@ namespace alvik {
         bool ison = this->stm32_pin_->digital_read();
         if (ison & !this->stm32_is_on_)
         {
-           this->set_stm32_state(ison);
-           ESP_LOGD(TAG, "The STM32 is turned on!");
-           this->set_cycle(0);
+            this->set_stm32_state(ison);
+            ESP_LOGD(TAG, "The STM32 is turned on!");
+            this->set_cycle(0);
+            this->waiting_ack = 0x00;
         }
         else if (ison & this->stm32_is_on_)
         {
