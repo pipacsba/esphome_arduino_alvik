@@ -96,7 +96,7 @@ namespace alvik {
             this->read();
         }
         
-
+        ESP_LOGD(TAG, "Setup is finished");
     }
 
     void AlvikComponent::loop() {
