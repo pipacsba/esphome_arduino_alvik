@@ -26,7 +26,6 @@ from esphome.const import (
 from .. import (
     CONF_ALVIK_ID,
     ALVIK_COMPONENT_SCHEMA,
-    TASK_UPDATE_TYPES,
     alvik_ns,
 )
 
