@@ -90,7 +90,7 @@ namespace alvik {
             last_ack = 0x00;
           } else {
             this->packeter->unpacketC1B(this->code, last_ack);
-            ESP_LOGD("The received ack is %s", last_ack);
+            ESP_LOGD("The received ack is %c", last_ack);
           }
           break;
     
