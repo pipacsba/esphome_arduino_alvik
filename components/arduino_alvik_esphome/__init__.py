@@ -41,7 +41,6 @@ AlvikComponent = alvik_ns.class_("AlvikComponent", cg.Component, uart.UARTDevice
 ALVIK_COMPONENT_SCHEMA = cv.Schema(
     {
         cv.Required(CONF_ALVIK_ID): cv.use_id(AlvikComponent),
-        cv.Required(CONF_CHECK_STM32_PIN): pins.gpio_input_pin_schema,
     }
 )
 
@@ -49,6 +48,7 @@ CONFIG_SCHEMA = cv.All(
     cv.Schema(
         {
             cv.GenerateID(): cv.declare_id(AlvikComponent),
+            cv.Required(CONF_CHECK_STM32_PIN): pins.gpio_input_pin_schema,
         }
     )
     .extend(cv.COMPONENT_SCHEMA)
