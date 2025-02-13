@@ -176,7 +176,7 @@ namespace alvik {
 
     void AlvikComponent::move(const float distance){
       this->msg_size = this->packeter->packetC1F('G', distance);
-      this->write(this->packeter->msg, this->msg_size);
+      this->write_array(this->packeter->msg, this->msg_size);
       waiting_ack = 'M';
     }
 
