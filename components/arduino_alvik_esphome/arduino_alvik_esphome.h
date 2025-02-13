@@ -26,6 +26,8 @@ const uint8_t BATTERY_REGISTER          = 0x06;
 class AlvikComponent  : public Component, public uart::UARTDevice {
   public:
     ucPack * packeter = new ucPack(200);
+    bool read_message();
+    int parse_message();
 
     void setup() override;
     void dump_config() override;
