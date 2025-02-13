@@ -20,7 +20,10 @@
 namespace esphome {
 namespace alvik {
 
+#define NO_ACK 0xFF
+
 const uint8_t BATTERY_REGISTER          = 0x06;
+
 
 //class AlvikComponent  : public Component, public i2c::I2CDevice, public uart::UARTDevice {
 class AlvikComponent  : public Component, public uart::UARTDevice {
@@ -32,6 +35,12 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     uint8_t code;
     ucPack * packeter;
     uint8_t msg_size;
+
+    float battery;
+    float battery_soc;
+    uint16_t battery_val = 0;
+    uint8_t battery_v[2];
+    bool battery_is_charging;
 
     uint8_t last_ack;
     uint8_t waiting_ack;
