@@ -12,6 +12,8 @@
 #include "esphome/components/text_sensor/text_sensor.h"
 #include "esphome/components/i2c/i2c.h"
 #include "esphome/components/uart/uart.h"
+#include "ucPack.h"
+#include "default_colors.h"
 //include "Arduino_Alvik.h"
 #include <vector>
 
@@ -37,7 +39,103 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     
     float get_setup_priority() const override { return setup_priority::DATA; }
 
+    void get_wheels_speed(float & left, float & righ, const uint8_t unit = RPM);
+    void set_wheels_speed(const float left, const float right, const uint8_t unit = RPM);
+
+    void get_wheels_position(float & left, float & right, const uint8_t unit = DEG);
+    void set_wheels_position(const float left, const float right, const uint8_t unit = DEG, const bool blocking = true);
+
+    void get_drive_speed(float & linear, float & angular, const uint8_t linear_unit = CM_S, const uint8_t angular_unit = DEG_S);
+    void drive(const float linear, const float angular, const uint8_t linear_unit = CM_S, const uint8_t angular_unit = DEG_S);
+
+    void get_pose(float & x, float & y, float & theta, const uint8_t distance_unit = CM, const uint8_t angle_unit = DEG);
+    void reset_pose(const float x = 0.0, const float y = 0.0, const float theta = 0.0, const uint8_t distance_unit = CM, const uint8_t angle_unit = DEG);
+
+    bool is_target_reached();
+    void rotate(const float angle, const uint8_t unit = DEG, const bool blocking = true);
+    void move(const float distance, const uint8_t unit = CM, const bool blocking = true);
+
+    void brake();
+    
+
+    void get_line_sensors(int & left, int & center, int & right);
+    void get_orientation(float & roll, float & pitch, float & yaw);
+    void get_accelerations(float & x, float & y, float & z);
+    void get_gyros(float & x, float & y, float & z);
+    void get_imu(float & ax, float & ay, float & az, float & gx, float & gy, float & gz);
+    bool get_shake();
+    String get_tilt();
+
+    void get_distance(float & left, float & center_left, float & center, float & center_right, float & right, const uint8_t unit = CM);
+    float get_distance_top(const uint8_t unit = CM);
+    float get_distance_bottom(const uint8_t unit = CM);
+
+
+    bool get_touch_any();
+    bool get_touch_ok();
+    bool get_touch_cancel();
+    bool get_touch_center();
+    bool get_touch_up();
+    bool get_touch_left();
+    bool get_touch_down();
+    bool get_touch_right();
+
+
+    void set_builtin_led(const bool value);
+    void set_illuminator(const bool value);
+
+    void set_servo_positions(const uint8_t a_position, const uint8_t b_position);
+    void get_servo_positions(int & a_position, int & b_position);
+
+    void set_behaviour(const uint8_t behaviour);
+    
+    void get_version(uint8_t & upper, uint8_t & middle, uint8_t & lower, const String version="fw");
+    void get_fw_version(uint8_t & upper, uint8_t & middle, uint8_t & lower);
+    void get_lib_version(uint8_t & upper, uint8_t & middle, uint8_t & lower);
+    void get_required_fw_version(uint8_t & upper, uint8_t & middle, uint8_t & lower);
+    bool check_firmware_compatibility();
+
+
+
+
   protected:
+    ucPack * packeter;
+    uint8_t msg_size;
+
+    uint8_t last_ack;
+    uint8_t waiting_ack;
+
+    uint8_t fw_version[3];
+    uint8_t lib_version[3];
+
+    uint8_t led_state;
+    int16_t line_sensors[3];
+
+    int16_t color_sensor[3];
+    uint16_t white_cal[3];
+    uint16_t black_cal[3];
+    float rgb_normalized[3];
+    float hsv[3];
+
+    uint8_t servo_positions[2];
+
+    float orientation[3];
+    uint8_t move_bits;
+
+    float imu[6];
+
+    int16_t distances[7];
+
+    uint8_t touch, touch_bits;
+
+    float joints_velocity[2];
+
+    float joints_position[2];
+
+    float robot_velocity[2];
+
+    float robot_pose[3];
+
     uint8_t battery_;
 
     sensor::Sensor *battery_sensor_;
@@ -64,3 +162,25 @@ class AlvikEnableSwitch : public switch_::Switch, public Parented<AlvikComponent
 }  // namespace esphome
 
 #endif
+
+
+/*
+     _            _       _             
+    / \   _ __ __| |_   _(_)_ __   ___  
+   / _ \ | '__/ _` | | | | | '_ \ / _ \ 
+  / ___ \| | | (_| | |_| | | | | | (_) |
+ /_/   \_\_|  \__,_|\__,_|_|_| |_|\___/ 
+     _    _       _ _                   
+    / \  | |_   _(_) | __               
+   / _ \ | \ \ / / | |/ /               
+  / ___ \| |\ V /| |   <                
+ /_/   \_\_| \_/ |_|_|\_\   
+
++---+----------------------------+--+----------+
+|   |      ()             ()     |  |          |
+|   |            \__/            |  |   /---\  |
+|    \__________________________/   |   |   |  |
+|                                   |   |   |  |
++-----------------------------------+---|   |--+
+   \\\___/                            \\\___/   
+*/
