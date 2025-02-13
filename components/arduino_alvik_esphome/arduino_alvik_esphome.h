@@ -101,6 +101,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
 
   protected:
     GPIOPin *pin_{nullptr};
+    bool stm32_is_on_;
 
     ucPack * packeter;
     uint8_t msg_size;
