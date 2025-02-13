@@ -26,13 +26,15 @@ from esphome.const import (
 
 MULTI_CONF = False; #can be True in future if I understand the consequences
 AUTO_LOAD = ["number", "switch", "button", "sensor", "text_sensor"]
-DEPENDENCIES = ["i2c", "uart"]
+#DEPENDENCIES = ["i2c", "uart"]
+DEPENDENCIES = ["uart"]
 CODEOWNERS = ["pipacsba"]
 
 CONF_ALVIK_ID = "alvik_id"
 
 alvik_ns = cg.esphome_ns.namespace("alvik")
-AlvikComponent = alvik_ns.class_("AlvikComponent", cg.Component, i2c.I2CDevice)
+#AlvikComponent = alvik_ns.class_("AlvikComponent", cg.Component, i2c.I2CDevice)
+AlvikComponent = alvik_ns.class_("AlvikComponent", cg.Component, uart.UARTDevice)
 
 TaskUpdateType = alvik_ns.enum("TaskUpdateType")
 TASK_UPDATE_TYPES = {
@@ -54,12 +56,12 @@ CONFIG_SCHEMA = cv.All(
         }
     )
     .extend(cv.COMPONENT_SCHEMA)
-    .extend(i2c.i2c_device_schema(0x36))
-#    .extend(uart.UART_DEVICE_SCHEMA)
+    #.extend(i2c.i2c_device_schema(0x36))
+    .extend(uart.UART_DEVICE_SCHEMA)
 )
 
 async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
     await cg.register_component(var, config)
-    await i2c.register_i2c_device(var, config)
-#    await uart.register_uart_device(var, config)
+#    await i2c.register_i2c_device(var, config)
+    await uart.register_uart_device(var, config)
