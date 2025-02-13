@@ -7,6 +7,7 @@ from esphome.components import sensor
 from esphome.components import text_sensor
 from esphome.components import i2c
 from esphome.components import uart
+from esphome import pins
 
 from esphome.const import (
     CONF_ID, 
