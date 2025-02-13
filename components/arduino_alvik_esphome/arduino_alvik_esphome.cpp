@@ -38,7 +38,7 @@ namespace alvik {
         if (ison & !this->stm32_is_on_)
         {
             this->set_stm32_state(ison);
-            ESP_LOGD("The STM32 is turned on!");
+           ESP_LOGCONFIG(TAG, "The STM32 is turned on!");
         }
         else if (ison & this->stm32_is_on_)
         {
@@ -47,7 +47,7 @@ namespace alvik {
         else if  (!ison & this->stm32_is_on_)
         {
             this->set_stm32_state(ison);
-            ESP_LOGD("The STM32 is turned off!");            
+           ESP_LOGCONFIG(TAG, "The STM32 is turned off!");            
         }
     }
 
