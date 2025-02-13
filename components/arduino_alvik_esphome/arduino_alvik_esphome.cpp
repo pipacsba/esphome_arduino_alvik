@@ -35,7 +35,9 @@ namespace alvik {
     void AlvikComponent::loop() {
         uint32_t now = millis();
         bool ison = this->pin_->digital_read();
-        if (ison & this->
+        if (ison & !this->stm32_is_on_)
+        {
+        }
     }
 
     void AlvikComponent::dump_config() {
