@@ -28,7 +28,8 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
 
     void setup() override;
     void dump_config() override;
-  
+    void set_check_stm32_pin(GPIOPin *pin) { pin_ = pin; };
+    
     void loop() override;
   
     void set_battery_sensor(sensor::Sensor *sensor1) { battery_sensor_ = sensor1; }
@@ -99,6 +100,8 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
 
 
   protected:
+   GPIOPin *pin_{nullptr};
+
     ucPack * packeter;
     uint8_t msg_size;
 
