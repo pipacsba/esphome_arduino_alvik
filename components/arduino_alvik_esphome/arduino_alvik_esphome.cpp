@@ -90,6 +90,7 @@ namespace alvik {
             last_ack = 0x00;
           } else {
             this->packeter->unpacketC1B(this->code, last_ack);
+            ESP_LOGD("The received ack is %s", last_ack);
           }
           break;
     
@@ -174,8 +175,8 @@ namespace alvik {
     }
 
     void AlvikComponent::move(const float distance){
-      msg_size = packeter->packetC1F('G', distance);
-      uart->write(packeter->msg, msg_size);
+      this->msg_size = this->packeter->packetC1F('G', distance);
+      this->write(this->packeter->msg, this->msg_size);
       waiting_ack = 'M';
     }
 
