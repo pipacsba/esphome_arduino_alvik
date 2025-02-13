@@ -90,7 +90,7 @@ namespace alvik {
             last_ack = 0x00;
           } else {
             this->packeter->unpacketC1B(this->code, last_ack);
-            ESP_LOGD("Acknowledgement recieved!");
+            ESP_LOGD(TAG, "Acknowledgement recieved!");
           }
           break;
     
@@ -177,7 +177,7 @@ namespace alvik {
     void AlvikComponent::move(const float distance){
       this->msg_size = this->packeter->packetC1F('G', distance);
       this->write_array(this->packeter->msg, this->msg_size);
-      waiting_ack = 'M';
+      this->waiting_ack = 'M';
     }
 
 
