@@ -127,6 +127,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
 
     std::string alvik_command_list_;
     int last_command_time_;
+    int last_sensor_time_;
 
     //ucPack * packeter;
     //uint8_t msg_size;
