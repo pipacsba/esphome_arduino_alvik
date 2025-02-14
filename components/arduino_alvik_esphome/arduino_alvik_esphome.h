@@ -63,8 +63,20 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     //TEXT SENSORS
     void set_fw_sensor(text_sensor::TextSensor *sensor1) { fw_version_sensor_ = sensor1; }
     void set_lib_sensor(text_sensor::TextSensor *sensor1) { lib_version_sensor_ = sensor1; }
+
+    //SWITCHES
     void set_enable_alvik_switch(switch_::Switch *sw) { enable_alvik_switch_ = sw; }
-    
+
+    //BUTTONS
+    void set_center_button(button::Button *bttn) { center_button_ = bttn; }
+    void set_cancel_button(button::Button *bttn) { cancel_button_ = bttn; }
+    void set_ok_button(button::Button *bttn) { ok_button_ = bttn; }
+    void set_turnright_button(button::Button *bttn) { turn_right_button_ = bttn; }
+    void set_turnleft_button(button::Button *bttn) { turn_left_button_ = bttn; }
+    void set_backwards_button(button::Button *bttn) { backwards_button_ = bttn; }
+    void set_forward_button(button::Button *bttn) { forwards_button_ = bttn; }
+  
+
     float get_setup_priority() const override { return setup_priority::DATA; }
 
     void get_wheels_speed(float & left, float & right);
@@ -187,6 +199,14 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     sensor::Sensor *pose_x_sensor_;
     sensor::Sensor *pose_y_sensor_;
     sensor::Sensor *pose_ang_sensor_;
+
+    button::Button *center_button_
+    button::Button *cancel_button_
+    button::Button *ok_button_
+    button::Button *turn_right_button_
+    button::Button *turn_left_button_
+    button::Button *backwards_button_
+    button::Button *forwards_button_
 
     text_sensor::TextSensor *fw_version_sensor_;
     text_sensor::TextSensor *lib_version_sensor_;
