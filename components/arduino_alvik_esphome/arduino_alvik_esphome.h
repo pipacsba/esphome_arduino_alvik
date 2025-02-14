@@ -9,6 +9,7 @@
 #include "esphome/core/hal.h"
 #include "esphome/components/number/number.h"
 #include "esphome/components/sensor/sensor.h"
+#include "esphome/components/sensor/button.h"
 #include "esphome/components/text_sensor/text_sensor.h"
 #include "esphome/components/i2c/i2c.h"
 #include "esphome/components/uart/uart.h"
