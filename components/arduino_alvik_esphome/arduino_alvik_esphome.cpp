@@ -136,14 +136,17 @@ namespace alvik {
                 if (this->alvik_state_ > 1)
                 {
                     // Loop priority 1: is there something to do?
-                    if (this->alvik_command_list_.len() != 0 )
+                    if ((this->alvik_command_list_.len() != 0 ) & ((millis() - this->last_command_time_) >= 3 * 1000) )
                     {
                         //do user requests
                     }
                     // Loop priority 2: update sensor values towards HA
                     else
                     {
-
+                        if ((millis() - this->last_sensor_time_) >= 1 * 1000)
+                        {
+                            
+                        }
                     }
                 }
                 else
