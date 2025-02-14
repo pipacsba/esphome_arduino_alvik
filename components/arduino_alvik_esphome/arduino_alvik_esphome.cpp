@@ -96,7 +96,7 @@ namespace alvik {
             this->read();
         }
 
-        this->nano_pin_->digital_write(LOW);
+        this->nano_pin_->digital_write(FALSE);
 
         this->alvik_state = 0;
         
