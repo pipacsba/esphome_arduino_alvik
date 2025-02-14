@@ -96,7 +96,7 @@ namespace alvik {
         battery_is_charging = false;
 
         this->set_stm32_fw_compatible(false);
-        this->stm_pin_->pin_mode(FLAG_PULLDOWN);
+        //this->stm_pin_->pin_mode(FLAG_PULLDOWN);
         this->nano_pin_->digital_write(false);
         this->reset_pin_->digital_write(false);
         
@@ -119,10 +119,10 @@ namespace alvik {
         uint32_t now = millis();
         uint8_t current_action;
         bool ison = this->stm32_pin_->digital_read();
-        if (ĭson & (this->alvik_state_ > ALVIK_HW_RESET))
+        if ((!ĭson) & (this->alvik_state_ > ALVIK_HW_RESET)))
         {
             this->alvik_state_ = 0;
-            this->cycle_ = 0
+            this->cycle_ = 0;
         }
         switch(this->alvik_state_)
         {
