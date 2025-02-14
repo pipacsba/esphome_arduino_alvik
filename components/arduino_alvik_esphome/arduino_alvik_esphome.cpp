@@ -136,7 +136,7 @@ namespace alvik {
                 if (this->alvik_state_ > 1)
                 {
                     // Loop priority 1: is there something to do?
-                    if ((this->alvik_command_list_.len() != 0 ) & ((millis() - this->last_command_time_) >= 3 * 1000) )
+                    if ((this->alvik_command_list_.length() != 0 ) & ((millis() - this->last_command_time_) >= 3 * 1000) )
                     {
                         //do user requests
                     }
@@ -290,26 +290,46 @@ namespace alvik {
     }
 
     void AlvikComponent::move(const float distance){
-      this->msg_size = this->packeter->packetC1F('G', distance);
-      this->write_array(this->packeter->msg, this->msg_size);
-      this->waiting_ack = 'M';
-      ESP_LOGD(TAG, "Move message sent!");
+        this->msg_size = this->packeter->packetC1F('G', distance);
+        this->write_array(this->packeter->msg, this->msg_size);
+        this->waiting_ack = 'M';
+        ESP_LOGD(TAG, "Move message sent!");
+    }
+
+    void AlvikComponent::rotate(const float angle){
+        this->msg_size = this->packeter->packetC1F('R', angle);
+        this->write_array(this->packeter->msg, this->msg_size);
+        this->waiting_ack = 'R';
     }
 
     void AlvikComponent::set_servo_positions(const uint8_t a_position, const uint8_t b_position){
-      servo_positions[0] = a_position;
-      servo_positions[1] = b_position;
-      this->msg_size = this->packeter->packetC2B('S', a_position, b_position);
-      this->write_array(this->packeter->msg, this->msg_size);
-      ESP_LOGD(TAG, "Servo positions set to [%d,%d]!", a_position, b_position);
+        servo_positions[0] = a_position;
+        servo_positions[1] = b_position;
+        this->msg_size = this->packeter->packetC2B('S', a_position, b_position);
+        this->write_array(this->packeter->msg, this->msg_size);
+        ESP_LOGD(TAG, "Servo positions set to [%d,%d]!", a_position, b_position);
     }
 
     void AlvikComponent::dump_config() {
-      ESP_LOGCONFIG(TAG, "AlvikComponent  : something is done!");
-    }
+        ESP_LOGCONFIG(TAG, "AlvikComponent  :");
+        ESP_LOGCONFIG(TAG, "   current state  :");
+        switch (this->alvik_state_):
+            case 0:
+                if (this->stm32_is_on_)
+                    ESP_LOGCONFIG(TAG, "       waiting for first ACK");
+                else:
+                    ESP_LOGCONFIG(TAG, "       STM32 is off");
+            case 1:
+                ESP_LOGCONFIG(TAG, "       STM32 is on, firmware version check is ongoing");
+            case 2:
+                ESP_LOGCONFIG(TAG, "       STM32 is on, firmware version check is done, ready for action");
+        if (this->battery_sensor_ != nullptr)
+            ESP_LOGCONFIG(TAG, "   Battery status is : %.0f", this->battery_sensor_->getstate());
+    }    
 
     void AlvikEnableSwitch::write_state(bool state)
     {
+        
     }
 
 }  // namespace alvik
