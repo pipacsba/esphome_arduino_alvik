@@ -29,6 +29,11 @@ const uint8_t ALVIK_STARTUP = 0;
 const uint8_t ALVIK_HW_RESET = 1;
 const uint8_t ALVIK_STM32_UP = 2;
 const uint8_t ALVIK_FIRST_ACK = 3;
+const uint8_t ALVIK_FW_COMPATIBLE = 4;
+
+const uint8_t ACTION_READ_UART = 0;
+const uint8_t ACTION_DO_COMMAND = 1;
+const uint8_t ACTION_WRITE_SENSOR = 2;
 
 //class AlvikComponent  : public Component, public i2c::I2CDevice, public uart::UARTDevice {
 class AlvikComponent  : public Component, public uart::UARTDevice {
@@ -58,8 +63,6 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
 
     void set_stm32_state(bool ison) { stm32_is_on_ = ison; }
     void set_cycle(int a_cycle) { cycle_ = a_cycle; };
-
-    set_reset_stm32_pin
 
     void loop() override;
 
@@ -164,6 +167,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     std::string alvik_command_list_;
     int last_command_time_;
     int last_sensor_time_;
+    int last_command_received_time_;
 
     //ucPack * packeter;
     //uint8_t msg_size;
