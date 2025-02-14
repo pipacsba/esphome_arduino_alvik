@@ -176,6 +176,7 @@ namespace alvik {
                     {
                         this->alvik_state_ = 2;
                     }
+                    this->set_servo_positions(0,0);
                 }
             case ALVIK_FW_COMPATIBLE:
                 {
