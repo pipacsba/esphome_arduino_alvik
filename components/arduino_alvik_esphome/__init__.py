@@ -34,6 +34,7 @@ CODEOWNERS = ["pipacsba"]
 CONF_ALVIK_ID = "alvik_id"
 CONF_CHECK_STM32_PIN = "check_stm32_pin"
 CONF_CHECK_NANO_PIN = "check_nano_pin"
+CONF_RESET_STM32_PIN = "reset_stm32_pin"
 
 alvik_ns = cg.esphome_ns.namespace("alvik")
 #AlvikComponent = alvik_ns.class_("AlvikComponent", cg.Component, i2c.I2CDevice)
@@ -51,6 +52,7 @@ CONFIG_SCHEMA = cv.All(
             cv.GenerateID(): cv.declare_id(AlvikComponent),
             cv.Required(CONF_CHECK_STM32_PIN): pins.gpio_input_pin_schema,
             cv.Required(CONF_CHECK_NANO_PIN): pins.gpio_output_pin_schema,
+            cv.Required(CONF_RESET_STM32_PIN): pins.gpio_output_pin_schema,
         }
     )
     .extend(cv.COMPONENT_SCHEMA)
@@ -68,3 +70,5 @@ async def to_code(config):
     cg.add(var.set_check_stm32_pin(pin))
     pin = await cg.gpio_pin_expression(config[CONF_CHECK_NANO_PIN])
     cg.add(var.set_check_nano_pin(pin))
+    pin = await cg.gpio_pin_expression(config[CONF_RESET_STM32_PIN])
+    cg.add(var.set_reset_stm32_pin(pin))
