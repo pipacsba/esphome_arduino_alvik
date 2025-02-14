@@ -13,7 +13,7 @@
 #ifndef __ALVIK_DEFAULT_COLORS_H__
 #define __ALVIK_DEFAULT_COLORS_H__
 
-#include "Arduino.h"
+//#include "Arduino.h"
 
 #define WHITE_DEFAULT_RED 450
 #define WHITE_DEFAULT_GREEN 500
