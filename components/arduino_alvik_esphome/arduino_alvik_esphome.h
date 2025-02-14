@@ -201,13 +201,13 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     sensor::Sensor *pose_y_sensor_;
     sensor::Sensor *pose_ang_sensor_;
 
-    button::Button *center_button_
-    button::Button *cancel_button_
-    button::Button *ok_button_
-    button::Button *turn_right_button_
-    button::Button *turn_left_button_
-    button::Button *backwards_button_
-    button::Button *forwards_button_
+    button::Button *center_button_;
+    button::Button *cancel_button_;
+    button::Button *ok_button_;
+    button::Button *turn_right_button_;
+    button::Button *turn_left_button_;
+    button::Button *backwards_button_;
+    button::Button *forwards_button_;
 
     text_sensor::TextSensor *fw_version_sensor_;
     text_sensor::TextSensor *lib_version_sensor_;
