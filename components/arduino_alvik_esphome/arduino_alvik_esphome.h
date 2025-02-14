@@ -25,6 +25,10 @@ namespace alvik {
 
 const uint8_t BATTERY_REGISTER          = 0x06;
 
+const uint8_t ALVIK_STARTUP = 0;
+const uint8_t ALVIK_HW_RESET = 1;
+const uint8_t ALVIK_STM32_UP = 2;
+const uint8_t ALVIK_FIRST_ACK = 3;
 
 //class AlvikComponent  : public Component, public i2c::I2CDevice, public uart::UARTDevice {
 class AlvikComponent  : public Component, public uart::UARTDevice {
