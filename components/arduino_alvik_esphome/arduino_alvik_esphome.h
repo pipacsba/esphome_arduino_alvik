@@ -139,9 +139,6 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
   protected:
     int cycle_;
 
-    //0: init
-    //1: first ack arrived
-    //2: firmware compatible
     uint8_t alvik_state_;
 
     GPIOPin *stm32_pin_{nullptr};
