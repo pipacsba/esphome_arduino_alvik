@@ -110,12 +110,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void get_servo_positions(int & a_position, int & b_position);
 
     void set_behaviour(const uint8_t behaviour);
-    
-    void get_version(uint8_t & upper, uint8_t & middle, uint8_t & lower);
-    void get_fw_version(uint8_t & upper, uint8_t & middle, uint8_t & lower);
-    void get_lib_version(uint8_t & upper, uint8_t & middle, uint8_t & lower);
-    void get_required_fw_version(uint8_t & upper, uint8_t & middle, uint8_t & lower);
-    bool check_firmware_compatibility();
+    void set_stm32_fw_compatible(bool compatible) { stm32_fw_compatible_ = compatible; };
 
   protected:
     int cycle_;
@@ -127,6 +122,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     GPIOPin *stm32_pin_{nullptr};
     GPIOPin *nano_pin_{nullptr};
     bool stm32_is_on_;
+    bool stm32_fw_compatible_;
 
     //ucPack * packeter;
     //uint8_t msg_size;
