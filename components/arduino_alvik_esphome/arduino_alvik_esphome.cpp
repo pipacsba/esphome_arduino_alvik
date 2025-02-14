@@ -139,6 +139,32 @@ namespace alvik {
                     if ((this->alvik_command_list_.length() != 0 ) & ((millis() - this->last_command_time_) >= 3 * 1000) )
                     {
                         //do user requests
+                        char c = this->alvik_command_list_[0];
+                        if (c == 0x65) // e
+                        {
+                            this->move(150);
+                        }
+                        else if (c == 0x68) // h
+                        {
+                            this->move(-150);
+                        }
+                        else if (c == 0x6a) // j
+                        {
+                            this->rotate(90);
+                        }
+                        else if (c == 0x62) // b
+                        {
+                            this->rotate(-90);
+                        }
+                        //clear the fulfilled request
+                        if (this->alvik_command_list_.length() > 1)
+                        {
+                            this->alvik_command_list_ = this->alvik_command_list_.substr(1);
+                        }
+                        else
+                        {
+                            this->alvik_command_list_.clear();
+                        }
                     }
                     // Loop priority 2: update sensor values towards HA
                     else
@@ -263,8 +289,30 @@ namespace alvik {
     
         // get data from touch pads: any, ok, delete, center, left, down, right, up
         case 't':
-          this->packeter->unpacketC1B(this->code, touch);
-          break;   
+            this->packeter->unpacketC1B(this->code, touch);
+                // Any:    0b00000001;
+                // OK:     0b00000010; o: OK
+                // Cancel: 0b00000100; x: Cancel
+                // Center: 0b00001000; c: Center
+                // Up:     0b00010000; e: Forward (Elo"re)
+                // Left:   0b00100000; b: Turn Left (Balra)
+                // Down:   0b01000000; h: Backwards (Ha'tra)
+                // Right   0b10000000; j: Turn Right (Jobbra)
+                if (touch & 0b00000010)
+                    alvik_command_list_.push_back("o"); // O: OK
+                if (touch & 0b00000100)
+                    alvik_command_list_.push_back("X"); // x: Cancel
+                if (touch & 0b00001000)
+                    alvik_command_list_.push_back("C"); // c: Center
+                if (touch & 0b00010000)
+                    alvik_command_list_.push_back("E"); // e: Forward (Elo"re)
+                if (touch & 0b00100000)
+                    alvik_command_list_.push_back("B"); // b: Turn Left (Balra)
+                if (touch & 0b01000000)
+                    alvik_command_list_.push_back("H"); // h: Backwards (Ha'tra)
+                if (touch & 0b10000000)
+                    alvik_command_list_.push_back("J"); // j: Turn Right (Jobbra)
+            break;   
         
         // get fw_version: Up, Mid, Low
         case 0x7E:
