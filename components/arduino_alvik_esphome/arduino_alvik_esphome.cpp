@@ -175,7 +175,7 @@ namespace alvik {
                             if (this->battery_sensor_ != nullptr)
                                 this->battery_sensor_->publish_state(this->battery_soc);
                             if (this->alvik_alive_sensor_ != nullptr)
-                                this->battery_sensor_->alvik_alive_sensor_(this->alvik_state_);
+                                this->alvik_alive_sensor_->publish_state(this->alvik_state_);
                         }
                     }
                 }
@@ -365,15 +365,19 @@ namespace alvik {
         switch (this->alvik_state_):
             case 0:
                 if (this->stm32_is_on_)
+                {
                     ESP_LOGCONFIG(TAG, "       waiting for first ACK");
-                else:
+                }
+                else
+                {
                     ESP_LOGCONFIG(TAG, "       STM32 is off");
+                }
             case 1:
                 ESP_LOGCONFIG(TAG, "       STM32 is on, firmware version check is ongoing");
             case 2:
                 ESP_LOGCONFIG(TAG, "       STM32 is on, firmware version check is done, ready for action");
         if (this->battery_sensor_ != nullptr)
-            ESP_LOGCONFIG(TAG, "   Battery status is : %.0f", this->battery_sensor_->getstate());
+            ESP_LOGCONFIG(TAG, "   Battery status is : %.0f", this->battery_sensor_->get_state());
     }    
 
     void AlvikEnableSwitch::write_state(bool state)
