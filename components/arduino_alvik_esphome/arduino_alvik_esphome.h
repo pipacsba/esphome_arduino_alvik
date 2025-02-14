@@ -52,9 +52,15 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_cycle(int a_cycle) { cycle_ = a_cycle; };
 
     void loop() override;
-  
+
+    // SENSORS
     void set_battery_sensor(sensor::Sensor *sensor1) { battery_sensor_ = sensor1; }
     void set_alive_sensor(sensor::Sensor *sensor1) { alvik_alive_sensor_ = sensor1; }
+    void set_pose_x_sensor(sensor::Sensor *sensor1) { pose_x_sensor_ = sensor1; }
+    void set_pose_y_sensor(sensor::Sensor *sensor1) { pose_y_sensor_ = sensor1; }
+    void set_pose_ang_sensor(sensor::Sensor *sensor1) { pose_ang_sensor_ = sensor1; }
+
+    //TEXT SENSORS
     void set_fw_sensor(text_sensor::TextSensor *sensor1) { fw_version_sensor_ = sensor1; }
     void set_lib_sensor(text_sensor::TextSensor *sensor1) { lib_version_sensor_ = sensor1; }
     void set_enable_alvik_switch(switch_::Switch *sw) { enable_alvik_switch_ = sw; }
@@ -178,6 +184,9 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
 
     sensor::Sensor *battery_sensor_;
     sensor::Sensor *alvik_alive_sensor_;
+    sensor::Sensor *pose_x_sensor_;
+    sensor::Sensor *pose_y_sensor_;
+    sensor::Sensor *pose_ang_sensor_;
 
     text_sensor::TextSensor *fw_version_sensor_;
     text_sensor::TextSensor *lib_version_sensor_;
