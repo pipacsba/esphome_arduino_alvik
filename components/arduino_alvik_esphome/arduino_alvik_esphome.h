@@ -130,6 +130,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
 
     void set_behaviour(const uint8_t behaviour);
     void set_stm32_fw_compatible(bool compatible) { stm32_fw_compatible_ = compatible; };
+    void push_alvik_command(char a) {alvik_command_list_.push_back(a);}
 
   protected:
     int cycle_;
