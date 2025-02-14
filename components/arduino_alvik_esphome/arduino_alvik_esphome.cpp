@@ -119,7 +119,7 @@ namespace alvik {
         uint32_t now = millis();
         uint8_t current_action;
         bool ison = this->stm32_pin_->digital_read();
-        if ((!ison) & (this->alvik_state_ > ALVIK_HW_RESET)))
+        if ((!ison) & (this->alvik_state_ > ALVIK_HW_RESET))
         {
             this->alvik_state_ = 0;
             this->cycle_ = 0;
@@ -181,7 +181,7 @@ namespace alvik {
                 {
                     this->cycle_ = this->cycle_ + 1;
                     current_action = this->cycle_ % 3;
-                    switch (current_action):
+                    switch (current_action)
                     {
                         case ACTION_READ_UART:
                             if (read_message())
