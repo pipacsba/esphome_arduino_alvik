@@ -106,6 +106,8 @@ namespace alvik {
         this->alvik_state_ = 0;
 
         this->last_command_time_ = 0;
+        this->last_sensor_time_  = 0;
+        this->alvik_command_list_.clear();
         
         ESP_LOGD(TAG, "Setup is finished");
     }
@@ -128,13 +130,21 @@ namespace alvik {
             {
                 parse_message();
             }
-            // Loop priority 1: is there something to do?
             else
             {
                 
                 if (this->alvik_state_ > 1)
                 {
-                    //do user requests
+                    // Loop priority 1: is there something to do?
+                    if (this->alvik_command_list_.len() != 0 )
+                    {
+                        //do user requests
+                    }
+                    // Loop priority 2: update sensor values towards HA
+                    else
+                    {
+
+                    }
                 }
                 else
                 {
