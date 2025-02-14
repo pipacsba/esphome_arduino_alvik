@@ -103,7 +103,7 @@ namespace alvik {
         this->set_stm32_fw_compatible(false);
         this->nano_pin_->digital_write(false);
 
-        this->alvik_state_ = -1;
+        this->alvik_state_ = ALVIK_STARTUP;
 
         this->last_command_time_ = 0;
         this->last_sensor_time_  = 0;
