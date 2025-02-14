@@ -103,7 +103,7 @@ namespace alvik {
         this->set_stm32_fw_compatible(false);
         this->nano_pin_->digital_write(false);
 
-        this->alvik_state_ = 0;
+        this->alvik_state_ = -1;
 
         this->last_command_time_ = 0;
         this->last_sensor_time_  = 0;
@@ -136,7 +136,7 @@ namespace alvik {
                 if (this->alvik_state_ > 1)
                 {
                     // Loop priority 1: is there something to do?
-                    if ((this->alvik_command_list_.length() != 0 ) & ((millis() - this->last_command_time_) >= 3 * 1000) )
+                    if ((this->alvik_command_list_.length() != 0 ) & ((now - this->last_command_time_) >= 3 * 1000) )
                     {
                         //do user requests
                         char c = this->alvik_command_list_[0];
@@ -165,12 +165,12 @@ namespace alvik {
                         {
                             this->alvik_command_list_.clear();
                         }
-                        this->last_command_time_ = millis();
+                        this->last_command_time_ = now;
                     }
                     // Loop priority 2: update sensor values towards HA
                     else
                     {
-                        if ((millis() - this->last_sensor_time_) >= 1 * 1000)
+                        if ((now() - this->last_sensor_time_) >= 1 * 1000)
                         {
                             if (this->battery_sensor_ != nullptr)
                                 this->battery_sensor_->publish_state(this->battery_soc);
@@ -182,6 +182,7 @@ namespace alvik {
                                 this->pose_y_sensor_->publish_state(this->robot_pose[1]);
                             if (this->pose_ang_sensor_ != nullptr)
                                 this->pose_ang_sensor_->publish_state(this->robot_pose[2]);
+                            this->last_sensor_time_=new;
                         }
                     }
                 }
