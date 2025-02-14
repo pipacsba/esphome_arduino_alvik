@@ -300,19 +300,19 @@ namespace alvik {
                 // Down:   0b01000000; h: Backwards (Ha'tra)
                 // Right   0b10000000; j: Turn Right (Jobbra)
                 if (touch & 0b00000010)
-                    alvik_command_list_.push_back("o"); // O: OK
+                    alvik_command_list_.push_back('o'); // o: OK
                 if (touch & 0b00000100)
-                    alvik_command_list_.push_back("X"); // x: Cancel
+                    alvik_command_list_.push_back('x'); // x: Cancel
                 if (touch & 0b00001000)
-                    alvik_command_list_.push_back("C"); // c: Center
+                    alvik_command_list_.push_back('c'); // c: Center
                 if (touch & 0b00010000)
-                    alvik_command_list_.push_back("E"); // e: Forward (Elo"re)
+                    alvik_command_list_.push_back('e'); // e: Forward (Elo"re)
                 if (touch & 0b00100000)
-                    alvik_command_list_.push_back("B"); // b: Turn Left (Balra)
+                    alvik_command_list_.push_back('b'); // b: Turn Left (Balra)
                 if (touch & 0b01000000)
-                    alvik_command_list_.push_back("H"); // h: Backwards (Ha'tra)
+                    alvik_command_list_.push_back('h'); // h: Backwards (Ha'tra)
                 if (touch & 0b10000000)
-                    alvik_command_list_.push_back("J"); // j: Turn Right (Jobbra)
+                    alvik_command_list_.push_back('j'); // j: Turn Right (Jobbra)
             break;   
         
         // get fw_version: Up, Mid, Low
