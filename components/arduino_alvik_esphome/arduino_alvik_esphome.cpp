@@ -229,7 +229,7 @@ namespace alvik {
                             if ((now - this->last_sensor_time_) >= 1 * 1000)
                             {
                                 if (this->battery_sensor_ != nullptr)
-                                    this->battery_sensor_->publish_state(this->battery_soc);
+                                    this->battery_sensor_->publish_state(this->battery);
                                 if (this->alvik_alive_sensor_ != nullptr)
                                     this->alvik_alive_sensor_->publish_state(this->alvik_state_);
                                 if (this->pose_x_sensor_ != nullptr)
