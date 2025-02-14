@@ -204,6 +204,63 @@ class AlvikEnableSwitch : public switch_::Switch, public Parented<AlvikComponent
  protected:
   void write_state(bool state) override;
 };
+
+class AlvikForwardButton : public button::Button, public Parented<AlvikComponent> {
+ public:
+  QueryButton() = default;
+
+ protected:
+  void press_action() override;
+};
+
+class AlvikBackwardsdButton : public button::Button, public Parented<AlvikComponent> {
+ public:
+  QueryButton() = default;
+
+ protected:
+  void press_action() override;
+};
+
+class AlvikTurnLeftButton : public button::Button, public Parented<AlvikComponent> {
+ public:
+  QueryButton() = default;
+
+ protected:
+  void press_action() override;
+};
+
+class AlvikTurnRightButton : public button::Button, public Parented<AlvikComponent> {
+ public:
+  QueryButton() = default;
+
+ protected:
+  void press_action() override;
+};
+
+class AlvikOKButton : public button::Button, public Parented<AlvikComponent> {
+ public:
+  QueryButton() = default;
+
+ protected:
+  void press_action() override;
+};
+
+class AlvikCancelButton : public button::Button, public Parented<AlvikComponent> {
+ public:
+  QueryButton() = default;
+
+ protected:
+  void press_action() override;
+};
+
+class AlvikCenterButton : public button::Button, public Parented<AlvikComponent> {
+ public:
+  QueryButton() = default;
+
+ protected:
+  void press_action() override;
+};
+
  
 }  // namespace alvik
 }  // namespace esphome
