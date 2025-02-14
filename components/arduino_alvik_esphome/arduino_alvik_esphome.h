@@ -125,6 +125,14 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     bool stm32_is_on_;
     bool stm32_fw_compatible_;
 
+    // Any:    0b00000001;
+    // OK:     0b00000010; o: OK
+    // Cancel: 0b00000100; x: Cancel
+    // Center: 0b00001000; c: Center
+    // Up:     0b00010000; e: Forward (Elo"re)
+    // Left:   0b00100000; b: Turn Left (Balra)
+    // Down:   0b01000000; h: Backwards (Ha'tra)
+    // Right   0b10000000; j: Turn Right (Jobbra)
     std::string alvik_command_list_;
     int last_command_time_;
     int last_sensor_time_;
