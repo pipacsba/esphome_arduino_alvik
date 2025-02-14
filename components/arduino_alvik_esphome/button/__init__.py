@@ -30,7 +30,7 @@ AlvikForwardButton = alvik_ns.class_("AlvikForwardButton", button.Button, cg.Com
 AlvikBackwardsdButton = alvik_ns.class_("AlvikBackwardsdButton", button.Button, cg.Component)
 AlvikTurnLeftButton = alvik_ns.class_("AlvikTurnLeftButton", button.Button, cg.Component)
 AlvikTurnRightButton = alvik_ns.class_("AlvikTurnRightButton", button.Button, cg.Component)
-AlvikOKButton = alvik_ns.class_("AlvikOkButton", button.Button, cg.Component)
+AlvikOKButton = alvik_ns.class_("AlvikOKButton", button.Button, cg.Component)
 AlvikCancelButton = alvik_ns.class_("AlvikCancelButton", button.Button, cg.Component)
 AlvikCenterButton = alvik_ns.class_("AlvikCenterButton", button.Button, cg.Component)
 
