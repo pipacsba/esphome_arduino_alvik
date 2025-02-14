@@ -125,6 +125,9 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     bool stm32_is_on_;
     bool stm32_fw_compatible_;
 
+    std::string alvik_command_list_;
+    int last_command_time_;
+
     //ucPack * packeter;
     //uint8_t msg_size;
 
