@@ -165,6 +165,7 @@ namespace alvik {
                         {
                             this->alvik_command_list_.clear();
                         }
+                        this->last_command_time_ = millis();
                     }
                     // Loop priority 2: update sensor values towards HA
                     else
