@@ -392,13 +392,13 @@ namespace alvik {
 
     void AlvikEnableSwitch::write_state(bool state) {}
 
-    void AlvikForwardButton::press_action() { this->parent_->alvik_command_list_.push_back('e'); } 
-    void AlvikBackwardsdButton::press_action() { this->parent_->alvik_command_list_.push_back('h'); } 
-    void AlvikTurnLeftButton::press_action() { this->parent_->alvik_command_list_.push_back('b'); } 
-    void AlvikTurnRightButton::press_action() { this->parent_->alvik_command_list_.push_back('j'); } 
-    void AlvikOKButton::press_action() { this->parent_->alvik_command_list_.push_back('o'); } 
-    void AlvikCancelButton::press_action() { this->parent_->alvik_command_list_.push_back('x'); } 
-    void AlvikCenterButton::press_action() { this->parent_->alvik_command_list_.push_back('c'); } 
+    void AlvikForwardButton::press_action() { this->parent_->push_alvik_command('e'); } 
+    void AlvikBackwardsdButton::press_action() { this->parent_->push_alvik_command('h'); } 
+    void AlvikTurnLeftButton::press_action() { this->parent_->push_alvik_command('b'); } 
+    void AlvikTurnRightButton::press_action() { this->parent_->push_alvik_command('j'); } 
+    void AlvikOKButton::press_action() { this->parent_->push_alvik_command('o'); } 
+    void AlvikCancelButton::press_action() { this->parent_->push_alvik_command('x'); } 
+    void AlvikCenterButton::press_action() { this->parent_->push_alvik_command('c'); } 
 
 }  // namespace alvik
 }  // namespace esphome
