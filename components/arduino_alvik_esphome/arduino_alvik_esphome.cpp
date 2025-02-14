@@ -170,7 +170,7 @@ namespace alvik {
                     // Loop priority 2: update sensor values towards HA
                     else
                     {
-                        if ((now() - this->last_sensor_time_) >= 1 * 1000)
+                        if ((now - this->last_sensor_time_) >= 1 * 1000)
                         {
                             if (this->battery_sensor_ != nullptr)
                                 this->battery_sensor_->publish_state(this->battery_soc);
@@ -182,7 +182,7 @@ namespace alvik {
                                 this->pose_y_sensor_->publish_state(this->robot_pose[1]);
                             if (this->pose_ang_sensor_ != nullptr)
                                 this->pose_ang_sensor_->publish_state(this->robot_pose[2]);
-                            this->last_sensor_time_=new;
+                            this->last_sensor_time_= now;
                         }
                     }
                 }
