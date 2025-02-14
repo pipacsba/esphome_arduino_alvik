@@ -47,37 +47,30 @@ CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
         cv.Optional(CONF_FORWARD_BUTTON): button.button_schema(
             AlvikForwardButton,
             device_class=DEVICE_CLASS_BUTTON ,
-            entity_category=ENTITY_CATEGORY_CONFIG,
         ),
         cv.Optional(CONF_BACKWARDS_BUTTON): button.button_schema(
             AlvikBackwardsdButton,
             device_class=DEVICE_CLASS_BUTTON ,
-            entity_category=ENTITY_CATEGORY_CONFIG,
         ),
         cv.Optional(CONF_TURNLEFT_BUTTON): button.button_schema(
             AlvikTurnLeftButton,
             device_class=DEVICE_CLASS_BUTTON ,
-            entity_category=ENTITY_CATEGORY_CONFIG,
         ),
         cv.Optional(CONF_TURNRIGHT_BUTTON): button.button_schema(
             AlvikTurnRightButton,
             device_class=DEVICE_CLASS_BUTTON ,
-            entity_category=ENTITY_CATEGORY_CONFIG,
         ),
         cv.Optional(CONF_OK_BUTTON): button.button_schema(
             AlvikOKButton,
             device_class=DEVICE_CLASS_BUTTON ,
-            entity_category=ENTITY_CATEGORY_CONFIG,
         ),
         cv.Optional(CONF_CANCEL_BUTTON): button.button_schema(
             AlvikCancelButton,
             device_class=DEVICE_CLASS_BUTTON ,
-            entity_category=ENTITY_CATEGORY_CONFIG,
         ),
         cv.Optional(CONF_CENTER_BUTTON): button.button_schema(
             AlvikCenterButton,
             device_class=DEVICE_CLASS_BUTTON ,
-            entity_category=ENTITY_CATEGORY_CONFIG,
         ),
       
     }
