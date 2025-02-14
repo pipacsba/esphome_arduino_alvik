@@ -25,13 +25,13 @@ from .. import (
     alvik_ns,
 )
 
-AlvikForwardButton = alvik_ns.class_("AlvikForwardButton", switch.Switch, cg.Component)
-AlvikBackwardsdButton = alvik_ns.class_("AlvikBackwardsdButton", switch.Switch, cg.Component)
-AlvikTurnLeftButton = alvik_ns.class_("AlvikTurnLeftButton", switch.Switch, cg.Component)
-AlvikTurnRightButton = alvik_ns.class_("AlvikTurnRightButton", switch.Switch, cg.Component)
-AlvikOKButton = alvik_ns.class_("AlvikOkButton", switch.Switch, cg.Component)
-AlvikCancelButton = alvik_ns.class_("AlvikCancelButton", switch.Switch, cg.Component)
-AlvikCenterButton = alvik_ns.class_("AlvikCenterButton", switch.Switch, cg.Component)
+AlvikForwardButton = alvik_ns.class_("AlvikForwardButton", button.Button, cg.Component)
+AlvikBackwardsdButton = alvik_ns.class_("AlvikBackwardsdButton", button.Button, cg.Component)
+AlvikTurnLeftButton = alvik_ns.class_("AlvikTurnLeftButton", button.Button, cg.Component)
+AlvikTurnRightButton = alvik_ns.class_("AlvikTurnRightButton", button.Button, cg.Component)
+AlvikOKButton = alvik_ns.class_("AlvikOkButton", button.Button, cg.Component)
+AlvikCancelButton = alvik_ns.class_("AlvikCancelButton", button.Button, cg.Component)
+AlvikCenterButton = alvik_ns.class_("AlvikCenterButton", button.Button, cg.Component)
 
 CONF_FORWARD_BUTTON = "forward_button"
 CONF_BACKWARDS_BUTTON = "backwards_button"
