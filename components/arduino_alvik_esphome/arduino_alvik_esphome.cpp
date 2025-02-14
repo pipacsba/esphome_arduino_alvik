@@ -145,7 +145,10 @@ namespace alvik {
                     {
                         if ((millis() - this->last_sensor_time_) >= 1 * 1000)
                         {
-                            
+                            if (this->battery_sensor_ != nullptr)
+                                this->battery_sensor_->publish_state(this->battery_soc);
+                            if (this->alvik_alive_sensor_ != nullptr)
+                                this->battery_sensor_->alvik_alive_sensor_(this->alvik_state_);
                         }
                     }
                 }
