@@ -134,8 +134,8 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     //uint8_t last_ack;
     //uint8_t waiting_ack;
 
-    uint8_t fw_version[3];
-    uint8_t lib_version[3];
+    std::array<uint8_t, 3> fw_version;
+    std::array<uint8_t, 3> lib_version;
 
     uint8_t led_state;
     int16_t line_sensors[3];
