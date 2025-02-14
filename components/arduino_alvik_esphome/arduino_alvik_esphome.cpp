@@ -215,7 +215,7 @@ namespace alvik {
         this->b = this->read();
         this->packeter->buffer.push(b);
         if (this->packeter->checkPayload()){
-            ESP_LOGD(TAG, "Incoming Message found!"); 
+            ESP_LOGVV(TAG, "Incoming Message found!"); 
             return true;
         }
       }
@@ -236,7 +236,7 @@ namespace alvik {
           {
             this->packeter->unpacketC1B(this->code, last_ack);
           }
-          ESP_LOGD(TAG, "Acknowledgement recieved!");
+          ESP_LOGVV(TAG, "Acknowledgement recieved!");
           break;
        
         // motion
@@ -355,6 +355,7 @@ namespace alvik {
         this->msg_size = this->packeter->packetC1F('R', angle);
         this->write_array(this->packeter->msg, this->msg_size);
         this->waiting_ack = 'R';
+        ESP_LOGD(TAG, "Rotate message sent!");
     }
 
     void AlvikComponent::set_servo_positions(const uint8_t a_position, const uint8_t b_position){
