@@ -95,120 +95,150 @@ namespace alvik {
         battery_soc = 0.0;
         battery_is_charging = false;
 
+        this->set_stm32_fw_compatible(false);
+        this->stm_pin_->pin_mode(FLAG_PULLDOWN);
+        this->nano_pin_->digital_write(false);
+        this->reset_pin_->digital_write(false);
+        
         this->flush();
         while (this->available()){
             this->read();
         }
 
-        this->set_stm32_fw_compatible(false);
-        this->nano_pin_->digital_write(false);
-
         this->alvik_state_ = ALVIK_STARTUP;
 
         this->last_command_time_ = 0;
         this->last_sensor_time_  = 0;
+        this->last_command_received_time_ = 0;
         this->alvik_command_list_.clear();
         
-        ESP_LOGD(TAG, "Setup is finished");
+        ESP_LOGD(TAG, "Setup is finished, STM32 is in reset");
     }
 
     void AlvikComponent::loop() {
         uint32_t now = millis();
+        uint8_t current_action;
         bool ison = this->stm32_pin_->digital_read();
-        if (ison & !this->stm32_is_on_)
+        if (ĭson & (this->alvik_state_ > ALVIK_HW_RESET))
         {
-            this->set_stm32_state(ison);
-            ESP_LOGD(TAG, "The STM32 is turned on!");
-            this->set_cycle(0);
-            this->waiting_ack = 0x00;
             this->alvik_state_ = 0;
+            this->cycle_ = 0
         }
-        else if (ison & this->stm32_is_on_)
+        switch(this->alvik_state_)
         {
-            // Loop priority 0: read incoming message
-            if (read_message())
-            {
-                parse_message();
-            }
-            else
-            {
-                
-                if (this->alvik_state_ > 1)
+            case ALVIK_STARTUP:
                 {
-                    // Loop priority 1: is there something to do?
-                    if ((this->alvik_command_list_.length() != 0 ) & ((now - this->last_command_time_) >= 3 * 1000) )
-                    {
-                        //do user requests
-                        char c = this->alvik_command_list_[0];
-                        if (c == 0x65) // e
-                        {
-                            this->move(150);
+                    if (this->cycle_ == 0)
+                    {    
+                        this->reset_pin_->digital_write(false);
+                        this->flush();
+                        while (this->available()){
+                            this->read();
                         }
-                        else if (c == 0x68) // h
-                        {
-                            this->move(-150);
-                        }
-                        else if (c == 0x6a) // j
-                        {
-                            this->rotate(90);
-                        }
-                        else if (c == 0x62) // b
-                        {
-                            this->rotate(-90);
-                        }
-                        //clear the fulfilled request
-                        if (this->alvik_command_list_.length() > 1)
-                        {
-                            this->alvik_command_list_ = this->alvik_command_list_.substr(1);
-                        }
-                        else
-                        {
-                            this->alvik_command_list_.clear();
-                        }
-                        this->last_command_time_ = now;
                     }
-                    // Loop priority 2: update sensor values towards HA
-                    else
+                    this->cycle_ = this->cycle_ + 1;
+                    if (this->cycle_ == 100)
                     {
-                        if ((now - this->last_sensor_time_) >= 1 * 1000)
-                        {
-                            if (this->battery_sensor_ != nullptr)
-                                this->battery_sensor_->publish_state(this->battery_soc);
-                            if (this->alvik_alive_sensor_ != nullptr)
-                                this->alvik_alive_sensor_->publish_state(this->alvik_state_);
-                            if (this->pose_x_sensor_ != nullptr)
-                                this->pose_x_sensor_->publish_state(this->robot_pose[0]);
-                            if (this->pose_y_sensor_ != nullptr)
-                                this->pose_y_sensor_->publish_state(this->robot_pose[1]);
-                            if (this->pose_ang_sensor_ != nullptr)
-                                this->pose_ang_sensor_->publish_state(this->robot_pose[2]);
-                            this->last_sensor_time_= now;
-                        }
+                        this->reset_pin_->digital_write(true);
+                        this->alvik_state_ = ALVIK_HW_RESET;
                     }
                 }
-                else
+            case ALVIK_HW_RESET:
                 {
+                    if (ison)
+                    {
+                        this->set_stm32_state(ison);
+                        ESP_LOGD(TAG, "STM32 is up again");
+                        this->set_cycle(0);
+                        this->waiting_ack = 0x00;
+                        this->alvik_state_ = ALVIK_STM32_UP;
+                    }
+                }
+            case ALVIK_STM32_UP:
+                {
+                    if (read_message())
+                    {
+                        parse_message();
+                    }
                     if (this->last_ack == this->waiting_ack)
                     {
-                        this->alvik_state_ = 1;
+                        this->alvik_state_ = ALVIK_FIRST_ACK;
                         ESP_LOGD(TAG, "Wait_for_Ack completed!");
+                    }
+                }
+            case ALVIK_FIRST_ACK:
+                {
+                    if (read_message())
+                    {
+                        parse_message();
                     }
                     if (this->alvik_state_ == 1  & this->stm32_fw_compatible_)
                     {
                         this->alvik_state_ = 2;
                     }
                 }
-                
-            }
-            
-            //this is were we can do something with the Alvik
+            case ALVIK_FW_COMPATIBLE:
+                {
+                    this->cycle_ = this->cycle_ + 1;
+                    current_action = this->cycle_ % 3;
+                    switch (current_action):
+                    {
+                        case ACTION_READ_UART:
+                            if (read_message())
+                            {
+                                parse_message();
+                            }
+                        case ACTION_DO_COMMAND:
+                            if ((this->alvik_command_list_.length() != 0 ) & ((now - this->last_command_time_) >= 3 * 1000) )
+                            {
+                                //do user requests
+                                char c = this->alvik_command_list_[0];
+                                if (c == 0x65) // e
+                                {
+                                    this->move(150);
+                                }
+                                else if (c == 0x68) // h
+                                {
+                                    this->move(-150);
+                                }
+                                else if (c == 0x6a) // j
+                                {
+                                    this->rotate(90);
+                                }
+                                else if (c == 0x62) // b
+                                {
+                                    this->rotate(-90);
+                                }
+                                //clear the fulfilled request
+                                if (this->alvik_command_list_.length() > 1)
+                                {
+                                    this->alvik_command_list_ = this->alvik_command_list_.substr(1);
+                                }
+                                else
+                                {
+                                    this->alvik_command_list_.clear();
+                                }
+                                this->last_command_time_ = now;
+                            }
+                        case ACTION_WRITE_SENSOR:
+                            if ((now - this->last_sensor_time_) >= 1 * 1000)
+                            {
+                                if (this->battery_sensor_ != nullptr)
+                                    this->battery_sensor_->publish_state(this->battery_soc);
+                                if (this->alvik_alive_sensor_ != nullptr)
+                                    this->alvik_alive_sensor_->publish_state(this->alvik_state_);
+                                if (this->pose_x_sensor_ != nullptr)
+                                    this->pose_x_sensor_->publish_state(this->robot_pose[0]);
+                                if (this->pose_y_sensor_ != nullptr)
+                                    this->pose_y_sensor_->publish_state(this->robot_pose[1]);
+                                if (this->pose_ang_sensor_ != nullptr)
+                                    this->pose_ang_sensor_->publish_state(this->robot_pose[2]);
+                                this->last_sensor_time_= now;
+                            }
+                    }
+                }
         }
-        else if  (!ison & this->stm32_is_on_)
-        {
-            this->set_stm32_state(ison);
-            ESP_LOGD(TAG, "The STM32 is turned off!");
-            this->alvik_state_ = 1;
-        }
+
     }
 
     bool AlvikComponent::read_message(){                                               //it is private
@@ -298,6 +328,8 @@ namespace alvik {
         // get data from touch pads: any, ok, delete, center, left, down, right, up
         case 't':
             this->packeter->unpacketC1B(this->code, touch);
+            if ((millis() - this->last_command_received_time_) >= 500)
+            {
                 // Any:    0b00000001;
                 // OK:     0b00000010; o: OK
                 // Cancel: 0b00000100; x: Cancel
@@ -320,6 +352,7 @@ namespace alvik {
                     alvik_command_list_.push_back('h'); // h: Backwards (Ha'tra)
                 if (touch & 0b10000000)
                     alvik_command_list_.push_back('j'); // j: Turn Right (Jobbra)
+            }
             break;   
         
         // get fw_version: Up, Mid, Low
