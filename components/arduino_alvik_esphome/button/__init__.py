@@ -34,13 +34,13 @@ AlvikOKButton = alvik_ns.class_("AlvikOkButton", button.Button, cg.Component)
 AlvikCancelButton = alvik_ns.class_("AlvikCancelButton", button.Button, cg.Component)
 AlvikCenterButton = alvik_ns.class_("AlvikCenterButton", button.Button, cg.Component)
 
-CONF_FORWARD_BUTTON = "forward_button"
-CONF_BACKWARDS_BUTTON = "backwards_button"
-CONF_TURNLEFT_BUTTON = "turn_left_button"
-CONF_TURNRIGHT_BUTTON = "turn_right_button"
-CONF_OK_BUTTON = "ok_button"
-CONF_CANCEL_BUTTON = "cancel_button"
-CONF_CENTER_BUTTON = "center_button"
+CONF_FORWARD_BUTTON = "move_forward"
+CONF_BACKWARDS_BUTTON = "move_backwards"
+CONF_TURNLEFT_BUTTON = "turn_left"
+CONF_TURNRIGHT_BUTTON = "turn_right"
+CONF_OK_BUTTON = "ok"
+CONF_CANCEL_BUTTON = "cancel"
+CONF_CENTER_BUTTON = "center"
 
 CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
     {
