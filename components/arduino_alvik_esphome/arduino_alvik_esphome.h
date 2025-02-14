@@ -53,8 +53,13 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void dump_config() override;
     void set_check_stm32_pin(GPIOPin *pin) { stm32_pin_ = pin; };
     void set_check_nano_pin(GPIOPin *pin) { nano_pin_ = pin; };
+    void set_reset_stm32_pin(GPIOPin *pin) { reset_pin_ = pin; };
+
+
     void set_stm32_state(bool ison) { stm32_is_on_ = ison; }
     void set_cycle(int a_cycle) { cycle_ = a_cycle; };
+
+    set_reset_stm32_pin
 
     void loop() override;
 
@@ -143,6 +148,8 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
 
     GPIOPin *stm32_pin_{nullptr};
     GPIOPin *nano_pin_{nullptr};
+    GPIOPin *reset_pin_{nullptr};
+
     bool stm32_is_on_;
     bool stm32_fw_compatible_;
 
