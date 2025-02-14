@@ -36,6 +36,10 @@ namespace alvik {
         fw_version[0] = 0;
         fw_version[1] = 0;
         fw_version[2] = 0;
+
+        lib_version[0] = 1;
+        lib_version[1] = 1;
+        lib_version[2] = 0;
         
         led_state = 0;
         
@@ -247,6 +251,10 @@ namespace alvik {
         // get fw_version: Up, Mid, Low
         case 0x7E:
           this->packeter->unpacketC3B(this->code, fw_version[0], fw_version[1], fw_version[2]);
+          if (fw_version == lib_version)
+              { this->set_stm32_fw_compatible(true); }
+          else
+              { this->set_stm32_fw_compatible(true); }
           break;
     
         // get battery parcentage: state of charge
