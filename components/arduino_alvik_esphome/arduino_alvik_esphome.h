@@ -117,7 +117,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
 
     //0: init
     //1: first ackarrived
-    int alvik_state;
+    int alvik_state_;
 
     GPIOPin *stm32_pin_{nullptr};
     GPIOPin *nano_pin_{nullptr};
