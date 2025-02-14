@@ -86,7 +86,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void get_gyros(float & x, float & y, float & z);
     void get_imu(float & ax, float & ay, float & az, float & gx, float & gy, float & gz);
     bool get_shake();
-    String get_tilt();
+    // String get_tilt();
 
     void get_distance(float & left, float & center_left, float & center, float & center_right, float & right);
     float get_distance_top();
@@ -111,7 +111,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
 
     void set_behaviour(const uint8_t behaviour);
     
-    void get_version(uint8_t & upper, uint8_t & middle, uint8_t & lower, const String version="fw");
+    void get_version(uint8_t & upper, uint8_t & middle, uint8_t & lower);
     void get_fw_version(uint8_t & upper, uint8_t & middle, uint8_t & lower);
     void get_lib_version(uint8_t & upper, uint8_t & middle, uint8_t & lower);
     void get_required_fw_version(uint8_t & upper, uint8_t & middle, uint8_t & lower);
