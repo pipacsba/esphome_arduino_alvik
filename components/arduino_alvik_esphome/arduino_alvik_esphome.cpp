@@ -390,10 +390,15 @@ namespace alvik {
         }
     }    
 
-    void AlvikEnableSwitch::write_state(bool state)
-    {
-        
-    }
+    void AlvikEnableSwitch::write_state(bool state) {}
+
+    void AlvikForwardButton::press_action() { this->parent_->alvik_command_list_.push_back('e'); } 
+    void AlvikBackwardsdButton::press_action() { this->parent_->alvik_command_list_.push_back('h'); } 
+    void AlvikTurnLeftButton::press_action() { this->parent_->alvik_command_list_.push_back('b'); } 
+    void AlvikTurnRightButton::press_action() { this->parent_->alvik_command_list_.push_back('j'); } 
+    void AlvikOKButton::press_action() { this->parent_->alvik_command_list_.push_back('o'); } 
+    void AlvikCancelButton::press_action() { this->parent_->alvik_command_list_.push_back('x'); } 
+    void AlvikCenterButton::press_action() { this->parent_->alvik_command_list_.push_back('c'); } 
 
 }  // namespace alvik
 }  // namespace esphome
