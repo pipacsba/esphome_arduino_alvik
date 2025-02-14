@@ -17,6 +17,7 @@ from esphome.const import (
     UNIT_PERCENT,
     STATE_CLASS_MEASUREMENT,
     DEVICE_CLASS_SWITCH,
+    DEVICE_CLASS_BUTTON,
 )
 
 from .. import (
