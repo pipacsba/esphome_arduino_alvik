@@ -188,6 +188,10 @@ namespace alvik {
                             {
                                 parse_message();
                             }
+                            if (read_message())
+                            {
+                                parse_message();
+                            }
                         case ACTION_DO_COMMAND:
                             if ((this->alvik_command_list_.length() != 0 ) & ((now - this->last_command_time_) >= 3 * 1000) )
                             {
