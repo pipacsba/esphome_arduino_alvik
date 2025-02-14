@@ -362,7 +362,8 @@ namespace alvik {
     void AlvikComponent::dump_config() {
         ESP_LOGCONFIG(TAG, "AlvikComponent  :");
         ESP_LOGCONFIG(TAG, "   current state  :");
-        switch (this->alvik_state_):
+        switch (this->alvik_state_)
+        {
             case 0:
                 if (this->stm32_is_on_)
                 {
@@ -376,8 +377,11 @@ namespace alvik {
                 ESP_LOGCONFIG(TAG, "       STM32 is on, firmware version check is ongoing");
             case 2:
                 ESP_LOGCONFIG(TAG, "       STM32 is on, firmware version check is done, ready for action");
+        }
         if (this->battery_sensor_ != nullptr)
+        {
             ESP_LOGCONFIG(TAG, "   Battery status is : %.0f", this->battery_sensor_->get_state());
+        }
     }    
 
     void AlvikEnableSwitch::write_state(bool state)
