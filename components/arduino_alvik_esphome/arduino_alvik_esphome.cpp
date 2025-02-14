@@ -104,6 +104,8 @@ namespace alvik {
         this->nano_pin_->digital_write(false);
 
         this->alvik_state_ = 0;
+
+        this->last_command_time_ = 0;
         
         ESP_LOGD(TAG, "Setup is finished");
     }
