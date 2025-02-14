@@ -80,7 +80,7 @@ async def to_code(config):
         b = await button.new_button(cancel_config)
         await cg.register_parented(b, config[CONF_ALVIK_ID])
         cg.add(alvik_id.set_cancel_button(b))
-    if ok_config := config.get(CONF_TURNRIGHT_BUTTON):
+    if ok_config := config.get(CONF_OK_BUTTON):
         b = await button.new_button(ok_config)
         await cg.register_parented(b, config[CONF_ALVIK_ID])
         cg.add(alvik_id.set_ok_button(b))
