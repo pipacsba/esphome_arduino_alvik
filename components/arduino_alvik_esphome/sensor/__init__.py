@@ -29,6 +29,9 @@ from .. import (
 
 CONF_BATTERY_CHARGE_SENSOR = "battery_charge"
 CONF_ALIVE_SENSOR = "alvik_alive"
+CONF_ALVIK_POSE_X_SENSOR = "alvik_x_pose"
+CONF_ALVIK_POSE_Y_SENSOR = "alvik_y_pose"
+CONF_ALVIK_POSE_ANG_SENSOR = "alvik_ang_pose"
 
 CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
     {
@@ -38,6 +41,18 @@ CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
             state_class=STATE_CLASS_MEASUREMENT,
         ),
         cv.Optional(CONF_ALIVE_SENSOR): sensor.sensor_schema(
+        ),
+        cv.Optional(CONF_ALVIK_POSE_X_SENSOR): sensor.sensor_schema(
+            unit_of_measurement=UNIT_MILLIMETER,
+            state_class=STATE_CLASS_MEASUREMENT,
+        ),
+        cv.Optional(CONF_ALVIK_POSE_Y_SENSOR): sensor.sensor_schema(
+            unit_of_measurement=UNIT_MILLIMETER,
+            state_class=STATE_CLASS_MEASUREMENT,
+        ),
+        cv.Optional(CONF_ALVIK_POSE_ANG_SENSOR): sensor.sensor_schema(
+            unit_of_measurement=UNIT_DEGREES,
+            state_class=STATE_CLASS_MEASUREMENT,
         ),
     }
 )
@@ -51,3 +66,12 @@ async def to_code(config):
     if alive_sensor_config := config.get(CONF_ALIVE_SENSOR):
         sens = await sensor.new_sensor(alive_sensor_config)
         cg.add(alvik_id.set_alive_sensor(sens))
+    if pose_x_config := config.get(CONF_ALVIK_POSE_X_SENSOR):
+        sens = await sensor.new_sensor(pose_x_config)
+        cg.add(alvik_id.set_pose_x_sensor(sens))
+    if pose_y_config := config.get(CONF_ALVIK_POSE_Y_SENSOR):
+        sens = await sensor.new_sensor(pose_y_config)
+        cg.add(alvik_id.set_pose_y_sensor(sens))
+    if pose_ang_config := config.get(CONF_ALVIK_POSE_ANG_SENSOR):
+        sens = await sensor.new_sensor(pose_ang_config)
+        cg.add(alvik_id.set_pose_ang_sensor(sens))
