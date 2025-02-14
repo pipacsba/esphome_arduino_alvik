@@ -357,6 +357,7 @@ namespace alvik {
                     alvik_command_list_.push_back('h'); // h: Backwards (Ha'tra)
                 if (touch & 0b10000000)
                     alvik_command_list_.push_back('j'); // j: Turn Right (Jobbra)
+                this->this->last_command_received_time_ = millis();
             }
             break;   
         
