@@ -74,7 +74,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void reset_pose(const float x = 0.0, const float y = 0.0, const float theta = 0.0);
 
     bool is_target_reached();
-    void rotate(const float angle, const bool blocking = true);
+    void rotate(const float angle);
     void move(const float distance);   // distance [mm]
 
     void brake();
