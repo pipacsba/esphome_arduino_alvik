@@ -100,6 +100,7 @@ namespace alvik {
             this->read();
         }
 
+        this->set_stm32_fw_compatible(false);
         this->nano_pin_->digital_write(false);
 
         this->alvik_state = 0;
