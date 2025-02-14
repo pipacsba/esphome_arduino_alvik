@@ -103,7 +103,7 @@ namespace alvik {
         this->set_stm32_fw_compatible(false);
         this->nano_pin_->digital_write(false);
 
-        this->alvik_state = 0;
+        this->alvik_state_ = 0;
         
         ESP_LOGD(TAG, "Setup is finished");
     }
@@ -117,35 +117,33 @@ namespace alvik {
             ESP_LOGD(TAG, "The STM32 is turned on!");
             this->set_cycle(0);
             this->waiting_ack = 0x00;
-            this->alvik_state = 0;
+            this->alvik_state_ = 0;
         }
         else if (ison & this->stm32_is_on_)
         {
+            // Loop priority 0: read incoming message
             if (read_message())
             {
                 parse_message();
             }
+            // Loop priority 1: is there something to do?
             else
             {
-                if (this->alvik_state >0)
+                
+                if (this->alvik_state_ > 1)
                 {
-                    this->set_cycle(this->cycle_ + 1);
-                    //ESP_LOGD(TAG, "Alvik cycle is %d", this->cycle_);
-                    if (this->cycle_ == 1500)
-                    {
-                        this->set_servo_positions(0,0);
-                    }
-                    if (this->cycle_ == 2000)
-                    {
-                        this->move(100);
-                    }
+                    //do user requests
                 }
                 else
                 {
                     if (this->last_ack == this->waiting_ack)
                     {
-                        this->alvik_state = 1;
+                        this->alvik_state_ = 1;
                         ESP_LOGD(TAG, "Wait_for_Ack completed!");
+                    }
+                    if (this->alvik_state_ == 1  & this->stm32_fw_compatible_)
+                    {
+                        this->alvik_state_ = 2;
                     }
                 }
                 
@@ -155,8 +153,9 @@ namespace alvik {
         }
         else if  (!ison & this->stm32_is_on_)
         {
-           this->set_stm32_state(ison);
-           ESP_LOGD(TAG, "The STM32 is turned off!");            
+            this->set_stm32_state(ison);
+            ESP_LOGD(TAG, "The STM32 is turned off!");
+            this->alvik_state_ = 1;
         }
     }
 
