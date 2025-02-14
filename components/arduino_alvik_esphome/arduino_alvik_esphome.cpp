@@ -368,7 +368,7 @@ namespace alvik {
 
     void AlvikComponent::dump_config() {
         ESP_LOGCONFIG(TAG, "AlvikComponent  :");
-        ESP_LOGCONFIG(TAG, "   current state  :");
+        ESP_LOGCONFIG(TAG, "   current state  : %d", this->alvik_state_);
         switch (this->alvik_state_)
         {
             case 0:
