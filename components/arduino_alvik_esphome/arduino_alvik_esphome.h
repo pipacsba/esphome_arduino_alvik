@@ -228,7 +228,7 @@ class AlvikEnableSwitch : public switch_::Switch, public Parented<AlvikComponent
 
 class AlvikForwardButton : public button::Button, public Parented<AlvikComponent> {
  public:
-  QueryButton() = default;
+  AlvikForwardButton() = default;
 
  protected:
   void press_action() override;
@@ -236,7 +236,7 @@ class AlvikForwardButton : public button::Button, public Parented<AlvikComponent
 
 class AlvikBackwardsdButton : public button::Button, public Parented<AlvikComponent> {
  public:
-  QueryButton() = default;
+  AlvikBackwardsdButton() = default;
 
  protected:
   void press_action() override;
@@ -244,7 +244,7 @@ class AlvikBackwardsdButton : public button::Button, public Parented<AlvikCompon
 
 class AlvikTurnLeftButton : public button::Button, public Parented<AlvikComponent> {
  public:
-  QueryButton() = default;
+  AlvikTurnLeftButton() = default;
 
  protected:
   void press_action() override;
@@ -252,7 +252,7 @@ class AlvikTurnLeftButton : public button::Button, public Parented<AlvikComponen
 
 class AlvikTurnRightButton : public button::Button, public Parented<AlvikComponent> {
  public:
-  QueryButton() = default;
+  AlvikTurnRightButton() = default;
 
  protected:
   void press_action() override;
@@ -260,7 +260,7 @@ class AlvikTurnRightButton : public button::Button, public Parented<AlvikCompone
 
 class AlvikOKButton : public button::Button, public Parented<AlvikComponent> {
  public:
-  QueryButton() = default;
+  AlvikOKButton() = default;
 
  protected:
   void press_action() override;
@@ -268,7 +268,7 @@ class AlvikOKButton : public button::Button, public Parented<AlvikComponent> {
 
 class AlvikCancelButton : public button::Button, public Parented<AlvikComponent> {
  public:
-  QueryButton() = default;
+  AlvikCancelButton() = default;
 
  protected:
   void press_action() override;
@@ -276,7 +276,7 @@ class AlvikCancelButton : public button::Button, public Parented<AlvikComponent>
 
 class AlvikCenterButton : public button::Button, public Parented<AlvikComponent> {
  public:
-  QueryButton() = default;
+  AlvikCenterButton() = default;
 
  protected:
   void press_action() override;
