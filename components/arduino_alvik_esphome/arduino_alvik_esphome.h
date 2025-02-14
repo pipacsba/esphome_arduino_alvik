@@ -142,7 +142,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     //0: init
     //1: first ack arrived
     //2: firmware compatible
-    int alvik_state_;
+    uint8_t alvik_state_;
 
     GPIOPin *stm32_pin_{nullptr};
     GPIOPin *nano_pin_{nullptr};
