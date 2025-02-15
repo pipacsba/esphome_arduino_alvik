@@ -444,5 +444,12 @@ namespace alvik {
     void AlvikCancelButton::press_action() { this->parent_->push_alvik_command('x'); } 
     void AlvikCenterButton::press_action() { this->parent_->push_alvik_command('c'); } 
 
+    void AlvikResetButton::press_action() 
+    { 
+        this->parent_->set_alvik_state(ALVIK_STARTUP);
+        this->set_cycle(0); 
+    } 
+
+
 }  // namespace alvik
 }  // namespace esphome
