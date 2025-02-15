@@ -215,7 +215,7 @@ namespace alvik {
                         case TASK_PERFORM_ACTION:
                             if (this->alvik_action_ == ACTION_PERFORM_COMMAND_LIST)
                             {
-                                this->do_one_item_from_command_list();
+                                this->do_one_item_from_command_list(now);
                             }
                             if (this->alvik_action_ == ACTION_COLLECT_COMMAND_LIST)
                             {
@@ -251,7 +251,7 @@ namespace alvik {
 
     }
 
-    void AlvikComponent::do_one_item_from_command_list()
+    void AlvikComponent::do_one_item_from_command_list(uint32_t now)
     {
         if ((this->alvik_command_list_.length() != 0 ) & ((now - this->last_command_time_) >= 3 * 1000) )
         {
