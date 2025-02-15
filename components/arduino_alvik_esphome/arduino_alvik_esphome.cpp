@@ -193,6 +193,7 @@ namespace alvik {
                         this->set_behaviour(BEHAVIOUR_ILLUMINATOR_RISE);
                         this->set_behaviour(BEHAVIOUR_BATTERY_ALERT);
                         this->set_servo_positions(0,0);
+                        this->yaw_est = this->orientation[2];
                         this->alvik_action_= ACTION_PERFORM_COMMAND_LIST;
                     }
                     break;
