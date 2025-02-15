@@ -37,6 +37,7 @@ CONF_ALVIK_POSE_ANG_SENSOR = "alvik_ang_pose"
 CONF_ALVIK_ROLL_SENSOR = "alvik_roll"
 CONF_ALVIK_PITCH_SENSOR = "alvik_pitch"
 CONF_ALVIK_YAW_SENSOR = "alvik_yaw"
+CONF_ALVIK_YAW_EST_SENSOR = "alvik_yaw_estimated"
 
 CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
     {
@@ -71,6 +72,10 @@ CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
             unit_of_measurement=UNIT_DEGREES,
             state_class=STATE_CLASS_MEASUREMENT,
         ),
+        cv.Optional(CONF_ALVIK_YAW_EST_SENSOR): sensor.sensor_schema(
+            unit_of_measurement=UNIT_DEGREES,
+            state_class=STATE_CLASS_MEASUREMENT,
+        ),
     }
 )
 
@@ -101,3 +106,6 @@ async def to_code(config):
     if yaw_config := config.get(CONF_ALVIK_YAW_SENSOR):
         sens = await sensor.new_sensor(yaw_config)
         cg.add(alvik_id.set_yaw_sensor(sens))
+    if yaw_est_config := config.get(CONF_ALVIK_YAW_EST_SENSOR):
+        sens = await sensor.new_sensor(yaw_est_config)
+        cg.add(alvik_id.set_yaw_est_sensor(sens))
