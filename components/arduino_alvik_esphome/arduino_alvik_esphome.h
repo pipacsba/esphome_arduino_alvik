@@ -153,6 +153,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
 
     void set_builtin_led(const bool value);
     void set_illuminator(const bool value);
+    void set_leds();  
 
     void set_servo_positions(const uint8_t a_position, const uint8_t b_position);
     void get_servo_positions(int & a_position, int & b_position);
