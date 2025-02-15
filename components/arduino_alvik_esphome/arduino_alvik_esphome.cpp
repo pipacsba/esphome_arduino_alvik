@@ -285,7 +285,7 @@ namespace alvik {
             else
             {
                 this->alvik_command_list_.clear();
-                this->change_alvik_left_right_leds(1, false);
+                this->change_alvik_left_right_leds(0xff, false);
             }
             this->last_command_time_ = now;
         }
