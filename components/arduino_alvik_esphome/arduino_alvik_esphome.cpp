@@ -389,35 +389,19 @@ namespace alvik {
                 // Down:   0b01000000; h: Backwards (Ha'tra)
                 // Right   0b10000000; j: Turn Right (Jobbra)
                 if (touch & 0b00000010)
-                    {
-                        //alvik_command_list_.push_back('o'); // o: OK
-                        this->alvik_action_= ACTION_PERFORM_COMMAND_LIST;
-                        this->led_state= 0;
-                        this->change_alvik_left_right_leds(LEFT_BLUE + RIGHT_BLUE, true);
-                    }
+                    this->ok_button_action();
                 if (touch & 0b00000100)
-                    {
-                        //alvik_command_list_.push_back('x'); // x: Cancel
-                        this->alvik_command_list_.clear();
-                        this->change_alvik_left_right_leds(LEFT_RED + RIGHT_RED, true);
-                    }
+                    this->cancel_button_action();
                 if (touch & 0b00001000)
-                    {
-                        //alvik_command_list_.push_back('c'); // c: Center
-                        if (this->alvik_action_ == ACTION_PERFORM_COMMAND_LIST)
-                        {
-                            this->alvik_action_= ACTION_COLLECT_COMMAND_LIST;
-                            this->change_alvik_left_right_leds(LEFT_GREEN + RIGHT_GREEN, true);
-                        }
-                    }
+                    this->center_button_action();
                 if (touch & 0b00010000)
-                    alvik_command_list_.push_back('e'); // e: Forward (Elo"re)
+                    this->forward_button_action();
                 if (touch & 0b00100000)
-                    alvik_command_list_.push_back('b'); // b: Turn Left (Balra)
+                    this->left_button_action();
                 if (touch & 0b01000000)
-                    alvik_command_list_.push_back('h'); // h: Backwards (Ha'tra)
+                    this->backwards_button_action();
                 if (touch & 0b10000000)
-                    alvik_command_list_.push_back('j'); // j: Turn Right (Jobbra)
+                    this->right_button_action();
                 if (touch & 0b00000001)
                     this->last_command_received_time_ = millis();
             }
@@ -444,6 +428,45 @@ namespace alvik {
           return -1;
       }
       return 0;
+    }
+
+    void AlvikComponent::center_button_action()
+    {
+        //alvik_command_list_.push_back('c'); // c: Center
+        if (this->alvik_action_ == ACTION_PERFORM_COMMAND_LIST)
+        {
+            this->alvik_action_= ACTION_COLLECT_COMMAND_LIST;
+            this->change_alvik_left_right_leds(LEFT_GREEN + RIGHT_GREEN, true);
+        }
+    }
+    void AlvikComponent::cancel_button_action()
+    {
+        //alvik_command_list_.push_back('x'); // x: Cancel
+        this->alvik_command_list_.clear();
+        this->change_alvik_left_right_leds(LEFT_RED + RIGHT_RED, true);
+    }
+    void AlvikComponent::ok_button_action()
+    {
+        //alvik_command_list_.push_back('o'); // o: OK
+        this->alvik_action_= ACTION_PERFORM_COMMAND_LIST;
+        this->led_state= 0;
+        this->change_alvik_left_right_leds(LEFT_BLUE + RIGHT_BLUE, true);
+    }
+    void AlvikComponent::forward_button_action()
+    {
+        alvik_command_list_.push_back('e'); // e: Forward (Elo"re)
+    }
+    void AlvikComponent::backwards_button_action()
+    {
+        alvik_command_list_.push_back('h'); // h: Backwards (Ha'tra)
+    }
+    void AlvikComponent::left_button_action()
+    {
+        alvik_command_list_.push_back('b'); // b: Turn Left (Balra)
+    }
+    void AlvikComponent::right_button_action()
+    {
+        alvik_command_list_.push_back('j'); // j: Turn Right (Jobbra)
     }
 
     void AlvikComponent::move(const float distance){
@@ -526,13 +549,14 @@ namespace alvik {
 
     void AlvikEnableSwitch::write_state(bool state) {}
 
-    void AlvikForwardButton::press_action() { this->parent_->push_alvik_command('e'); } 
-    void AlvikBackwardsdButton::press_action() { this->parent_->push_alvik_command('h'); } 
-    void AlvikTurnLeftButton::press_action() { this->parent_->push_alvik_command('b'); } 
-    void AlvikTurnRightButton::press_action() { this->parent_->push_alvik_command('j'); } 
-    void AlvikOKButton::press_action() { this->parent_->push_alvik_command('o'); } 
-    void AlvikCancelButton::press_action() { this->parent_->push_alvik_command('x'); } 
-    void AlvikCenterButton::press_action() { this->parent_->push_alvik_command('c'); } 
+
+    void AlvikForwardButton::press_action() { this->parent_->forward_button_action(); } 
+    void AlvikBackwardsdButton::press_action() { this->parent_->backwards_button_action(); } 
+    void AlvikTurnLeftButton::press_action() { this->parent_->left_button_action(); } 
+    void AlvikTurnRightButton::press_action() { this->parent_->right_button_action(); } 
+    void AlvikOKButton::press_action() { this->parent_->ok_button_action(); } 
+    void AlvikCancelButton::press_action() { this->parent_->cancel_button_action(); } 
+    void AlvikCenterButton::press_action() { this->parent_->center_button_action(); } 
 
     void AlvikResetButton::press_action() 
     { 
