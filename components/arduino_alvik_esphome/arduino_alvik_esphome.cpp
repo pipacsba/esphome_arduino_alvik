@@ -444,7 +444,7 @@ namespace alvik {
       else{
         this->led_state &= ~1<<1;
       }
-      thi->set_leds();
+      this->set_leds();
     }
 
     void AlvikComponent::set_leds(){                                                   //it is private
