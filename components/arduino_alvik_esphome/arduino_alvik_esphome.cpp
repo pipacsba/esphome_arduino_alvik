@@ -135,12 +135,16 @@ namespace alvik {
                         while (this->available()){
                             this->read();
                         }
+                        if (this->alvik_alive_sensor_ != nullptr)
+                            this->alvik_alive_sensor_->publish_state(this->alvik_state_);
                     }
                     this->cycle_ = this->cycle_ + 1;
-                    if (this->cycle_ == 100)
+                    if (this->cycle_ == 200)
                     {
                         this->reset_pin_->digital_write(true);
                         this->alvik_state_ = ALVIK_HW_RESET;
+                        if (this->alvik_alive_sensor_ != nullptr)
+                            this->alvik_alive_sensor_->publish_state(this->alvik_state_);
                     }
                 }
             case ALVIK_HW_RESET:
@@ -152,6 +156,8 @@ namespace alvik {
                         this->set_cycle(0);
                         this->waiting_ack = 0x00;
                         this->alvik_state_ = ALVIK_STM32_UP;
+                        if (this->alvik_alive_sensor_ != nullptr)
+                            this->alvik_alive_sensor_->publish_state(this->alvik_state_);
                     }
                 }
             case ALVIK_STM32_UP:
@@ -164,6 +170,8 @@ namespace alvik {
                     {
                         this->alvik_state_ = ALVIK_FIRST_ACK;
                         ESP_LOGD(TAG, "Wait_for_Ack completed!");
+                        if (this->alvik_alive_sensor_ != nullptr)
+                            this->alvik_alive_sensor_->publish_state(this->alvik_state_);
                     }
                 }
             case ALVIK_FIRST_ACK:
