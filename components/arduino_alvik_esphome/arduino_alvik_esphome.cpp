@@ -213,37 +213,7 @@ namespace alvik {
                             }
                             break;
                         case TASK_PERFORM_ACTION:
-                            if ((this->alvik_command_list_.length() != 0 ) & ((now - this->last_command_time_) >= 3 * 1000) )
-                            {
-                                //do user requests
-                                char c = this->alvik_command_list_[0];
-                                if (c == 0x65) // e
-                                {
-                                    this->move(150);
-                                }
-                                else if (c == 0x68) // h
-                                {
-                                    this->move(-150);
-                                }
-                                else if (c == 0x6a) // j
-                                {
-                                    this->rotate(-90);
-                                }
-                                else if (c == 0x62) // b
-                                {
-                                    this->rotate(90);
-                                }
-                                //clear the fulfilled request
-                                if (this->alvik_command_list_.length() > 1)
-                                {
-                                    this->alvik_command_list_ = this->alvik_command_list_.substr(1);
-                                }
-                                else
-                                {
-                                    this->alvik_command_list_.clear();
-                                }
-                                this->last_command_time_ = now;
-                            }
+
                             break;
                         case TASK_WRITE_SENSOR:
                             if ((now - this->last_sensor_time_) >= 1 * 1000)
@@ -269,6 +239,42 @@ namespace alvik {
                 }
         }
 
+    }
+
+    void do_one_item_from_command_list()
+    {
+        if ((this->alvik_command_list_.length() != 0 ) & ((now - this->last_command_time_) >= 3 * 1000) )
+        {
+            //do user requests
+            char c = this->alvik_command_list_[0];
+            if (c == 0x65) // e
+            {
+                this->move(150);
+            }
+            else if (c == 0x68) // h
+            {
+                this->move(-150);
+            }
+            else if (c == 0x6a) // j
+            {
+                this->rotate(-90);
+            }
+            else if (c == 0x62) // b
+            {
+                this->rotate(90);
+            }
+            //clear the fulfilled request
+            if (this->alvik_command_list_.length() > 1)
+            {
+                this->alvik_command_list_ = this->alvik_command_list_.substr(1);
+            }
+            else
+            {
+                this->alvik_command_list_.clear();
+                this->change_alvik_left_right_leds(0, true);
+            }
+            this->last_command_time_ = now;
+        }
     }
 
     bool AlvikComponent::read_message(){                                               //it is private
@@ -369,11 +375,27 @@ namespace alvik {
                 // Down:   0b01000000; h: Backwards (Ha'tra)
                 // Right   0b10000000; j: Turn Right (Jobbra)
                 if (touch & 0b00000010)
-                    alvik_command_list_.push_back('o'); // o: OK
+                    {
+                        //alvik_command_list_.push_back('o'); // o: OK
+                        this->alvik_action_= ACTION_PERFORM_COMMAND_LIST;
+                        this->change_alvik_left_right_leds(0, true);
+                        this->change_alvik_left_right_leds(LEFT_BLUE & RIGHT_BLUE, true);
+                    }
                 if (touch & 0b00000100)
-                    alvik_command_list_.push_back('x'); // x: Cancel
+                    {
+                        //alvik_command_list_.push_back('x'); // x: Cancel
+                        this->alvik_command_list_.clear();
+                        this->change_alvik_left_right_leds(LEFT_RED & RIGHT_RED, true);
+                    }
                 if (touch & 0b00001000)
-                    alvik_command_list_.push_back('c'); // c: Center
+                    {
+                        //alvik_command_list_.push_back('c'); // c: Center
+                        if (this->alvik_action_ == ACTION_PERFORM_COMMAND_LIST)
+                        {
+                            this->alvik_action_= ACTION_COLLECT_COMMAND_LIST;
+                            this->change_alvik_left_right_leds(LEFT_GREEN & RIGHT_GREEN, true);
+                        }
+                    }
                 if (touch & 0b00010000)
                     alvik_command_list_.push_back('e'); // e: Forward (Elo"re)
                 if (touch & 0b00100000)
@@ -436,7 +458,7 @@ namespace alvik {
       this->write_array(this->packeter->msg, this->msg_size);
     }
 
-    void change_alvik_left_right_leds(uint8_t change_led_state, bool onoff)
+    void AlvikComponent::change_alvik_left_right_leds(uint8_t change_led_state, bool onoff)
     {
         if (onoff)
         {
