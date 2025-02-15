@@ -46,7 +46,13 @@ const uint8_t TASK_WRITE_SENSOR = 2;
 const uint8_t ACTION_BUTTON = 0;
 const uint8_t ACTION_COMMAND_LIST = 1;
 
-
+// LEFT and RIGHT LED COLORS
+const uint8_t LEFT_RED    = 0b00000100;
+const uint8_t LEFT_GREEN  = 0b00001000;
+const uint8_t LEFT_BLUE   = 0b00010000;
+const uint8_t RIGHT_RED   = 0b00100000;
+const uint8_t RIGHT_GREEN = 0b01000000;
+const uint8_t RIGHT_BLUE  = 0b01000000;
 
 //class AlvikComponent  : public Component, public i2c::I2CDevice, public uart::UARTDevice {
 class AlvikComponent  : public Component, public uart::UARTDevice {
@@ -73,6 +79,8 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_check_nano_pin(GPIOPin *pin) { nano_pin_ = pin; };
     void set_reset_stm32_pin(GPIOPin *pin) { reset_pin_ = pin; };
     void set_alvik_state(int a_state) { alvik_state_ = a_state; };
+
+    void set_alvik_left_right_leds(uint8_t a_led_state);
 
 
     void set_stm32_state(bool ison) { stm32_is_on_ = ison; }
