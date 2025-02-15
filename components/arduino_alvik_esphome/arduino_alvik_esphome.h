@@ -54,7 +54,7 @@ const uint8_t LEFT_GREEN   = 0b00001000;
 const uint8_t LEFT_BLUE    = 0b00010000;
 const uint8_t RIGHT_RED    = 0b00100000;
 const uint8_t RIGHT_GREEN  = 0b01000000;
-const uint8_t RIGHT_BLUE   = 0b01000000;
+const uint8_t RIGHT_BLUE   = 0b10000000;
 
 //class AlvikComponent  : public Component, public i2c::I2CDevice, public uart::UARTDevice {
 class AlvikComponent  : public Component, public uart::UARTDevice {
