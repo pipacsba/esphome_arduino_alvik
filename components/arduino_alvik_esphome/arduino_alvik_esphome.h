@@ -76,6 +76,8 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     //TEXT SENSORS
     void set_fw_sensor(text_sensor::TextSensor *sensor1) { fw_version_sensor_ = sensor1; }
     void set_lib_sensor(text_sensor::TextSensor *sensor1) { lib_version_sensor_ = sensor1; }
+    void set_command_list_sensor(text_sensor::TextSensor *sensor1) { command_list_sensor_ = sensor1; }
+
 
     //SWITCHES
     void set_enable_alvik_switch(switch_::Switch *sw) { enable_alvik_switch_ = sw; }
@@ -224,6 +226,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
 
     text_sensor::TextSensor *fw_version_sensor_;
     text_sensor::TextSensor *lib_version_sensor_;
+    text_sensor::TextSensor *command_list_sensor_;
  
     switch_::Switch *enable_alvik_switch_;
 
