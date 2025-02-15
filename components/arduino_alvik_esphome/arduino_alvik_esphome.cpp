@@ -240,7 +240,12 @@ namespace alvik {
                                     this->pose_ang_sensor_->publish_state(this->robot_pose[2]);
                                 if (this->command_list_sensor_ != nullptr)
                                     this->command_list_sensor_->publish_state(this->alvik_command_list_);
-                            
+                                if (this->roll_sensor_ != nullptr)
+                                    this->roll_sensor_->publish_state(this->orientation[0]);
+                                if (this->pitch_sensor_ != nullptr)
+                                    this->pitch_sensor_->publish_state(this->orientation[1]);
+                                if (this->yaw_sensor_ != nullptr)
+                                    this->yaw_sensor_->publish_state(this->orientation[2]);
                                 this->last_sensor_time_= now;
                             }
                             break;
