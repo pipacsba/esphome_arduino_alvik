@@ -187,7 +187,7 @@ namespace alvik {
                     }
                     if (this->alvik_state_ == 1  & this->stm32_fw_compatible_)
                     {
-                        this->alvik_state_ = 2;
+                        this->alvik_state_ = ALVIK_FW_COMPATIBLE;
                         this->set_servo_positions(0,0);
                     }
                     break;
