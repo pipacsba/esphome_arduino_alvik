@@ -409,24 +409,36 @@ namespace alvik {
         ESP_LOGD(TAG, "Servo positions set to [%d,%d]!", a_position, b_position);
     }
 
+const uint8_t ALVIK_STARTUP = 0;
+const uint8_t ALVIK_HW_RESET = 1;
+const uint8_t ALVIK_STM32_UP = 2;
+const uint8_t ALVIK_FIRST_ACK = 3;
+const uint8_t ALVIK_FW_COMPATIBLE = 4;
+
     void AlvikComponent::dump_config() {
         ESP_LOGCONFIG(TAG, "AlvikComponent  :");
         ESP_LOGCONFIG(TAG, "   current state  : %d", this->alvik_state_);
         switch (this->alvik_state_)
         {
-            case 0:
-                if (this->stm32_is_on_)
-                {
-                    ESP_LOGCONFIG(TAG, "       waiting for first ACK");
-                }
-                else
-                {
-                    ESP_LOGCONFIG(TAG, "       STM32 is off");
-                }
-            case 1:
-                ESP_LOGCONFIG(TAG, "       STM32 is on, firmware version check is ongoing");
-            case 2:
-                ESP_LOGCONFIG(TAG, "       STM32 is on, firmware version check is done, ready for action");
+            case ALVIK_STARTUP:
+                ESP_LOGCONFIG(TAG, "       Alvik Nano started up");
+                break;
+            case ALVIK_HW_RESET:
+                ESP_LOGCONFIG(TAG, "       STM32 is reset");
+                break;
+            case ALVIK_STM32_UP:
+                ESP_LOGCONFIG(TAG, "       STM32 is on, communication not yet established");
+                break;
+            case ALVIK_FIRST_ACK:
+                ESP_LOGCONFIG(TAG, "       STM32 is on, communication is set up");
+                break;
+            case ALVIK_FW_COMPATIBLE:
+                ESP_LOGCONFIG(TAG, "       Everything is ready to use");
+                break;
+            default:
+                ESP_LOGCONFIG(TAG, "       State is unknown");
+                break;
+
         }
         if (this->battery_sensor_ != nullptr)
         {
