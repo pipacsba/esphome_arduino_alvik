@@ -117,6 +117,13 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_backwards_button(button::Button *bttn) { backwards_button_ = bttn; }
     void set_forward_button(button::Button *bttn) { forwards_button_ = bttn; }
     void set_hw_reset_button(button::Button *bttn) { hw_reset_button_ = bttn; }
+    void center_button_action();
+    void cancel_button_action();
+    void ok_button_action();
+    void forward_button_action();
+    void backwards_button_action();
+    void left_button_action();
+    void right_button_action();
  
 
     float get_setup_priority() const override { return setup_priority::DATA; }
