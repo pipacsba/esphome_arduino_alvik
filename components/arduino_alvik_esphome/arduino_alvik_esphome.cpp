@@ -285,7 +285,7 @@ namespace alvik {
             else
             {
                 this->alvik_command_list_.clear();
-                this->change_alvik_left_right_leds(0, false);
+                this->change_alvik_left_right_leds(1, false);
             }
             this->last_command_time_ = now;
         }
@@ -484,10 +484,7 @@ namespace alvik {
         {
             a_led_state = this->led_state & (~change_led_state);
         }
-        if (a_led_state == this->led_state)
-        {
-        }
-        else
+        if (a_led_state != this->led_state)
         {
             ESP_LOGD(TAG, "LEDs requested to %x, %x -> %x, onoff: %d", a_led_state, change_led_state, this->led_state, onoff);
             this->led_state = a_led_state;
