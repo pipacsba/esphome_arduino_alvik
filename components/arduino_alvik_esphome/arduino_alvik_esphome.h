@@ -43,8 +43,8 @@ const uint8_t TASK_PERFORM_ACTION = 1;
 const uint8_t TASK_WRITE_SENSOR = 2;
 
 //ALVIK ACTIONS
-const uint8_t ACTION_BUTTON = 0;
-const uint8_t ACTION_COMMAND_LIST = 1;
+const uint8_t ACTION_PERFORM_COMMAND_LIST = 0;
+const uint8_t ACTION_COLLECT_COMMAND_LIST = 1;
 
 // LEFT and RIGHT LED COLORS
 const uint8_t LEFT_RED    = 0b00000100;
