@@ -213,7 +213,17 @@ namespace alvik {
                             }
                             break;
                         case TASK_PERFORM_ACTION:
-
+                            if (this->alvik_action_ == ACTION_PERFORM_COMMAND_LIST)
+                            {
+                                this->do_one_item_from_command_list();
+                            }
+                            if (this->alvik_action_ == ACTION_COLLECT_COMMAND_LIST)
+                            {
+                                if ((millis() - this->last_command_received_time_) < 50)
+                                    this->change_alvik_left_right_leds(LEFT_BLUE & RIGHT_BLUE, true);
+                                if ((millis() - this->last_command_received_time_) > 300)
+                                    this->change_alvik_left_right_leds(LEFT_BLUE & RIGHT_BLUE, false);
+                            }
                             break;
                         case TASK_WRITE_SENSOR:
                             if ((now - this->last_sensor_time_) >= 1 * 1000)
