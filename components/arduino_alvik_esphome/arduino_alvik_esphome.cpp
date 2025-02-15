@@ -198,7 +198,7 @@ namespace alvik {
                     current_action = this->cycle_ % 3;
                     switch (current_action)
                     {
-                        case ACTION_READ_UART:
+                        case TASK_READ_UART:
                             if (read_message())
                             {
                                 parse_message();
@@ -208,7 +208,7 @@ namespace alvik {
                                 parse_message();
                             }
                             break;
-                        case ACTION_DO_COMMAND:
+                        case TASK_PERFORM_ACTION:
                             if ((this->alvik_command_list_.length() != 0 ) & ((now - this->last_command_time_) >= 3 * 1000) )
                             {
                                 //do user requests
@@ -241,7 +241,7 @@ namespace alvik {
                                 this->last_command_time_ = now;
                             }
                             break;
-                        case ACTION_WRITE_SENSOR:
+                        case TASK_WRITE_SENSOR:
                             if ((now - this->last_sensor_time_) >= 1 * 1000)
                             {
                                 if (this->battery_sensor_ != nullptr)
