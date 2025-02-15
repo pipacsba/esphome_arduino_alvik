@@ -146,6 +146,7 @@ namespace alvik {
                         if (this->alvik_alive_sensor_ != nullptr)
                             this->alvik_alive_sensor_->publish_state(this->alvik_state_);
                     }
+                    break;
                 }
             case ALVIK_HW_RESET:
                 {
@@ -159,6 +160,7 @@ namespace alvik {
                         if (this->alvik_alive_sensor_ != nullptr)
                             this->alvik_alive_sensor_->publish_state(this->alvik_state_);
                     }
+                    break;
                 }
             case ALVIK_STM32_UP:
                 {
@@ -173,6 +175,7 @@ namespace alvik {
                         if (this->alvik_alive_sensor_ != nullptr)
                             this->alvik_alive_sensor_->publish_state(this->alvik_state_);
                     }
+                    break;
                 }
             case ALVIK_FIRST_ACK:
                 {
@@ -185,6 +188,7 @@ namespace alvik {
                         this->alvik_state_ = 2;
                         this->set_servo_positions(0,0);
                     }
+                    break;
                 }
             case ALVIK_FW_COMPATIBLE:
                 {
@@ -201,6 +205,7 @@ namespace alvik {
                             {
                                 parse_message();
                             }
+                            break;
                         case ACTION_DO_COMMAND:
                             if ((this->alvik_command_list_.length() != 0 ) & ((now - this->last_command_time_) >= 3 * 1000) )
                             {
@@ -233,6 +238,7 @@ namespace alvik {
                                 }
                                 this->last_command_time_ = now;
                             }
+                            break;
                         case ACTION_WRITE_SENSOR:
                             if ((now - this->last_sensor_time_) >= 1 * 1000)
                             {
@@ -251,7 +257,9 @@ namespace alvik {
                             
                                 this->last_sensor_time_= now;
                             }
+                            break;
                     }
+                    break;
                 }
         }
 
