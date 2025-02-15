@@ -282,10 +282,14 @@ namespace alvik {
             else if (c == 0x6a) // j
             {
                 this->rotate(-90);
+                this->yaw_est -= 90;
+                if (yaw_est < 0) this->yaw_est += 360;
             }
             else if (c == 0x62) // b
             {
                 this->rotate(90);
+                this->yaw_est += 90;
+                if (yaw_est > 360) this->yaw_est -= 360;
             }
             //clear the fulfilled request
             if (this->alvik_command_list_.length() > 1)
