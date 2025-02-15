@@ -142,7 +142,7 @@ namespace alvik {
                             this->alvik_alive_sensor_->publish_state(this->alvik_state_);
                     }
                     this->cycle_ = this->cycle_ + 1;
-                    if (this->cycle_ == 200)
+                    if (this->cycle_ == 500)
                     {
                         this->reset_pin_->digital_write(true);
                         this->nano_pin_->digital_write(false);
