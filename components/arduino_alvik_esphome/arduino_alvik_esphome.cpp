@@ -251,7 +251,7 @@ namespace alvik {
 
     }
 
-    void do_one_item_from_command_list()
+    void AlvikComponent::do_one_item_from_command_list()
     {
         if ((this->alvik_command_list_.length() != 0 ) & ((now - this->last_command_time_) >= 3 * 1000) )
         {
