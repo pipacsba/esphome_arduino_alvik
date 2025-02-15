@@ -34,6 +34,9 @@ CONF_ALIVE_SENSOR = "alvik_alive"
 CONF_ALVIK_POSE_X_SENSOR = "alvik_x_pose"
 CONF_ALVIK_POSE_Y_SENSOR = "alvik_y_pose"
 CONF_ALVIK_POSE_ANG_SENSOR = "alvik_ang_pose"
+CONF_ALVIK_ROLL_SENSOR = "alvik_roll"
+CONF_ALVIK_PITCH_SENSOR = "alvik_pitch"
+CONF_ALVIK_YAW_SENSOR = "alvik_yaw"
 
 CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
     {
@@ -53,6 +56,18 @@ CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
             state_class=STATE_CLASS_MEASUREMENT,
         ),
         cv.Optional(CONF_ALVIK_POSE_ANG_SENSOR): sensor.sensor_schema(
+            unit_of_measurement=UNIT_DEGREES,
+            state_class=STATE_CLASS_MEASUREMENT,
+        ),
+        cv.Optional(CONF_ALVIK_ROLL_SENSOR): sensor.sensor_schema(
+            unit_of_measurement=UNIT_DEGREES,
+            state_class=STATE_CLASS_MEASUREMENT,
+        ),
+        cv.Optional(CONF_ALVIK_PITCH_SENSOR): sensor.sensor_schema(
+            unit_of_measurement=UNIT_DEGREES,
+            state_class=STATE_CLASS_MEASUREMENT,
+        ),
+        cv.Optional(CONF_ALVIK_YAW_SENSOR): sensor.sensor_schema(
             unit_of_measurement=UNIT_DEGREES,
             state_class=STATE_CLASS_MEASUREMENT,
         ),
@@ -77,3 +92,12 @@ async def to_code(config):
     if pose_ang_config := config.get(CONF_ALVIK_POSE_ANG_SENSOR):
         sens = await sensor.new_sensor(pose_ang_config)
         cg.add(alvik_id.set_pose_ang_sensor(sens))
+    if roll_config := config.get(CONF_ALVIK_ROLL_SENSOR):
+        sens = await sensor.new_sensor(roll_config)
+        cg.add(alvik_id.set_roll_sensor(sens))
+    if pitch_config := config.get(CONF_ALVIK_PITCH_SENSOR):
+        sens = await sensor.new_sensor(pitch_config)
+        cg.add(alvik_id.set_pitch_sensor(sens))
+    if yaw_config := config.get(CONF_ALVIK_YAW_SENSOR):
+        sens = await sensor.new_sensor(yaw_config)
+        cg.add(alvik_id.set_yaw_sensor(sens))
