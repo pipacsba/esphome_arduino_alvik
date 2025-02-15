@@ -23,17 +23,30 @@ namespace alvik {
 
 #define NO_ACK 0xFF
 
+// behaviours
+#define BEHAVIOUR_DISABLED 0
+#define BEHAVIOUR_ILLUMINATOR_RISE 1
+#define BEHAVIOUR_BATTERY_ALERT 2
+
 const uint8_t BATTERY_REGISTER          = 0x06;
 
+//ALVIK STATE MACHINE
 const uint8_t ALVIK_STARTUP = 0;
 const uint8_t ALVIK_HW_RESET = 1;
 const uint8_t ALVIK_STM32_UP = 2;
 const uint8_t ALVIK_FIRST_ACK = 3;
 const uint8_t ALVIK_FW_COMPATIBLE = 4;
 
-const uint8_t ACTION_READ_UART = 0;
-const uint8_t ACTION_DO_COMMAND = 1;
-const uint8_t ACTION_WRITE_SENSOR = 2;
+//ALVIK TASK SCHEDULE
+const uint8_t TASK_READ_UART = 0;
+const uint8_t TASK_PERFORM_ACTION = 1;
+const uint8_t TASK_WRITE_SENSOR = 2;
+
+//ALVIK ACTIONS
+const uint8_t ACTION_BUTTON = 0;
+const uint8_t ACTION_COMMAND_LIST = 1;
+
+
 
 //class AlvikComponent  : public Component, public i2c::I2CDevice, public uart::UARTDevice {
 class AlvikComponent  : public Component, public uart::UARTDevice {
@@ -152,6 +165,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     int cycle_;
 
     uint8_t alvik_state_;
+    uint8_t alvik_action_;
 
     GPIOPin *stm32_pin_{nullptr};
     GPIOPin *nano_pin_{nullptr};
