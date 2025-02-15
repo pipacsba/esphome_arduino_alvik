@@ -189,7 +189,6 @@ namespace alvik {
                     if (this->stm32_fw_compatible_)
                     {
                         this->alvik_state_ = ALVIK_FW_COMPATIBLE;
-                        this->set_illuminator(true);
                         this->set_behaviour(BEHAVIOUR_ILLUMINATOR_RISE);
                         this->set_behaviour(BEHAVIOUR_BATTERY_ALERT);
                         this->set_servo_positions(0,0);
@@ -437,19 +436,18 @@ namespace alvik {
       this->write_array(this->packeter->msg, this->msg_size);
     }
 
-    void AlvikComponent::set_illuminator(const bool value){
-      if (value){
-        this->led_state |= 1<<1;
-      }
-      else{
-        this->led_state &= ~1<<1;
-      }
-      this->set_leds();
-    }
-
-    void AlvikComponent::set_leds(){                                                   //it is private
-      this->msg_size = this->packeter->packetC1B('L', this->led_state);
-      this->write_array(this->packeter->msg, this->msg_size);
+    void change_alvik_left_right_leds(uint8_t change_led_state, bool onoff)
+    {
+        if (onoff)
+        {
+            this->led_state = this->led_state | change_led_state;
+        }
+        else
+        {
+            this->led_state = this->led_state & (~change_led_state);
+        }
+        this->msg_size = this->packeter->packetC1B('L', this->led_state);
+        this->write_array(this->packeter->msg, this->msg_size);
     }
 
     void AlvikComponent::dump_config() {
