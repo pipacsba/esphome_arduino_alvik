@@ -244,9 +244,13 @@ namespace alvik {
                                 this->last_sensor_time_= now;
                             }
                             break;
+                        default:
+                            break;
                     }
                     break;
                 }
+            default:
+                break;
         }
 
     }
