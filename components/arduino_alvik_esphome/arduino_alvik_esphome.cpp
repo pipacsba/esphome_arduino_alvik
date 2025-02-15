@@ -248,6 +248,9 @@ namespace alvik {
                                     this->pitch_sensor_->publish_state(this->orientation[1]);
                                 if (this->yaw_sensor_ != nullptr)
                                     this->yaw_sensor_->publish_state(this->orientation[2]);
+                                if (this->yaw_est_sensor_ != nullptr)
+                                    this->yaw_est_sensor_->publish_state(this->yaw_est);
+                                
                                 this->last_sensor_time_= now;
                             }
                             break;
@@ -457,6 +460,7 @@ namespace alvik {
         //alvik_command_list_.push_back('o'); // o: OK
         this->alvik_action_= ACTION_PERFORM_COMMAND_LIST;
         this->led_state= 0;
+        this->yaw_est = this->orientation[2];
         this->change_alvik_left_right_leds(LEFT_BLUE + RIGHT_BLUE, true);
     }
     void AlvikComponent::forward_button_action()
