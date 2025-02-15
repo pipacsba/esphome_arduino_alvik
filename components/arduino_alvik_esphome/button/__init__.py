@@ -33,6 +33,7 @@ AlvikTurnRightButton = alvik_ns.class_("AlvikTurnRightButton", button.Button, cg
 AlvikOKButton = alvik_ns.class_("AlvikOKButton", button.Button, cg.Component)
 AlvikCancelButton = alvik_ns.class_("AlvikCancelButton", button.Button, cg.Component)
 AlvikCenterButton = alvik_ns.class_("AlvikCenterButton", button.Button, cg.Component)
+AlvikResetButton = alvik_ns.class_("AlvikResetButton", button.Button, cg.Component)
 
 CONF_FORWARD_BUTTON = "move_forward"
 CONF_BACKWARDS_BUTTON = "move_backwards"
@@ -41,6 +42,7 @@ CONF_TURNRIGHT_BUTTON = "turn_right"
 CONF_OK_BUTTON = "ok"
 CONF_CANCEL_BUTTON = "cancel"
 CONF_CENTER_BUTTON = "center"
+CONF_RESET_BUTTON = "hw_reset"
 
 CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
     {
@@ -65,6 +67,9 @@ CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
         cv.Optional(CONF_CENTER_BUTTON): button.button_schema(
             AlvikCenterButton,
         ),
+        cv.Optional(CONF_RESET_BUTTON): button.button_schema(
+            AlvikResetButton,
+        ),
       
     }
 )
@@ -72,6 +77,10 @@ CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
 async def to_code(config):
     alvik_id = await cg.get_variable(config[CONF_ALVIK_ID])
 
+    if center_config := config.get(CONF_RESET_BUTTON):
+        b = await button.new_button(center_config)
+        await cg.register_parented(b, config[CONF_ALVIK_ID])
+        cg.add(alvik_id.set_hw_reset_button(b))
     if center_config := config.get(CONF_CENTER_BUTTON):
         b = await button.new_button(center_config)
         await cg.register_parented(b, config[CONF_ALVIK_ID])
