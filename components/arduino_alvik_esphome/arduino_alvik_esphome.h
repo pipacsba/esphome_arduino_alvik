@@ -80,7 +80,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_reset_stm32_pin(GPIOPin *pin) { reset_pin_ = pin; };
     void set_alvik_state(int a_state) { alvik_state_ = a_state; };
 
-    void do_one_item_from_command_list();
+    void do_one_item_from_command_list(uint32_t now);
 
     void change_alvik_left_right_leds(uint8_t change_led_state, bool onoff);
 
