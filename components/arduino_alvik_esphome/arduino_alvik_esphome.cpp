@@ -220,9 +220,9 @@ namespace alvik {
                             if (this->alvik_action_ == ACTION_COLLECT_COMMAND_LIST)
                             {
                                 if ((millis() - this->last_command_received_time_) < 50)
-                                    this->change_alvik_left_right_leds(LEFT_BLUE & RIGHT_BLUE, true);
+                                    this->change_alvik_left_right_leds(LEFT_BLUE + RIGHT_BLUE, true);
                                 if ((millis() - this->last_command_received_time_) > 300)
-                                    this->change_alvik_left_right_leds(LEFT_BLUE & RIGHT_BLUE, false);
+                                    this->change_alvik_left_right_leds(LEFT_BLUE + RIGHT_BLUE, false);
                             }
                             break;
                         case TASK_WRITE_SENSOR:
@@ -393,13 +393,13 @@ namespace alvik {
                         //alvik_command_list_.push_back('o'); // o: OK
                         this->alvik_action_= ACTION_PERFORM_COMMAND_LIST;
                         this->led_state= 0;
-                        this->change_alvik_left_right_leds(LEFT_BLUE & RIGHT_BLUE, true);
+                        this->change_alvik_left_right_leds(LEFT_BLUE + RIGHT_BLUE, true);
                     }
                 if (touch & 0b00000100)
                     {
                         //alvik_command_list_.push_back('x'); // x: Cancel
                         this->alvik_command_list_.clear();
-                        this->change_alvik_left_right_leds(LEFT_RED & RIGHT_RED, true);
+                        this->change_alvik_left_right_leds(LEFT_RED + RIGHT_RED, true);
                     }
                 if (touch & 0b00001000)
                     {
@@ -407,7 +407,7 @@ namespace alvik {
                         if (this->alvik_action_ == ACTION_PERFORM_COMMAND_LIST)
                         {
                             this->alvik_action_= ACTION_COLLECT_COMMAND_LIST;
-                            this->change_alvik_left_right_leds(LEFT_GREEN & RIGHT_GREEN, true);
+                            this->change_alvik_left_right_leds(LEFT_GREEN + RIGHT_GREEN, true);
                         }
                     }
                 if (touch & 0b00010000)
@@ -484,7 +484,7 @@ namespace alvik {
         }
         this->msg_size = this->packeter->packetC1B('L', this->led_state);
         this->write_array(this->packeter->msg, this->msg_size);
-        ESP_LOGD(TAG, "LEDs requested to %x -> %x", change_led_state, this->led_state);
+        ESP_LOGD(TAG, "LEDs requested to %x -> %x, onoff: %d", change_led_state, this->led_state, onoff);
     }
 
     void AlvikComponent::dump_config() {
