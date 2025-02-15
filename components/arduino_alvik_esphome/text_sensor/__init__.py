@@ -29,12 +29,16 @@ from .. import (
 
 CONF_FW_VERSION_SENSOR = "firmware_version"
 CONF_LIB_VERSION_SENSOR = "library_version"
+CONF_COMMAND_LIST_SENSOR = "command_list"
+
 
 CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
     {
         cv.Optional(CONF_FW_VERSION_SENSOR): text_sensor.text_sensor_schema(
         ),
         cv.Optional(CONF_LIB_VERSION_SENSOR): text_sensor.text_sensor_schema(
+        ),
+        cv.Optional(CONF_COMMAND_LIST_SENSOR): text_sensor.text_sensor_schema(
         ),
     }
 )
@@ -49,3 +53,7 @@ async def to_code(config):
     if lib_version_config := config.get(CONF_LIB_VERSION_SENSOR):
         tsens = await text_sensor.new_text_sensor(lib_version_config)
         cg.add(alvik_id.set_lib_sensor(tsens))
+
+    if lib_version_config := config.get(CONF_COMMAND_LIST_SENSOR):
+        tsens = await text_sensor.new_text_sensor(lib_version_config)
+        cg.add(alvik_id.set_command_list_sensor(tsens))
