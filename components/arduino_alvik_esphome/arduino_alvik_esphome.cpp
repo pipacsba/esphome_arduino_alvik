@@ -57,6 +57,7 @@ namespace alvik {
         orientation[0] = 0.0;
         orientation[1] = 0.0;
         orientation[2] = 0.0;
+        yaw_est = 0.0;
         
         move_bits = 0;
         
