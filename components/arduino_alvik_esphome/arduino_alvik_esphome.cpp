@@ -474,17 +474,25 @@ namespace alvik {
 
     void AlvikComponent::change_alvik_left_right_leds(uint8_t change_led_state, bool onoff)
     {
+        uint8_t a_led_state;
         if (onoff)
         {
-            this->led_state = this->led_state | change_led_state;
+            a_led_state = this->led_state | change_led_state;
         }
         else
         {
-            this->led_state = this->led_state & (~change_led_state);
+            a_led_state = this->led_state & (~change_led_state);
         }
-        this->msg_size = this->packeter->packetC1B('L', this->led_state);
-        this->write_array(this->packeter->msg, this->msg_size);
-        ESP_LOGD(TAG, "LEDs requested to %x -> %x, onoff: %d", change_led_state, this->led_state, onoff);
+        if (a_led_state == this->led_state)
+        {
+        }
+        else
+        {
+            ESP_LOGD(TAG, "LEDs requested to %x, %x -> %x, onoff: %d", a_led_state, change_led_state, this->led_state, onoff);
+            this->led_state = a_led_state;
+            this->msg_size = this->packeter->packetC1B('L', this->led_state);
+            this->write_array(this->packeter->msg, this->msg_size);
+        }
     }
 
     void AlvikComponent::dump_config() {
