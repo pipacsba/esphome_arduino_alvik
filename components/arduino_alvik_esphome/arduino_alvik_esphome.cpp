@@ -409,12 +409,6 @@ namespace alvik {
         ESP_LOGD(TAG, "Servo positions set to [%d,%d]!", a_position, b_position);
     }
 
-const uint8_t ALVIK_STARTUP = 0;
-const uint8_t ALVIK_HW_RESET = 1;
-const uint8_t ALVIK_STM32_UP = 2;
-const uint8_t ALVIK_FIRST_ACK = 3;
-const uint8_t ALVIK_FW_COMPATIBLE = 4;
-
     void AlvikComponent::dump_config() {
         ESP_LOGCONFIG(TAG, "AlvikComponent  :");
         ESP_LOGCONFIG(TAG, "   current state  : %d", this->alvik_state_);
