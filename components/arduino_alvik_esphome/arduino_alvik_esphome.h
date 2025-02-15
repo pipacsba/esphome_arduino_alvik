@@ -47,12 +47,14 @@ const uint8_t ACTION_PERFORM_COMMAND_LIST = 0;
 const uint8_t ACTION_COLLECT_COMMAND_LIST = 1;
 
 // LEFT and RIGHT LED COLORS
-const uint8_t LEFT_RED    = 0b00000100;
-const uint8_t LEFT_GREEN  = 0b00001000;
-const uint8_t LEFT_BLUE   = 0b00010000;
-const uint8_t RIGHT_RED   = 0b00100000;
-const uint8_t RIGHT_GREEN = 0b01000000;
-const uint8_t RIGHT_BLUE  = 0b01000000;
+const uint8_t INTERNAL_LED = 0b00000001;
+const uint8_t ILLUMINATOR  = 0b00000010;
+const uint8_t LEFT_RED     = 0b00000100;
+const uint8_t LEFT_GREEN   = 0b00001000;
+const uint8_t LEFT_BLUE    = 0b00010000;
+const uint8_t RIGHT_RED    = 0b00100000;
+const uint8_t RIGHT_GREEN  = 0b01000000;
+const uint8_t RIGHT_BLUE   = 0b01000000;
 
 //class AlvikComponent  : public Component, public i2c::I2CDevice, public uart::UARTDevice {
 class AlvikComponent  : public Component, public uart::UARTDevice {
