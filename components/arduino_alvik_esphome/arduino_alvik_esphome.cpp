@@ -111,7 +111,7 @@ namespace alvik {
         this->last_sensor_time_  = 0;
         this->last_command_received_time_ = 0;
         this->alvik_command_list_.clear();
-        this->alvik_action_= ACTION_BUTTON;
+        this->alvik_action_= ACTION_PERFORM_COMMAND_LIST;
         
         ESP_LOGD(TAG, "Setup is finished, STM32 is in reset");
     }
