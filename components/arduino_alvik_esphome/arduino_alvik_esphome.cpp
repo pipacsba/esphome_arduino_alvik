@@ -99,13 +99,14 @@ namespace alvik {
         this->set_stm32_fw_compatible(false);
         //this->stm_pin_->pin_mode(FLAG_PULLDOWN);
         this->nano_pin_->digital_write(false);
-        this->reset_pin_->digital_write(false);
         
         this->flush();
         while (this->available()){
             this->read();
         }
 
+        this->reset_pin_->digital_write(false);
+        
         this->alvik_state_ = ALVIK_STARTUP;
 
         this->last_command_time_ = 0;
