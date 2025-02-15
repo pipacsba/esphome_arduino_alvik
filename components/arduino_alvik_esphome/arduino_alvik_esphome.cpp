@@ -219,9 +219,9 @@ namespace alvik {
                             }
                             if (this->alvik_action_ == ACTION_COLLECT_COMMAND_LIST)
                             {
-                                if ((millis() - this->last_command_received_time_) < 50)
+                                if ((now - this->last_command_received_time_) < 50)
                                     this->change_alvik_left_right_leds(LEFT_BLUE + RIGHT_BLUE, true);
-                                if ((millis() - this->last_command_received_time_) > 300)
+                                if ((now - this->last_command_received_time_) > 300)
                                     this->change_alvik_left_right_leds(LEFT_BLUE + RIGHT_BLUE, false);
                             }
                             break;
@@ -418,7 +418,8 @@ namespace alvik {
                     alvik_command_list_.push_back('h'); // h: Backwards (Ha'tra)
                 if (touch & 0b10000000)
                     alvik_command_list_.push_back('j'); // j: Turn Right (Jobbra)
-                this->last_command_received_time_ = millis();
+                if (touch & 0b00000001)
+                    this->last_command_received_time_ = millis();
             }
             break;   
         
