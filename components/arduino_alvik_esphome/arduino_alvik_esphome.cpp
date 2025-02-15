@@ -189,6 +189,9 @@ namespace alvik {
                     if (this->stm32_fw_compatible_)
                     {
                         this->alvik_state_ = ALVIK_FW_COMPATIBLE;
+                        this->set_illuminator(true);
+                        this->set_behaviour(BEHAVIOUR_ILLUMINATOR_RISE);
+                        this->set_behaviour(BEHAVIOUR_BATTERY_ALERT);
                         this->set_servo_positions(0,0);
                         this->alvik_action_= ACTION_BUTTON;
                     }
@@ -427,6 +430,26 @@ namespace alvik {
         this->msg_size = this->packeter->packetC2B('S', a_position, b_position);
         this->write_array(this->packeter->msg, this->msg_size);
         ESP_LOGD(TAG, "Servo positions set to [%d,%d]!", a_position, b_position);
+    }
+
+    void AlvikComponent::set_behaviour(const uint8_t behaviour){
+      this->msg_size = this->packeter->packetC1B('B', behaviour);
+      this->write_array(this->packeter->msg, this->msg_size);
+    }
+
+    void AlvikComponent::set_illuminator(const bool value){
+      if (value){
+        this->led_state |= 1<<1;
+      }
+      else{
+        this->led_state &= ~1<<1;
+      }
+      thi->set_leds();
+    }
+
+    void AlvikComponent::set_leds(){                                                   //it is private
+      this->msg_size = this->packeter->packetC1B('L', this->led_state);
+      this->write_array(this->packeter->msg, this->msg_size);
     }
 
     void AlvikComponent::dump_config() {
