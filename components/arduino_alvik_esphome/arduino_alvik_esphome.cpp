@@ -484,7 +484,7 @@ namespace alvik {
         }
         this->msg_size = this->packeter->packetC1B('L', this->led_state);
         this->write_array(this->packeter->msg, this->msg_size);
-        ESP_LOGD(TAG, "LEDs requested to %b", this->led_state);
+        ESP_LOGD(TAG, "LEDs requested to %x %b", this->led_state, this->led_state);
     }
 
     void AlvikComponent::dump_config() {
