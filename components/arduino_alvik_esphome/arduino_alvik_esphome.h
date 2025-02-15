@@ -98,6 +98,10 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_pose_x_sensor(sensor::Sensor *sensor1) { pose_x_sensor_ = sensor1; }
     void set_pose_y_sensor(sensor::Sensor *sensor1) { pose_y_sensor_ = sensor1; }
     void set_pose_ang_sensor(sensor::Sensor *sensor1) { pose_ang_sensor_ = sensor1; }
+    void set_roll_sensor(sensor::Sensor *sensor1) { roll_sensor_ = sensor1; }
+    void set_pitch_sensor(sensor::Sensor *sensor1) { pitch_sensor_ = sensor1; }
+    void set_yaw_sensor(sensor::Sensor *sensor1) { yaw_sensor_ = sensor1; }
+
 
     //TEXT SENSORS
     void set_fw_sensor(text_sensor::TextSensor *sensor1) { fw_version_sensor_ = sensor1; }
@@ -251,6 +255,10 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     sensor::Sensor *pose_x_sensor_;
     sensor::Sensor *pose_y_sensor_;
     sensor::Sensor *pose_ang_sensor_;
+    sensor::Sensor *roll_sensor_;
+    sensor::Sensor *pitch_sensor_;
+    sensor::Sensor *yaw_sensor_;
+
 
     button::Button *center_button_;
     button::Button *cancel_button_;
