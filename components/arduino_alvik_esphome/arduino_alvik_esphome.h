@@ -234,6 +234,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     uint8_t servo_positions[2];
 
     float orientation[3];
+    float yaw_est;
     uint8_t move_bits;
 
     float imu[6];
