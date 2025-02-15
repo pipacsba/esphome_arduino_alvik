@@ -134,7 +134,7 @@ namespace alvik {
                     if (this->cycle_ == 0)
                     {    
                         this->reset_pin_->digital_write(false);
-                        this->nano_pin_->digital_write(true);
+                        //this->nano_pin_->digital_write(true);
                         this->flush();
                         while (this->available()){
                             this->read();
@@ -146,7 +146,7 @@ namespace alvik {
                     if (this->cycle_ == 500)
                     {
                         this->reset_pin_->digital_write(true);
-                        this->nano_pin_->digital_write(false);
+                        //this->nano_pin_->digital_write(false);
                         this->alvik_state_ = ALVIK_HW_RESET;
                         if (this->alvik_alive_sensor_ != nullptr)
                             this->alvik_alive_sensor_->publish_state(this->alvik_state_);
