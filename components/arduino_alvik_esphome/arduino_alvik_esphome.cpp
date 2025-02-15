@@ -281,7 +281,7 @@ namespace alvik {
             else
             {
                 this->alvik_command_list_.clear();
-                this->change_alvik_left_right_leds(0, true);
+                this->change_alvik_left_right_leds(0, false);
             }
             this->last_command_time_ = now;
         }
@@ -388,7 +388,7 @@ namespace alvik {
                     {
                         //alvik_command_list_.push_back('o'); // o: OK
                         this->alvik_action_= ACTION_PERFORM_COMMAND_LIST;
-                        this->change_alvik_left_right_leds(0, true);
+                        this->change_alvik_left_right_leds(0, false);
                         this->change_alvik_left_right_leds(LEFT_BLUE & RIGHT_BLUE, true);
                     }
                 if (touch & 0b00000100)
