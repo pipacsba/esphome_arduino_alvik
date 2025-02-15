@@ -121,7 +121,7 @@ namespace alvik {
         bool ison = this->stm32_pin_->digital_read();
         if ((!ison) & (this->alvik_state_ > ALVIK_HW_RESET))
         {
-            this->alvik_state_ = 0;
+            this->alvik_state_ = ALVIK_STARTUP;
             this->cycle_ = 0;
         }
         switch(this->alvik_state_)
@@ -185,7 +185,7 @@ namespace alvik {
                     {
                         parse_message();
                     }
-                    if (this->alvik_state_ == 1  & this->stm32_fw_compatible_)
+                    if (this->stm32_fw_compatible_)
                     {
                         this->alvik_state_ = ALVIK_FW_COMPATIBLE;
                         this->set_servo_positions(0,0);
