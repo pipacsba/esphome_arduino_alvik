@@ -238,6 +238,9 @@ namespace alvik {
                                     this->pose_y_sensor_->publish_state(this->robot_pose[1]);
                                 if (this->pose_ang_sensor_ != nullptr)
                                     this->pose_ang_sensor_->publish_state(this->robot_pose[2]);
+                                if (this->command_list_sensor_ != nullptr)
+                                    this->command_list_sensor_->publish_state(this->alvik_command_list_);
+                            
                                 this->last_sensor_time_= now;
                             }
                     }
