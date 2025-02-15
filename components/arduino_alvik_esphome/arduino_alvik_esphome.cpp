@@ -453,7 +453,7 @@ namespace alvik {
     void AlvikResetButton::press_action() 
     { 
         this->parent_->set_alvik_state(ALVIK_STARTUP);
-        this->set_cycle(0); 
+        this->parent_->set_cycle(0); 
     } 
 
 
