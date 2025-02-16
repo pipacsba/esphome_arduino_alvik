@@ -557,6 +557,10 @@ namespace alvik {
                 break;
 
         }
+        LOG_PIN("  Pin: ", this->stm32_pin_);
+        LOG_PIN("  Pin: ", this->nano_pin_);
+        LOG_PIN("  Pin: ", this->reset_pin_);
+        
         if (this->battery_sensor_ != nullptr)
         {
             ESP_LOGCONFIG(TAG, "   Battery status is : %.0f", this->battery_sensor_->get_state());
