@@ -98,6 +98,9 @@ namespace alvik {
 
         this->set_stm32_fw_compatible(false);
         //this->stm_pin_->pin_mode(FLAG_PULLDOWN);
+        this->stm_pin_->pin_mode(gpio::FLAG_INPUT | gpio::FLAG_PULLDOWN);
+        this->nano_pin_->pin_mode(gpio::FLAG_OUTPUT);
+        this->reset_pin_->pin_mode(gpio::FLAG_OUTPUT);
         this->nano_pin_->digital_write(false);
         
         this->flush();
