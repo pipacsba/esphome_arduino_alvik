@@ -37,8 +37,8 @@ CONF_CHECK_NANO_PIN = "check_nano_pin"
 CONF_RESET_STM_PIN = "reset_stm32_pin"
 
 alvik_ns = cg.esphome_ns.namespace("alvik")
-AlvikComponent = alvik_ns.class_("AlvikComponent", cg.Component, i2c.I2CDevice, uart.UARTDevice)
-#AlvikComponent = alvik_ns.class_("AlvikComponent", cg.Component, uart.UARTDevice)
+#AlvikComponent = alvik_ns.class_("AlvikComponent", cg.Component, i2c.I2CDevice, uart.UARTDevice)
+AlvikComponent = alvik_ns.class_("AlvikComponent", cg.Component, uart.UARTDevice)
 
 ALVIK_COMPONENT_SCHEMA = cv.Schema(
     {
