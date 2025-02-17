@@ -355,7 +355,11 @@ class AlvikResetButton : public button::Button, public Parented<AlvikComponent> 
   void press_action() override;
 };
 
-class AlvikBatterySensor : public sensor::Sensor, public Parented<AlvikComponent>;
+class AlvikBatterySensor : public sensor::Sensor, public Parented<AlvikComponent>
+{
+  public:
+    AlvikBatterySensor() = default;
+};
 
  
 }  // namespace alvik
