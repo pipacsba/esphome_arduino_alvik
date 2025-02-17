@@ -103,10 +103,12 @@ namespace alvik {
         this->reset_pin_->pin_mode(gpio::FLAG_OUTPUT);
         this->red_led_pin_->pin_mode(gpio::FLAG_OUTPUT);
         this->green_led_pin_->pin_mode(gpio::FLAG_OUTPUT);
+        this->blue_led_pin_->pin_mode(gpio::FLAG_OUTPUT);
 
         this->nano_pin_->digital_write(false);
         this->red_led_pin_->digital_write(false);
         this->green_led_pin_->digital_write(false);
+        this->blue_led_pin_->digital_write(false);
         
         this->flush();
         while (this->available()){
