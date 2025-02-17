@@ -1,10 +1,11 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
-from esphome.components import number
-from esphome.components import switch
-from esphome.components import button
+#from esphome.components import number
+#from esphome.components import switch
+#from esphome.components import button
 from esphome.components import sensor
-from esphome.components import text_sensor
+#from esphome.components import text_sensor
+from esphome.components import i2c
 
 from esphome.const import (
     CONF_ID, 
@@ -45,7 +46,7 @@ CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
             unit_of_measurement=UNIT_PERCENT,
             device_class=DEVICE_CLASS_BATTERY,
             state_class=STATE_CLASS_MEASUREMENT,
-        ),
+        ).extend(i2c.i2c_device_schema(0x36)),
         cv.Optional(CONF_ALIVE_SENSOR): sensor.sensor_schema(
         ),
         cv.Optional(CONF_ALVIK_POSE_X_SENSOR): sensor.sensor_schema(
@@ -84,6 +85,7 @@ async def to_code(config):
 
     if battery_charge_sensor_config := config.get(CONF_BATTERY_CHARGE_SENSOR):
         sens = await sensor.new_sensor(battery_charge_sensor_config)
+        await i2c.register_i2c_device(sens, battery_charge_sensor_config)
         cg.add(alvik_id.set_battery_sensor(sens))
     if alive_sensor_config := config.get(CONF_ALIVE_SENSOR):
         sens = await sensor.new_sensor(alive_sensor_config)
