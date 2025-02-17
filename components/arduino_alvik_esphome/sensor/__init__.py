@@ -28,6 +28,7 @@ from esphome.const import (
 from .. import (
     CONF_ALVIK_ID,
     ALVIK_COMPONENT_SCHEMA,
+    alvik_ns,
 )
 
 CONF_BATTERY_CHARGE_SENSOR = "battery_charge"
