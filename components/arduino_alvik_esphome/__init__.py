@@ -37,6 +37,7 @@ CONF_CHECK_NANO_PIN = "check_nano_pin"
 CONF_RESET_STM_PIN = "reset_stm32_pin"
 CONF_LED_RED_PIN = "red_led"
 CONF_LED_GREEN_PIN = "green_led"
+CONF_LED_BLUE_PIN = "blue_led"
 
 alvik_ns = cg.esphome_ns.namespace("alvik")
 #AlvikComponent = alvik_ns.class_("AlvikComponent", cg.Component, i2c.I2CDevice, uart.UARTDevice)
@@ -57,6 +58,7 @@ CONFIG_SCHEMA = cv.All(
             cv.Required(CONF_RESET_STM_PIN): pins.gpio_output_pin_schema,
             cv.Required(CONF_LED_RED_PIN): pins.gpio_output_pin_schema,
             cv.Required(CONF_LED_GREEN_PIN): pins.gpio_output_pin_schema,
+            cv.Required(CONF_LED_BLUE_PIN): pins.gpio_output_pin_schema,
         }
     )
     .extend(cv.COMPONENT_SCHEMA)
@@ -80,3 +82,5 @@ async def to_code(config):
     cg.add(var.set_red_led_pin(pin))
     pin = await cg.gpio_pin_expression(config[CONF_LED_GREEN_PIN])
     cg.add(var.set_green_led_pin(pin))
+    pin = await cg.gpio_pin_expression(config[CONF_LED_BLUE_PIN])
+    cg.add(var.set_blue_led_pin(pin))
