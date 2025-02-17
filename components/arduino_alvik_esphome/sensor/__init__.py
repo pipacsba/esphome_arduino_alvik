@@ -40,9 +40,12 @@ CONF_ALVIK_PITCH_SENSOR = "alvik_pitch"
 CONF_ALVIK_YAW_SENSOR = "alvik_yaw"
 CONF_ALVIK_YAW_EST_SENSOR = "alvik_yaw_estimated"
 
+AlvikBatterySensor = alvik_ns.class_("AlvikBatterySensor", sensor.Sensor, cg.Component, i2c.I2CDevice)
+
 CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
     {
         cv.Optional(CONF_BATTERY_CHARGE_SENSOR): sensor.sensor_schema(
+            AlvikBatterySensor,
             unit_of_measurement=UNIT_PERCENT,
             device_class=DEVICE_CLASS_BATTERY,
             state_class=STATE_CLASS_MEASUREMENT,
