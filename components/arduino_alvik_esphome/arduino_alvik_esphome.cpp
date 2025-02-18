@@ -296,8 +296,8 @@ namespace alvik {
     void AlvikComponent::external_supply_measurement(bool ison)
     {
         this->cycle_ = this->cycle_ + 1;
-        if (this->cycle_ % 100 == 0) {  this->red_led_pin_->digital_write(false);}
-        if (this->cycle_ % 100 == 50) {  this->red_led_pin_->digital_write(true);}
+        if (this->cycle_ % 200 == 0) {  this->red_led_pin_->digital_write(false);}
+        if (this->cycle_ % 200 == 100) {  this->red_led_pin_->digital_write(true);}
         //this->battery_sensor_->bus_->sda_pin_;
 
         //this->battery_sensor_->bus_->recover_();
