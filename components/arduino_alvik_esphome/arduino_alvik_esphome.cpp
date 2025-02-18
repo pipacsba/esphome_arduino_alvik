@@ -106,7 +106,7 @@ namespace alvik {
         this->blue_led_pin_->pin_mode(gpio::FLAG_OUTPUT);
 
         this->nano_pin_->digital_write(false);
-        this->red_led_pin_->digital_write(false);
+        this->red_led_pin_->digital_write(true);
         this->green_led_pin_->digital_write(true);
         this->blue_led_pin_->digital_write(true);
         
@@ -133,7 +133,7 @@ namespace alvik {
         uint32_t now = millis();
         uint8_t current_action;
         bool ison = this->stm32_pin_->digital_read();
-        if ((!ison) & (this->alvik_state_ > ALVIK_HW_RESET))
+        if ((!ison) & (this->alvik_state_ > ALVIK_HW_RESET) & (this->alvik_state_ != ALVIK_EXTERNAL_SUPPLY))
         {
             this->alvik_state_ = ALVIK_STARTUP;
             this->cycle_ = 0;
