@@ -284,7 +284,7 @@ namespace alvik {
             //USB supply, battery charging
             case ALVIK_EXTERNAL_SUPPLY:
             {
-                this->external_supply_measurement(ison)
+                this->external_supply_measurement(ison);
                 break;
             }
             default:
