@@ -107,8 +107,8 @@ namespace alvik {
 
         this->nano_pin_->digital_write(false);
         this->red_led_pin_->digital_write(false);
-        this->green_led_pin_->digital_write(false);
-        this->blue_led_pin_->digital_write(false);
+        this->green_led_pin_->digital_write(true);
+        this->blue_led_pin_->digital_write(true);
         
         this->flush();
         while (this->available()){
