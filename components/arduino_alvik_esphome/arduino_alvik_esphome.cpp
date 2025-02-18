@@ -159,6 +159,7 @@ namespace alvik {
                         this->reset_pin_->digital_write(true);
                         //this->nano_pin_->digital_write(false);
                         this->alvik_state_ = ALVIK_HW_RESET;
+                        (this->cycle_ = 0;
                         if (this->alvik_alive_sensor_ != nullptr)
                             this->alvik_alive_sensor_->publish_state(this->alvik_state_);
                     }
@@ -175,6 +176,11 @@ namespace alvik {
                         this->alvik_state_ = ALVIK_STM32_UP;
                         if (this->alvik_alive_sensor_ != nullptr)
                             this->alvik_alive_sensor_->publish_state(this->alvik_state_);
+                    }
+                    this->cycle_ = this->cycle_ + 1;
+                    if (this->cycle == 100)
+                    {
+                        //USB supply, battery charging
                     }
                     break;
                 }
