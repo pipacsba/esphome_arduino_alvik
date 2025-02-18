@@ -7,7 +7,8 @@
 #include "esphome/components/number/number.h"
 #include "esphome/core/helpers.h"
 #include "esphome/core/log.h"
-#include "esphome/core/gpio.h"
+//#include "esphome/core/gpio.h"
+#include "esphome/components/gpio/gpio.h"
 #include <utility>
 
 namespace esphome {
