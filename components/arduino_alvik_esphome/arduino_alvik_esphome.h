@@ -31,16 +31,17 @@ namespace alvik {
 const uint8_t BATTERY_REGISTER          = 0x06;
 
 //ALVIK STATE MACHINE
-const uint8_t ALVIK_STARTUP = 0;
-const uint8_t ALVIK_HW_RESET = 1;
-const uint8_t ALVIK_STM32_UP = 2;
-const uint8_t ALVIK_FIRST_ACK = 3;
-const uint8_t ALVIK_FW_COMPATIBLE = 4;
+const uint8_t ALVIK_STARTUP          =   0;
+const uint8_t ALVIK_HW_RESET         =   1;
+const uint8_t ALVIK_STM32_UP         =   2;
+const uint8_t ALVIK_FIRST_ACK        =   3;
+const uint8_t ALVIK_FW_COMPATIBLE    =   4;
+const uint8_t ALVIK_EXTERNAL_SUPPLY  = 255;
 
 //ALVIK TASK SCHEDULE
-const uint8_t TASK_READ_UART = 0;
-const uint8_t TASK_PERFORM_ACTION = 1;
-const uint8_t TASK_WRITE_SENSOR = 2;
+const uint8_t TASK_READ_UART       =   0;
+const uint8_t TASK_PERFORM_ACTION  =   1;
+const uint8_t TASK_WRITE_SENSOR    =   2;
 
 //ALVIK ACTIONS
 const uint8_t ACTION_PERFORM_COMMAND_LIST = 0;
@@ -87,6 +88,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_alvik_state(int a_state) { alvik_state_ = a_state; };
 
     void do_one_item_from_command_list(uint32_t now);
+    void external_supply_measurement(bool ison);
 
     void change_alvik_left_right_leds(uint8_t change_led_state, bool onoff);
 
