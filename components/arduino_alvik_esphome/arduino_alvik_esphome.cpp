@@ -180,9 +180,11 @@ namespace alvik {
                     this->cycle_ = this->cycle_ + 1;
                     if (this->cycle_ > 100)
                     {
-                        //USB supply, battery charging
-                        if (this->cycle_ % 100 == 0) {  this->red_led_pin_->digital_write(false);}
-                        if (this->cycle_ % 100 == 50) {  this->red_led_pin_->digital_write(true);}
+                        //USB supply, battery charging as the STM32 is not ON
+                        this->alvik_state_ = ALVIK_EXTERNAL_SUPPLY;
+                        this->set_cycle(0);
+                        if (this->alvik_alive_sensor_ != nullptr)
+                            this->alvik_alive_sensor_->publish_state(this->alvik_state_);
                     }
                     break;
                 }
@@ -279,10 +281,26 @@ namespace alvik {
                     }
                     break;
                 }
+            //USB supply, battery charging
+            case ALVIK_EXTERNAL_SUPPLY:
+            {
+                this->external_supply_measurement(ison)
+                break;
+            }
             default:
                 break;
         }
 
+    }
+
+    void AlvikComponent::external_supply_measurement(bool ison)
+    {
+        this->cycle_ = this->cycle_ + 1;
+        if (this->cycle_ % 100 == 0) {  this->red_led_pin_->digital_write(false);}
+        if (this->cycle_ % 100 == 50) {  this->red_led_pin_->digital_write(true);}
+        //this->battery_sensor_->bus_->sda_pin_;
+
+        //this->battery_sensor_->bus_->recover_();
     }
 
     void AlvikComponent::do_one_item_from_command_list(uint32_t now)
