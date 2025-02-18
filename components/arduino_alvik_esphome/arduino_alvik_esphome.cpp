@@ -7,8 +7,6 @@
 #include "esphome/components/number/number.h"
 #include "esphome/core/helpers.h"
 #include "esphome/core/log.h"
-//#include "esphome/core/gpio.h"
-#include "esphome/components/gpio/gpio.h"
 #include <utility>
 
 namespace esphome {
@@ -303,19 +301,19 @@ namespace alvik {
 
         if (this->cycle_ == 10)
         {
-            GPIOPin  *a_pin = new GPIOPin();
-            a_pin->set_pin(::GPIO_NUM_11);
-            a_pin->set_inverted(false);
-            a_pin->set_drive_strength(::GPIO_DRIVE_CAP_2);
-            a_pin->set_flags(gpio::Flags::FLAG_OUTPUT);
-            a_pin->digital_write(false);
+//            GPIOPin  *a_pin = new GPIOPin();
+//            a_pin->set_pin(::GPIO_NUM_11);
+//            a_pin->set_inverted(false);
+//            a_pin->set_drive_strength(::GPIO_DRIVE_CAP_2);
+//            a_pin->set_flags(gpio::Flags::FLAG_OUTPUT);
+//            a_pin->digital_write(false);
 
-            GPIOPin  *a_pin = new GPIOPin();
-            a_pin->set_pin(::GPIO_NUM_12);
-            a_pin->set_inverted(false);
-            a_pin->set_drive_strength(::GPIO_DRIVE_CAP_2);
-            a_pin->set_flags(gpio::Flags::FLAG_OUTPUT);
-            a_pin->digital_write(false)
+//            GPIOPin  *a_pin = new GPIOPin();
+//            a_pin->set_pin(::GPIO_NUM_12);
+//            a_pin->set_inverted(false);
+//            a_pin->set_drive_strength(::GPIO_DRIVE_CAP_2);
+//            a_pin->set_flags(gpio::Flags::FLAG_OUTPUT);
+//            a_pin->digital_write(false)
         }
         
         //this->battery_sensor_->bus_->sda_pin_;
