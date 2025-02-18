@@ -178,9 +178,11 @@ namespace alvik {
                             this->alvik_alive_sensor_->publish_state(this->alvik_state_);
                     }
                     this->cycle_ = this->cycle_ + 1;
-                    if (this->cycle == 100)
+                    if (this->cycle > 100)
                     {
                         //USB supply, battery charging
+                        if (this->cycle_ % 100 == 0) {  this->red_led_pin_->digital_write(false);}
+                        if (this->cycle_ % 100 == 50) {  this->red_led_pin_->digital_write(true);}
                     }
                     break;
                 }
