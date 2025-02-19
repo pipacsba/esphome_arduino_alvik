@@ -319,20 +319,19 @@ namespace alvik {
         {
             this->i2c_switch1_pin_->pin_mode(gpio::FLAG_INPUT);
             this->i2c_switch2_pin_->pin_mode(gpio::FLAG_INPUT); 
-            this->battery_sensor_->bus_->recover_()
-            ESP_LOGD("TAG, I2C recover initiated");
+            //this->battery_sensor_->bus_->recover_()
+            ESP_LOGD(TAG, "I2C recover initiated");
         }
         if (this->cycle_ == 50)
         {
-            if (!this->battery_sensor_->bus_->initialized_)
-            {
-                this->cycle_ = 0;
-                ESP_LOGD(TAG, "I2C recover failed - retry");
+            //if (!this->battery_sensor_->bus_->initialized_)
+            uint8_t batt_regs[] = {0, 0};
+            if ((this->write(&0x06, 1, false) != i2c::ERROR_OK) || !this->read_bytes_raw(als_regs, 2)) {
+                ESP_LOGD(TAG, "I2C recover failed");
             }
-            else
-            {
-                ESP_LOGD(TAG, "I2C recover succeeded!");
-            }
+            uint16_t battery_val = encode_uint16(batt_regs[1], batt_regs[0]);
+            uint16_t battery_soc = (int)((float)battery_val * 0.00390625);
+            ESP_LOGD(TAG, "Battery read:  %d, %d", battery_val, battery_soc);
         }
         
 
