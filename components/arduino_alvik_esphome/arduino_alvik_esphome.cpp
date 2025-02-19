@@ -308,8 +308,8 @@ namespace alvik {
         if (this->cycle_ % 200 == 100) {  this->red_led_pin_->digital_write(true);}
 
         if (this->cycle_ == 1)
-            this->nano_pin_->digital_write(false);
-        if (this->cycle_ == 10)
+            this->nano_pin_->digital_write(true);
+        if (this->cycle_ == 30)
         {
             this->i2c_switch1_pin_->pin_mode(gpio::FLAG_OUTPUT);
             this->i2c_switch2_pin_->pin_mode(gpio::FLAG_OUTPUT);            
@@ -317,7 +317,7 @@ namespace alvik {
             this->i2c_switch2_pin_->digital_write(true);
             ESP_LOGD(TAG, "I2C switch takeover initiated");
         }
-        if (this->cycle_ == 11)
+        if (this->cycle_ == 40)
         {
             this->i2c_switch1_pin_->digital_write(false);
             this->i2c_switch2_pin_->digital_write(false);
