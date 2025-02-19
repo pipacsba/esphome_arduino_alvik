@@ -298,6 +298,11 @@ namespace alvik {
 
     void AlvikComponent::external_supply_measurement(bool ison)
     {
+        uint8_t batt_regs[] = {0, 0};
+        uint8_t icreg = 0x06;
+        uint16_t battery_val;
+        uint16_t battery_soc;
+        
         this->cycle_ = this->cycle_ + 1;
         if (this->cycle_ % 200 == 0) {  this->red_led_pin_->digital_write(false);}
         if (this->cycle_ % 200 == 100) {  this->red_led_pin_->digital_write(true);}
@@ -325,14 +330,31 @@ namespace alvik {
         if (this->cycle_ == 50)
         {
             //if (!this->battery_sensor_->bus_->initialized_)
-            uint8_t batt_regs[] = {0, 0};
-            uint8_t icreg = 0x06;
+            batt_regs[] = {0, 0};
             if ((this->battery_sensor_->write(&icreg, 1, false) != i2c::ERROR_OK) || !this->battery_sensor_->read_bytes_raw(batt_regs, 2)) {
                 ESP_LOGD(TAG, "I2C recover failed");
+                this->cycle_=0;
             }
-            uint16_t battery_val = encode_uint16(batt_regs[1], batt_regs[0]);
-            uint16_t battery_soc = (int)((float)battery_val * 0.00390625);
-            ESP_LOGD(TAG, "Battery read:  %d, %d", battery_val, battery_soc);
+            else
+            {
+                battery_val = encode_uint16(batt_regs[1], batt_regs[0]);
+                battery_soc = (int)((float)battery_val * 0.00390625);
+                ESP_LOGD(TAG, "Battery read:  %d, %d", battery_val, battery_soc);
+            }
+        }
+        if (this->cycle_ % 200 == 150) 
+        {
+            batt_regs[] = {0, 0};
+            if ((this->battery_sensor_->write(&icreg, 1, false) != i2c::ERROR_OK) || !this->battery_sensor_->read_bytes_raw(batt_regs, 2)) {
+                ESP_LOGD(TAG, "I2C recover failed");
+                this->cycle_=0;
+            }
+            else
+            {
+                battery_val = encode_uint16(batt_regs[1], batt_regs[0]);
+                battery_soc = (int)((float)battery_val * 0.00390625);
+                ESP_LOGD(TAG, "Battery read:  %d, %d", battery_val, battery_soc);
+            }
         }
         //this->battery_sensor_->bus_->sda_pin_;
         //this->battery_sensor_->bus_->recover_();
