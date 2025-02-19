@@ -307,6 +307,8 @@ namespace alvik {
         if (this->cycle_ % 200 == 0) {  this->red_led_pin_->digital_write(false);}
         if (this->cycle_ % 200 == 100) {  this->red_led_pin_->digital_write(true);}
 
+        if (this->cycle_ == 1)
+            this->nano_pin_->digital_write(false);
         if (this->cycle_ == 10)
         {
             this->i2c_switch1_pin_->pin_mode(gpio::FLAG_OUTPUT);
