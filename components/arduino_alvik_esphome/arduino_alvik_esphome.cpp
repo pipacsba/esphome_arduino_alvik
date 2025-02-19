@@ -315,7 +315,7 @@ namespace alvik {
             this->i2c_switch2_pin_->digital_write(true);
             ESP_LOGD(TAG, "I2C switch takeover initiated");
         }
-        if (this->cycle_ == 20)
+        if (this->cycle_ == 40)
         {
             this->i2c_switch1_pin_->digital_write(false);
             this->i2c_switch2_pin_->digital_write(false);
