@@ -196,6 +196,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void push_alvik_command(char a) {alvik_command_list_.push_back(a);}
 
   protected:
+    friend AlvikBatterySensor;
     int cycle_;
 
     uint8_t alvik_state_;
