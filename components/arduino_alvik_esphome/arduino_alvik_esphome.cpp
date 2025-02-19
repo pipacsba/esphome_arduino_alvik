@@ -326,21 +326,17 @@ namespace alvik {
         {
             //if (!this->battery_sensor_->bus_->initialized_)
             uint8_t batt_regs[] = {0, 0};
-            if ((this->write(&0x06, 1, false) != i2c::ERROR_OK) || !this->read_bytes_raw(als_regs, 2)) {
+            if ((this->write(&0x06, 1, false) != i2c::ERROR_OK) || !this->read_bytes_raw(batt_regs, 2)) {
                 ESP_LOGD(TAG, "I2C recover failed");
             }
             uint16_t battery_val = encode_uint16(batt_regs[1], batt_regs[0]);
             uint16_t battery_soc = (int)((float)battery_val * 0.00390625);
             ESP_LOGD(TAG, "Battery read:  %d, %d", battery_val, battery_soc);
         }
-        
-
-
-        
         //this->battery_sensor_->bus_->sda_pin_;
-
         //this->battery_sensor_->bus_->recover_();
     }
+
 
     void AlvikComponent::do_one_item_from_command_list(uint32_t now)
     {
