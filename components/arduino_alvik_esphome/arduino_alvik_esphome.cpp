@@ -330,7 +330,7 @@ namespace alvik {
         if (this->cycle_ == 50)
         {
             //if (!this->battery_sensor_->bus_->initialized_)
-            batt_regs[] = {0, 0};
+            //batt_regs = {0, 0};
             if ((this->battery_sensor_->write(&icreg, 1, false) != i2c::ERROR_OK) || !this->battery_sensor_->read_bytes_raw(batt_regs, 2)) {
                 ESP_LOGD(TAG, "I2C recover failed");
                 this->cycle_=0;
@@ -344,7 +344,7 @@ namespace alvik {
         }
         if (this->cycle_ % 200 == 150) 
         {
-            batt_regs[] = {0, 0};
+            //batt_regs = {0, 0};
             if ((this->battery_sensor_->write(&icreg, 1, false) != i2c::ERROR_OK) || !this->battery_sensor_->read_bytes_raw(batt_regs, 2)) {
                 ESP_LOGD(TAG, "I2C recover failed");
                 this->cycle_=0;
