@@ -57,6 +57,13 @@ const uint8_t RIGHT_RED    = 32;
 const uint8_t RIGHT_GREEN  = 64;
 const uint8_t RIGHT_BLUE   = 128;
 
+class AlvikBatterySensor : public sensor::Sensor, public i2c::I2CDevice, public Parented<AlvikComponent>
+{
+  public:
+    AlvikBatterySensor() = default;
+};
+
+
 //class AlvikComponent  : public Component, public i2c::I2CDevice, public uart::UARTDevice {
 class AlvikComponent  : public Component, public uart::UARTDevice {
   public:
@@ -370,13 +377,6 @@ class AlvikResetButton : public button::Button, public Parented<AlvikComponent> 
   void press_action() override;
 };
 
-class AlvikBatterySensor : public sensor::Sensor, public i2c::I2CDevice, public Parented<AlvikComponent>
-{
-  public:
-    AlvikBatterySensor() = default;
-};
-
- 
 }  // namespace alvik
 }  // namespace esphome
 
