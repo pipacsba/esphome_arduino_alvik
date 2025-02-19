@@ -57,7 +57,8 @@ const uint8_t RIGHT_RED    = 32;
 const uint8_t RIGHT_GREEN  = 64;
 const uint8_t RIGHT_BLUE   = 128;
 
-class AlvikBatterySensor : public sensor::Sensor, public i2c::I2CDevice, public Parented<AlvikComponent>
+//class AlvikBatterySensor : public sensor::Sensor, public i2c::I2CDevice, public Parented<AlvikComponent>
+class AlvikBatterySensor : public sensor::Sensor, public i2c::I2CDevice
 {
   public:
     AlvikBatterySensor() = default;
