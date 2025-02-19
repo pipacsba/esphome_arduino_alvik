@@ -84,6 +84,8 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_red_led_pin(GPIOPin *pin) { red_led_pin_ = pin; };
     void set_green_led_pin(GPIOPin *pin) { green_led_pin_ = pin; };
     void set_blue_led_pin(GPIOPin *pin) { blue_led_pin_ = pin; };
+    void set_i2c_switch1_pin(GPIOPin *pin) { i2c_switch1_pin_ = pin; };
+    void set_i2c_switch2_pin(GPIOPin *pin) { i2c_switch2_pin_ = pin; };
 
     void set_alvik_state(int a_state) { alvik_state_ = a_state; };
 
@@ -205,6 +207,8 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     GPIOPin *red_led_pin_{nullptr};
     GPIOPin *green_led_pin_{nullptr};
     GPIOPin *blue_led_pin_{nullptr};
+    GPIOPin *i2c_switch1_pin_{nullptr};
+    GPIOPin *i2c_switch2_pin_{nullptr};
 
     bool stm32_is_on_;
     bool stm32_fw_compatible_;
