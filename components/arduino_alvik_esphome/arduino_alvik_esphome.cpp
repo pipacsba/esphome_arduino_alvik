@@ -99,6 +99,9 @@ namespace alvik {
         this->set_stm32_fw_compatible(false);
         //this->stm_pin_->pin_mode(FLAG_PULLDOWN);
         this->stm32_pin_->pin_mode(gpio::FLAG_INPUT | gpio::FLAG_PULLDOWN);
+        this->i2c_switch1_pin_->pin_mode(gpio::FLAG_INPUT);
+        this->i2c_switch2_pin_->pin_mode(gpio::FLAG_INPUT);
+        
         this->nano_pin_->pin_mode(gpio::FLAG_OUTPUT);
         this->reset_pin_->pin_mode(gpio::FLAG_OUTPUT);
         this->red_led_pin_->pin_mode(gpio::FLAG_OUTPUT);
@@ -301,20 +304,39 @@ namespace alvik {
 
         if (this->cycle_ == 10)
         {
-//            GPIOPin  *a_pin = new GPIOPin();
-//            a_pin->set_pin(::GPIO_NUM_11);
-//            a_pin->set_inverted(false);
-//            a_pin->set_drive_strength(::GPIO_DRIVE_CAP_2);
-//            a_pin->set_flags(gpio::Flags::FLAG_OUTPUT);
-//            a_pin->digital_write(false);
-
-//            GPIOPin  *a_pin = new GPIOPin();
-//            a_pin->set_pin(::GPIO_NUM_12);
-//            a_pin->set_inverted(false);
-//            a_pin->set_drive_strength(::GPIO_DRIVE_CAP_2);
-//            a_pin->set_flags(gpio::Flags::FLAG_OUTPUT);
-//            a_pin->digital_write(false)
+            this->i2c_switch1_pin_->pin_mode(gpio::FLAG_OUTPUT);
+            this->i2c_switch2_pin_->pin_mode(gpio::FLAG_OUTPUT);            
+            this->i2c_switch1_pin_->digital_write(true);
+            this->i2c_switch2_pin_->digital_write(true);
+            ESP_LOGD("I2C switch takeover initiated");
         }
+        if (this->cycle_ == 20)
+        {
+            this->i2c_switch1_pin_->digital_write(false);
+            this->i2c_switch2_pin_->digital_write(false);
+        }
+        if (this->cycle_ == 21)
+        {
+            this->i2c_switch1_pin_->pin_mode(gpio::FLAG_INPUT);
+            this->i2c_switch2_pin_->pin_mode(gpio::FLAG_INPUT); 
+            this->battery_sensor_->bus_->recover_()
+            ESP_LOGD("I2C recover initiated");
+        }
+        if (this->cycle_ == 50)
+        {
+            if (!this->battery_sensor_->bus_->initialized_)
+            {
+                this->cycle_ = 0;
+                ESP_LOGD("I2C recover failed - retry");
+            }
+            else
+            {
+                ESP_LOGD("I2C recover succeeded!");
+            }
+        }
+        
+
+
         
         //this->battery_sensor_->bus_->sda_pin_;
 
