@@ -315,17 +315,17 @@ namespace alvik {
             this->i2c_switch2_pin_->digital_write(true);
             ESP_LOGD(TAG, "I2C switch takeover initiated");
         }
-        if (this->cycle_ == 40)
+        if (this->cycle_ == 11)
         {
             this->i2c_switch1_pin_->digital_write(false);
             this->i2c_switch2_pin_->digital_write(false);
   //      }
   //      if (this->cycle_ == 21)
   //      {
-            this->i2c_switch1_pin_->pin_mode(gpio::FLAG_INPUT);
-            this->i2c_switch2_pin_->pin_mode(gpio::FLAG_INPUT); 
-            this->battery_sensor_->setup()
             ESP_LOGD(TAG, "I2C recover initiated");
+            this->i2c_switch1_pin_->pin_mode(gpio::FLAG_NONE);
+            this->i2c_switch2_pin_->pin_mode(gpio::FLAG_NONE); 
+  //          this->battery_sensor_->setup()
   //      }
   //      if (this->cycle_ == 50)
   //      {
