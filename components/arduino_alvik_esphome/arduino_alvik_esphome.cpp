@@ -327,7 +327,7 @@ namespace alvik {
             if (!this->battery_sensor_->bus_->initialized_)
             {
                 this->cycle_ = 0;
-                ESP_LOGD("TAG, I2C recover failed - retry");
+                ESP_LOGD(TAG, "I2C recover failed - retry");
             }
             else
             {
