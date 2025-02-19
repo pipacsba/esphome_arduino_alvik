@@ -308,7 +308,7 @@ namespace alvik {
             this->i2c_switch2_pin_->pin_mode(gpio::FLAG_OUTPUT);            
             this->i2c_switch1_pin_->digital_write(true);
             this->i2c_switch2_pin_->digital_write(true);
-            ESP_LOGD("I2C switch takeover initiated");
+            ESP_LOGD(TAG, "I2C switch takeover initiated");
         }
         if (this->cycle_ == 20)
         {
@@ -320,18 +320,18 @@ namespace alvik {
             this->i2c_switch1_pin_->pin_mode(gpio::FLAG_INPUT);
             this->i2c_switch2_pin_->pin_mode(gpio::FLAG_INPUT); 
             this->battery_sensor_->bus_->recover_()
-            ESP_LOGD("I2C recover initiated");
+            ESP_LOGD("TAG, I2C recover initiated");
         }
         if (this->cycle_ == 50)
         {
             if (!this->battery_sensor_->bus_->initialized_)
             {
                 this->cycle_ = 0;
-                ESP_LOGD("I2C recover failed - retry");
+                ESP_LOGD("TAG, I2C recover failed - retry");
             }
             else
             {
-                ESP_LOGD("I2C recover succeeded!");
+                ESP_LOGD(TAG, "I2C recover succeeded!");
             }
         }
         
