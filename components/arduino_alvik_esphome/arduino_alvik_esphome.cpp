@@ -611,7 +611,7 @@ namespace alvik {
         ESP_LOGD(TAG, "Servo positions set to [%d,%d]!", a_position, b_position);
     }
 
-    void AlvikComponent::reset_pose(const float x = 0.0, const float y = 0.0, const float theta = 0.0){
+    void AlvikComponent::reset_pose(const float x, const float y, const float theta){
         this->msg_size = this->packeter->packetC3F('Z', x, y, theta);
         this->write_array(this->packeter->msg, msg_size); 
     }
