@@ -186,6 +186,7 @@ namespace alvik {
                         //USB supply, battery charging as the STM32 is not ON
                         this->alvik_state_ = ALVIK_EXTERNAL_SUPPLY;
                         this->set_cycle(0);
+                        this->nano_pin_->digital_write(true);
                         if (this->alvik_alive_sensor_ != nullptr)
                             this->alvik_alive_sensor_->publish_state(this->alvik_state_);
                     }
@@ -307,9 +308,10 @@ namespace alvik {
         if (this->cycle_ % 200 == 0) {  this->red_led_pin_->digital_write(false);}
         if (this->cycle_ % 200 == 100) {  this->red_led_pin_->digital_write(true);}
 
-        if (this->cycle_ == 1)
+        if (this->cycle_ == 2)
             {
                 this->nano_pin_->digital_write(true);
+                this->blue_led_pin_->digital_write(false);
                 ESP_LOGD(TAG, "Nano pin set to high");
             }
         if (this->cycle_ == 50)
@@ -319,6 +321,7 @@ namespace alvik {
             this->i2c_switch1_pin_->digital_write(true);
             this->i2c_switch2_pin_->digital_write(true);
             ESP_LOGD(TAG, "I2C switch takeover initiated");
+            this->green_led_pin_->digital_write(false);
         }
         if (this->cycle_ == 60)
         {
