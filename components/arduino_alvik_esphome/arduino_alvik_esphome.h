@@ -140,6 +140,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_backwards_button(button::Button *bttn) { backwards_button_ = bttn; }
     void set_forward_button(button::Button *bttn) { forwards_button_ = bttn; }
     void set_hw_reset_button(button::Button *bttn) { hw_reset_button_ = bttn; }
+    void set_reset_pose_button(button::Button *bttn) { reset_pose_button_ = bttn; }
     void center_button_action();
     void cancel_button_action();
     void ok_button_action();
@@ -296,6 +297,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     button::Button *backwards_button_;
     button::Button *forwards_button_;
     button::Button *hw_reset_button_;
+    button::Button *reset_pose_button_;
 
     text_sensor::TextSensor *fw_version_sensor_;
     text_sensor::TextSensor *lib_version_sensor_;
@@ -374,6 +376,14 @@ class AlvikCenterButton : public button::Button, public Parented<AlvikComponent>
 class AlvikResetButton : public button::Button, public Parented<AlvikComponent> {
  public:
   AlvikResetButton() = default;
+
+ protected:
+  void press_action() override;
+};
+
+class AlvikResetPoseButton  : public button::Button, public Parented<AlvikComponent> {
+ public:
+  AlvikResetPoseButton () = default;
 
  protected:
   void press_action() override;
