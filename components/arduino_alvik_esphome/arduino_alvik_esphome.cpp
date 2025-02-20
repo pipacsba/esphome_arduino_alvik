@@ -325,25 +325,17 @@ namespace alvik {
             this->i2c_switch1_pin_->digital_write(true);
             this->i2c_switch2_pin_->digital_write(true);
             ESP_LOGVV(TAG, "I2C switch takeover initiated");
-            //this->blue_led_pin_->digital_write(true);
-            this->green_led_pin_->digital_write(false);
         }
         if (this->cycle_ == 60)
         {
             this->i2c_switch1_pin_->digital_write(false);
             this->i2c_switch2_pin_->digital_write(false);
-  //      }
-  //      if (this->cycle_ == 21)
-  //      {
+            
             ESP_LOGVV(TAG, "I2C recover initiated");
+            
             this->i2c_switch1_pin_->pin_mode(gpio::FLAG_NONE);
             this->i2c_switch2_pin_->pin_mode(gpio::FLAG_NONE); 
-  //          this->battery_sensor_->setup()
-  //      }
-  //      if (this->cycle_ == 50)
-  //      {
-            //if (!this->battery_sensor_->bus_->initialized_)
-            //batt_regs = {0, 0};
+            
             if ((this->battery_sensor_->write(&icreg, 1, false) != i2c::ERROR_OK) || !this->battery_sensor_->read_bytes_raw(batt_regs, 2)) {
                 ESP_LOGE(TAG, "I2C recover failed");
                 this->cycle_ = 0;
@@ -367,8 +359,8 @@ namespace alvik {
 
         if (ison)
         {
-            this->green_led_pin_->digital_write(false);
-            this->red_led_pin_->digital_write(false);
+            this->green_led_pin_->digital_write(true);
+            this->red_led_pin_->digital_write(true);
             this->nano_pin_->digital_write(false);
             this->cycle_ = 0;
             this->alvik_state_ = ALVIK_STARTUP;
