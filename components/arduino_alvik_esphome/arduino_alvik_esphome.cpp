@@ -369,6 +369,7 @@ namespace alvik {
         {
             this->green_led_pin_->digital_write(false);
             this->red_led_pin_->digital_write(false);
+            this->nano_pin_->digital_write(false);
             this->cycle_ = 0;
             this->alvik_state_ = ALVIK_STARTUP;
         }
