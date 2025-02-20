@@ -308,8 +308,10 @@ namespace alvik {
         if (this->cycle_ % 200 == 100) {  this->red_led_pin_->digital_write(true);}
 
         if (this->cycle_ == 1)
-            this->nano_pin_->digital_write(true);
-            ESP_LOGD(TAG, "Nano pin set to high");
+            {
+                this->nano_pin_->digital_write(true);
+                ESP_LOGD(TAG, "Nano pin set to high");
+            }
         if (this->cycle_ == 50)
         {
             this->i2c_switch1_pin_->pin_mode(gpio::FLAG_OUTPUT);
