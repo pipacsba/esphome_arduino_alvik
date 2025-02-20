@@ -305,8 +305,11 @@ namespace alvik {
         uint16_t battery_soc;
         
         this->cycle_ = this->cycle_ + 1;
-        //if (this->cycle_ % 200 == 0) {  this->red_led_pin_->digital_write(false);}
-        //if (this->cycle_ % 200 == 100) {  this->red_led_pin_->digital_write(true);}
+        if (this->battery < 96)
+        {
+            if (this->cycle_ % 200 == 0) {  this->red_led_pin_->digital_write(false);}
+            if (this->cycle_ % 200 == 100) {  this->red_led_pin_->digital_write(true);}
+        }
 
         if (this->cycle_ == 2)
             {
@@ -348,23 +351,26 @@ namespace alvik {
             else
             {
                 battery_val = encode_uint16(batt_regs[1], batt_regs[0]);
-                battery_soc = (int)((float)battery_val * 0.00390625);
+                this->battery = (int)((float)battery_val * 0.00390625);
                 ESP_LOGD(TAG, "Battery read:  %d, %d", battery_val, battery_soc);
             }
         }
-        if (this->cycle_ % 200 == 150) 
+        if (this->cycle_ == 400) 
         {
-            //batt_regs = {0, 0};
-            if ((this->battery_sensor_->write(&icreg, 1, false) != i2c::ERROR_OK) || !this->battery_sensor_->read_bytes_raw(batt_regs, 2)) {
-                ESP_LOGD(TAG, "I2C still not recovered");
-                this->cycle_=0;
-            }
-            else
-            {
-                battery_val = encode_uint16(batt_regs[1], batt_regs[0]);
-                battery_soc = (int)((float)battery_val * 0.00390625);
-                ESP_LOGD(TAG, "Battery read:  %d, %d", battery_val, battery_soc);
-            }
+            this->cycle_=0;
+            this->battery_is_charging = (battery > 0) ? true : false;
+            if (this->battery_sensor_ != nullptr)
+                this->battery_sensor_->publish_state(this->battery);
+            if (this->battery > 96)
+                this->green_led_pin_->digital_write(false);
+        }
+
+        if (ison)
+        {
+            this->green_led_pin_->digital_write(false);
+            this->red_led_pin_->digital_write(false);
+            this->cycle = 0;
+            this->alvik_state_ = ALVIK_STARTUP;
         }
         //this->battery_sensor_->bus_->sda_pin_;
         //this->battery_sensor_->bus_->recover_();
