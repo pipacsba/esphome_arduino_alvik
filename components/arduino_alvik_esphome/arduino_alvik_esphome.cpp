@@ -312,7 +312,7 @@ namespace alvik {
             {
                 this->nano_pin_->digital_write(true);
                 this->blue_led_pin_->digital_write(false);
-                this->green_led_pin_->digital_write(true);
+                //this->green_led_pin_->digital_write(true);
                 ESP_LOGD(TAG, "Nano pin set to high");
             }
         if (this->cycle_ == 50)
@@ -322,8 +322,8 @@ namespace alvik {
             this->i2c_switch1_pin_->digital_write(true);
             this->i2c_switch2_pin_->digital_write(true);
             ESP_LOGD(TAG, "I2C switch takeover initiated");
-            this->blue_led_pin_->digital_write(true);
-            this->green_led_pin_->digital_write(false);
+            //this->blue_led_pin_->digital_write(true);
+            //this->green_led_pin_->digital_write(false);
         }
         if (this->cycle_ == 60)
         {
