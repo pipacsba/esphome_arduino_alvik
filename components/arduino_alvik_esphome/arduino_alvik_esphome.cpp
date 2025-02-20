@@ -305,8 +305,8 @@ namespace alvik {
         uint16_t battery_soc;
         
         this->cycle_ = this->cycle_ + 1;
-        if (this->cycle_ % 200 == 0) {  this->red_led_pin_->digital_write(false);}
-        if (this->cycle_ % 200 == 100) {  this->red_led_pin_->digital_write(true);}
+        //if (this->cycle_ % 200 == 0) {  this->red_led_pin_->digital_write(false);}
+        //if (this->cycle_ % 200 == 100) {  this->red_led_pin_->digital_write(true);}
 
         if (this->cycle_ == 2)
             {
