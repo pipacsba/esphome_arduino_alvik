@@ -316,7 +316,7 @@ namespace alvik {
                 this->nano_pin_->digital_write(true);
                 //this->blue_led_pin_->digital_write(false);
                 //this->green_led_pin_->digital_write(true);
-                ESP_LOGD(TAG, "Nano pin set to high");
+                ESP_LOGVV(TAG, "Nano pin set to high");
             }
         if (this->cycle_ == 50)
         {
@@ -324,7 +324,7 @@ namespace alvik {
             this->i2c_switch2_pin_->pin_mode(gpio::FLAG_OUTPUT);            
             this->i2c_switch1_pin_->digital_write(true);
             this->i2c_switch2_pin_->digital_write(true);
-            ESP_LOGD(TAG, "I2C switch takeover initiated");
+            ESP_LOGVV(TAG, "I2C switch takeover initiated");
             //this->blue_led_pin_->digital_write(true);
             this->green_led_pin_->digital_write(false);
         }
@@ -335,7 +335,7 @@ namespace alvik {
   //      }
   //      if (this->cycle_ == 21)
   //      {
-            ESP_LOGD(TAG, "I2C recover initiated");
+            ESP_LOGVV(TAG, "I2C recover initiated");
             this->i2c_switch1_pin_->pin_mode(gpio::FLAG_NONE);
             this->i2c_switch2_pin_->pin_mode(gpio::FLAG_NONE); 
   //          this->battery_sensor_->setup()
@@ -345,14 +345,14 @@ namespace alvik {
             //if (!this->battery_sensor_->bus_->initialized_)
             //batt_regs = {0, 0};
             if ((this->battery_sensor_->write(&icreg, 1, false) != i2c::ERROR_OK) || !this->battery_sensor_->read_bytes_raw(batt_regs, 2)) {
-                ESP_LOGD(TAG, "I2C recover failed");
+                ESP_LOGE(TAG, "I2C recover failed");
                 this->cycle_ = 0;
             }
             else
             {
                 battery_val = encode_uint16(batt_regs[1], batt_regs[0]);
                 this->battery = (int)((float)battery_val * 0.00390625);
-                ESP_LOGD(TAG, "Battery read:  %d, %d", battery_val, battery_soc);
+                ESP_LOGVV(TAG, "Battery read:  %d, %d", battery_val, battery_soc);
             }
         }
         if (this->cycle_ == 400) 
