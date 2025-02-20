@@ -611,6 +611,11 @@ namespace alvik {
         ESP_LOGD(TAG, "Servo positions set to [%d,%d]!", a_position, b_position);
     }
 
+    void AlvikComponent::reset_pose(const float x = 0.0, const float y = 0.0, const float theta = 0.0){
+        this->msg_size = this->packeter->packetC3F('Z', x, y, theta);
+        this->write_array(this->packeter->msg, msg_size); 
+    }
+
     void AlvikComponent::set_behaviour(const uint8_t behaviour){
       this->msg_size = this->packeter->packetC1B('B', behaviour);
       this->write_array(this->packeter->msg, this->msg_size);
@@ -681,6 +686,7 @@ namespace alvik {
     void AlvikOKButton::press_action() { this->parent_->ok_button_action(); } 
     void AlvikCancelButton::press_action() { this->parent_->cancel_button_action(); } 
     void AlvikCenterButton::press_action() { this->parent_->center_button_action(); } 
+    void AlvikResetPoseButton::press_action() { this->parent_->reset_pose(); } 
 
     void AlvikResetButton::press_action() 
     { 
