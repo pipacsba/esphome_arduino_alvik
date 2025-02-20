@@ -311,7 +311,7 @@ namespace alvik {
         if (this->cycle_ == 2)
             {
                 this->nano_pin_->digital_write(true);
-                this->blue_led_pin_->digital_write(false);
+                //this->blue_led_pin_->digital_write(false);
                 ESP_LOGD(TAG, "Nano pin set to high");
             }
         if (this->cycle_ == 50)
