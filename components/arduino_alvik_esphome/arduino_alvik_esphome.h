@@ -28,7 +28,8 @@ namespace alvik {
 #define BEHAVIOUR_ILLUMINATOR_RISE 1
 #define BEHAVIOUR_BATTERY_ALERT 2
 
-const uint8_t BATTERY_REGISTER          = 0x06;
+const uint8_t BATTERY_REGISTER       = 0x06;
+const uint8_t CHARGE_THRESHOLD       = 97;
 
 //ALVIK STATE MACHINE
 const uint8_t ALVIK_STARTUP          =   0;
