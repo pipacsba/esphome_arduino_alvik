@@ -369,7 +369,7 @@ namespace alvik {
         {
             this->green_led_pin_->digital_write(false);
             this->red_led_pin_->digital_write(false);
-            this->cycle = 0;
+            this->cycle_ = 0;
             this->alvik_state_ = ALVIK_STARTUP;
         }
         //this->battery_sensor_->bus_->sda_pin_;
