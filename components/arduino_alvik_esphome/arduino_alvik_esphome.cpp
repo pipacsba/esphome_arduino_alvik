@@ -376,10 +376,10 @@ namespace alvik {
                 {
                     orientation_correction_needed = true;
                     this->rotate(-orientation_error);
+                    this->last_command_time_ = now;
                 }
-                
             }
-            this->last_command_time_ = now;
+            
         }
         
         if ((this->alvik_command_list_.length() != 0 ) & ((now - this->last_command_time_) >= 3 * 1000) )
