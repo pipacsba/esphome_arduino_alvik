@@ -375,7 +375,7 @@ namespace alvik {
                 if (abs(orientation_error) > 4)
                 {
                     orientation_correction_needed = true;
-                    this->rotate(orientation_error);
+                    this->rotate(-orientation_error);
                 }
                 
             }
