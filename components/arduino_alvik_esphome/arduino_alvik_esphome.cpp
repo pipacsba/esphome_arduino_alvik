@@ -21,6 +21,7 @@ namespace alvik {
 
     void AlvikComponent::setup() {
         this->set_cycle(0);
+        this->orientation_correction_enabled = true;
 
         last_ack = NO_ACK;
         waiting_ack = NO_ACK;
