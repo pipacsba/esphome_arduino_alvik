@@ -116,7 +116,7 @@ namespace alvik {
         
         this->alvik_state_ = ALVIK_STARTUP;
 
-        this->last_command_time_ = 0;
+        this->last_command_time_ = -50000;
         this->last_sensor_time_  = 0;
         this->last_command_received_time_ = 0;
         this->alvik_command_list_.clear();
