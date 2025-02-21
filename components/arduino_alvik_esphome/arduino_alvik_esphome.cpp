@@ -374,8 +374,8 @@ namespace alvik {
             if (this->orientation_correction_enabled)
             {
                 this_yaw = this->robot_pose[2];
-                while (this_ yaw < 0) { this_yaw += 360;}
-                while (this_ yaw > 360) { this_yaw -= 360;}
+                while (this_yaw < 0) { this_yaw += 360; }
+                while (this_yaw > 360) { this_yaw -= 360; }
                 orientation_error = this_yaw - this->yaw_est;
                 if (abs(orientation_error) > 4)
                 {
