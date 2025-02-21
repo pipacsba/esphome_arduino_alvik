@@ -81,6 +81,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     uint16_t battery_val = 0;
     uint8_t battery_v[2];
     bool battery_is_charging;
+    bool orientation_correction_enabled;
 
     uint8_t last_ack;
     uint8_t waiting_ack;
