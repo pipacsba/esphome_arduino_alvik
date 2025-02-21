@@ -338,7 +338,7 @@ namespace alvik {
             {
                 battery_val = encode_uint16(batt_regs[1], batt_regs[0]);
                 this->battery = (int)((float)battery_val * 0.00390625);
-                ESP_LOGVV(TAG, "Battery read:  %d, %d", battery_val, battery_soc);
+                ESP_LOGD(TAG, "Battery read:  %d, %d", battery_val, battery_soc);
             }
         }
         if (this->cycle_ == 400) 
