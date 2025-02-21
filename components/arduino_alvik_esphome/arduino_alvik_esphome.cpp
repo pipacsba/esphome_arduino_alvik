@@ -116,7 +116,7 @@ namespace alvik {
         
         this->alvik_state_ = ALVIK_STARTUP;
 
-        this->last_command_time_ = -50000;
+        this->last_command_time_ = 0;
         this->last_sensor_time_  = 0;
         this->last_command_received_time_ = 0;
         this->alvik_command_list_.clear();
@@ -213,6 +213,7 @@ namespace alvik {
                         this->set_behaviour(BEHAVIOUR_BATTERY_ALERT);
                         this->set_servo_positions(0,0);
                         this->yaw_est = 0;
+                        this->last_command_time_ = now;
                         this->alvik_action_= ACTION_PERFORM_COMMAND_LIST;
                     }
                     break;
