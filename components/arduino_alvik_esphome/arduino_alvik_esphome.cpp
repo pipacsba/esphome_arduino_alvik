@@ -377,6 +377,7 @@ namespace alvik {
                 while (this_yaw < 0) { this_yaw += 360; }
                 while (this_yaw > 360) { this_yaw -= 360; }
                 if (this_yaw == 360) { this_yaw = 0; }
+                if (this->yaw_est == 360) { this->yaw_est = 0; }
                 orientation_error = this_yaw - this->yaw_est;
                 if (abs(orientation_error) > 4)
                 {
