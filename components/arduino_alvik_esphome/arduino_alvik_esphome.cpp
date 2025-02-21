@@ -295,8 +295,8 @@ namespace alvik {
     {
         uint8_t batt_regs[] = {0, 0};
         uint8_t icreg = 0x06;
-        uint16_t battery_val;
-        uint16_t battery_soc;
+        uint16_t battery_val = 0;
+        uint16_t battery_soc = 0;
         
         this->cycle_ = this->cycle_ + 1;
         if (this->battery < 96)
