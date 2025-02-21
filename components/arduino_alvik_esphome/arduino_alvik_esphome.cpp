@@ -368,11 +368,15 @@ namespace alvik {
     {
         bool orientation_correction_needed = false;
         float orientation_error;
+        float this_yaw =0;
         if ( (now - this->last_command_time_) >= 3 * 950 )
         {
             if (this->orientation_correction_enabled)
             {
-                orientation_error = this->orientation[2] - this->yaw_est;
+                this_yaw = this->robot_pose[2];
+                while (this_ yaw < 0) { this_yaw += 360;}
+                while (this_ yaw > 360) { this_yaw -= 360;}
+                orientation_error = this_yaw - this->yaw_est;
                 if (abs(orientation_error) > 4)
                 {
                     orientation_correction_needed = true;
