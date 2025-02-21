@@ -367,7 +367,7 @@ namespace alvik {
     {
         bool orientation_correction_needed = false;
         float orientation_error;
-        if ((this->alvik_command_list_.length() != 0 ) & ((now - this->last_command_time_) >= 3 * 1000) )
+        if ( (now - this->last_command_time_) >= 3 * 950 )
         {
             if (this->orientation_correction_enabled)
             {
@@ -379,6 +379,11 @@ namespace alvik {
                 }
                 
             }
+            this->last_command_time_ = now;
+        }
+        
+        if ((this->alvik_command_list_.length() != 0 ) & ((now - this->last_command_time_) >= 3 * 1000) )
+        {
             if (!orientation_correction_needed)
             {
                 //do user requests
