@@ -365,39 +365,54 @@ namespace alvik {
 
     void AlvikComponent::do_one_item_from_command_list(uint32_t now)
     {
+        bool orientation_correction_needed = false;
+        float orientation_error;
         if ((this->alvik_command_list_.length() != 0 ) & ((now - this->last_command_time_) >= 3 * 1000) )
         {
-            //do user requests
-            char c = this->alvik_command_list_[0];
-            if (c == 0x65) // e
+            if (this->orientation_correction_enabled)
             {
-                this->move(150);
+                orientation_error = this->orientation[2] - this->yaw_est;
+                if (abs(orientation_error) > 4)
+                {
+                    orientation_correction_needed = true;
+                    this->rotate(orientation_error);
+                }
+                
             }
-            else if (c == 0x68) // h
+            if (!orientation_correction_needed)
             {
-                this->move(-150);
-            }
-            else if (c == 0x6a) // j
-            {
-                this->rotate(-90);
-                this->yaw_est -= 90;
-                if (yaw_est < 0) this->yaw_est += 360;
-            }
-            else if (c == 0x62) // b
-            {
-                this->rotate(90);
-                this->yaw_est += 90;
-                if (yaw_est > 360) this->yaw_est -= 360;
-            }
-            //clear the fulfilled request
-            if (this->alvik_command_list_.length() > 1)
-            {
-                this->alvik_command_list_ = this->alvik_command_list_.substr(1);
-            }
-            else
-            {
-                this->alvik_command_list_.clear();
-                this->change_alvik_left_right_leds(0xff, false);
+                //do user requests
+                char c = this->alvik_command_list_[0];
+                if (c == 0x65) // e
+                {
+                    this->move(150);
+                }
+                else if (c == 0x68) // h
+                {
+                    this->move(-150);
+                }
+                else if (c == 0x6a) // j
+                {
+                    this->rotate(-90);
+                    this->yaw_est -= 90;
+                    if (yaw_est < 0) this->yaw_est += 360;
+                }
+                else if (c == 0x62) // b
+                {
+                    this->rotate(90);
+                    this->yaw_est += 90;
+                    if (yaw_est > 360) this->yaw_est -= 360;
+                }
+                //clear the fulfilled request
+                if (this->alvik_command_list_.length() > 1)
+                {
+                    this->alvik_command_list_ = this->alvik_command_list_.substr(1);
+                }
+                else
+                {
+                    this->alvik_command_list_.clear();
+                    this->change_alvik_left_right_leds(0xff, false);
+                }
             }
             this->last_command_time_ = now;
         }
