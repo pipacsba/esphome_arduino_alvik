@@ -21,7 +21,7 @@ namespace alvik {
 
     void AlvikComponent::setup() {
         this->set_cycle(0);
-        this->orientation_correction_enabled = false;
+        this->orientation_correction_enabled = true;
 
         last_ack = NO_ACK;
         waiting_ack = NO_ACK;
@@ -370,11 +370,12 @@ namespace alvik {
         bool orientation_correction_needed = false;
         float orientation_error;
         float this_yaw =0;
-        if ( (now - this->last_command_time_) >= 3 * 950 )
+        if ( (( now - this->last_command_time_) >= 3 * 950 ) & (( now - this->last_command_time_) < 3 * 1000 ) )
         {
             if (this->orientation_correction_enabled)
             {
-                this_yaw = this->robot_pose[2];
+                //this_yaw = this->robot_pose[2];
+                this_yaw = this->orientation[2];
                 while (this_yaw < 0) { this_yaw += 360; }
                 while (this_yaw > 360) { this_yaw -= 360; }
                 if (this_yaw == 360) { this_yaw = 0; }
