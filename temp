@@ -1,0 +1,38 @@
+from esphome.components import number
+
+SensitivityNumber = mr24hpc1_ns.class_("SensitivityNumber", number.Number)
+
+
+CONFIG_SCHEMA = cv.Schema(
+    {
+        cv.GenerateID(CONF_MR24HPC1_ID): cv.use_id(MR24HPC1Component),
+        cv.Optional(CONF_SENSITIVITY): number.number_schema(
+            SensitivityNumber,
+            entity_category=ENTITY_CATEGORY_CONFIG,
+            icon="mdi:archive-check-outline",
+        ),
+
+
+    if sensitivity_config := config.get(CONF_SENSITIVITY):
+        n = await number.new_number(
+            sensitivity_config,
+            min_value=0,
+            max_value=3,
+            step=1,
+        )
+        await cg.register_parented(n, mr24hpc1_component)
+        cg.add(mr24hpc1_component.set_sensitivity_number(n))
+
+
+#include "esphome/components/number/number.h"
+
+class SensitivityNumber : public number::Number, public Parented<MR24HPC1Component> {
+ public:
+  SensitivityNumber() = default;
+
+ protected:
+  void control(float value) override;
+};
+
+
+void SensitivityNumber::control(float value) { this->parent_->set_sensitivity(value); }
