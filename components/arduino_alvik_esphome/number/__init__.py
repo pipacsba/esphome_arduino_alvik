@@ -61,7 +61,6 @@ async def to_code(config):
             max_value=180,
             step=1,
             #initial_value=90,
-            #unit_of_measurement="°",
         )
         await cg.register_parented(n, alvik_id)
         cg.add(alvik_id.set_turn_degree_number(n))
@@ -73,7 +72,6 @@ async def to_code(config):
             max_value=1000,
             step=1,
             #initial_value=150,
-            #unit_of_measurement="mm",
         )
         await cg.register_parented(n, alvik_id)
         cg.add(alvik_id.set_forward_distance_number(n))
