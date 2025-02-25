@@ -58,7 +58,7 @@ async def to_code(config):
             min_value=0,
             max_value=180,
             step=1,
-            initial_value=90,
+            #initial_value=90,
             unit_of_measurement="°",
         )
         await cg.register_parented(n, alvik_id)
@@ -70,7 +70,7 @@ async def to_code(config):
             min_value=0,
             max_value=1000,
             step=1,
-            initial_value=150,
+            #initial_value=150,
             unit_of_measurement="mm",
         )
         await cg.register_parented(n, alvik_id)
