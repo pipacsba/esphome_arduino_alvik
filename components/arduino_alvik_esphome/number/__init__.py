@@ -38,11 +38,13 @@ CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
             AlvikForwardDistance,
             entity_category=ENTITY_CATEGORY_CONFIG,
             icon="mdi:map-marker-distance",
+            unit_of_measurement="mm",
         ),
         cv.Optional(CONF_TURN_DEGREE): number.number_schema(
             AlvikTurnDegree,
             entity_category=ENTITY_CATEGORY_CONFIG,
             icon="mdi:angle-acute",
+            unit_of_measurement="°",
         ),
       
     }
