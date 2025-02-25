@@ -122,6 +122,8 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_yaw_est_sensor(sensor::Sensor *sensor1) { yaw_est_sensor_ = sensor1; }
 
 
+    // NUMBERS
+    void set_forward_distance_number(number::Number *a_number) { forward_distance_ = a_number; }
 
     //TEXT SENSORS
     void set_fw_sensor(text_sensor::TextSensor *sensor1) { fw_version_sensor_ = sensor1; }
@@ -290,6 +292,8 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     sensor::Sensor *yaw_est_sensor_;
 
 
+    number::Number *forward_distance_;
+
     button::Button *center_button_;
     button::Button *cancel_button_;
     button::Button *ok_button_;
@@ -388,6 +392,14 @@ class AlvikResetPoseButton  : public button::Button, public Parented<AlvikCompon
 
  protected:
   void press_action() override;
+};
+
+class AlvikForwardDistance : public number::Number, public Parented<AlvikComponent> {
+ public:
+  AlvikForwardDistance() = default;
+
+ protected:
+  void control(float value) override;
 };
 
 }  // namespace alvik
