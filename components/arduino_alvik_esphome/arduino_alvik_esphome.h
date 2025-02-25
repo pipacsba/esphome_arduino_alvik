@@ -282,7 +282,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
 
     float imu[6];
 
-    //[L, CL, C, CR, R, B, T] [mm]
+    //[L, CL, C, CR, R, T, B] [mm]
     int16_t distances[7];
 
     uint8_t touch, touch_bits;
