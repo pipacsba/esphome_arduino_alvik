@@ -122,6 +122,16 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_pitch_sensor(sensor::Sensor *sensor1) { pitch_sensor_ = sensor1; }
     void set_yaw_sensor(sensor::Sensor *sensor1) { yaw_sensor_ = sensor1; }
     void set_yaw_est_sensor(sensor::Sensor *sensor1) { yaw_est_sensor_ = sensor1; }
+    void set_joints_l_sensor(sensor::Sensor *sensor1) { joints_l_ = sensor1; }
+    void set_joints_r_sensor(sensor::Sensor *sensor1) { joints_r_ = sensor1; }
+    void set_distance_l_sensor(sensor::Sensor *sensor1) { distance_l_ = sensor1; }
+    void set_distance_cl_sensor(sensor::Sensor *sensor1) { distance_cl_ = sensor1; }
+    void set_distance_c_sensor(sensor::Sensor *sensor1) { distance_c_ = sensor1; }
+    void set_distance_cr_sensor(sensor::Sensor *sensor1) { distance_cr_ = sensor1; }
+    void set_distance_r_sensor(sensor::Sensor *sensor1) { distance_r_ = sensor1; }
+    void set_distance_b_sensor(sensor::Sensor *sensor1) { distance_b_ = sensor1; }
+    void set_distance_t_sensor(sensor::Sensor *sensor1) { distance_t_ = sensor1; }
+
 
 
     // NUMBERS
