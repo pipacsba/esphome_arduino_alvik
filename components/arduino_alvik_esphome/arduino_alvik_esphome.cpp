@@ -717,6 +717,7 @@ namespace alvik {
     } 
 
     void AlvikForwardDistance::control(float a_distance) { this->parent_->set_forward_move_distance(a_distance); }
+    void AlvikTurnDegree::control(float a_distance) { this->parent_->set_turn_degree(an_angle); }
 
 }  // namespace alvik
 }  // namespace esphome
