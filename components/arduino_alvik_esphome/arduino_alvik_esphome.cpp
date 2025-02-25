@@ -716,6 +716,7 @@ namespace alvik {
         this->parent_->set_cycle(0); 
     } 
 
+    void AlvikForwardDistance::control(float a_distance) { this->parent_->set_forward_move_distance(a_distance); }
 
 }  // namespace alvik
 }  // namespace esphome
