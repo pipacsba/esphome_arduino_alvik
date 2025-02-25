@@ -96,6 +96,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_blue_led_pin(GPIOPin *pin) { blue_led_pin_ = pin; };
     void set_i2c_switch1_pin(GPIOPin *pin) { i2c_switch1_pin_ = pin; };
     void set_i2c_switch2_pin(GPIOPin *pin) { i2c_switch2_pin_ = pin; };
+    void set_forward_move_distance(float a_distance) { forward_move_distance_ = a_distance; }
 
     void set_alvik_state(int a_state) { alvik_state_ = a_state; };
 
@@ -214,6 +215,8 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
 
     uint8_t alvik_state_;
     uint8_t alvik_action_;
+
+    float forward_move_distance_;
 
     GPIOPin *stm32_pin_{nullptr};
     GPIOPin *nano_pin_{nullptr};
