@@ -1,21 +1,22 @@
 esphome:
-  name: alvik_esphome
-  friendly_name: alvik_esphome
+  name: alvik-esphome
+  friendly_name: alvik-esphome
   libraries:
-    - Wire
-    - EEPROM
     - ucPack
-#    - Arduino_Alvik
-        
+
 esp32:
-  #board: arduino_nano_esp32
-  # https://github.com/esphome/esphome/discussions/6325
   board: esp32-s3-devkitc-1
+  variant: ESP32S3
   framework:
     type: arduino
+    #version: 2.0.14
+  flash_size: 16MB
+  partitions: /config/esphome/app3M_fat9M_fact512k_16MB.csv
+
 
 # Enable logging
 logger:
+  hardware_uart: USB_CDC
 
 # Enable Home Assistant API
 api:
@@ -24,12 +25,10 @@ ota:
   - platform: esphome
 
 wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
-
-  # Enable fallback hotspot (captive portal) in case wifi connection fails
-  ap:
-    ssid: "Arduino-Alvik Fallback Hotspot"
+  #use_address: 192.168.17.208
+  networks:
+  - ssid: !secret wifi_ssid
+    password: !secret wifi_password
 
 external_components:
   - source:
@@ -38,5 +37,147 @@ external_components:
     refresh: 1min
     #refresh: 1days
 
-
 arduino_alvik_esphome:
+  id: "alvik_nano"
+  #address: 0x36
+  check_stm32_pin:
+      number: GPIO13
+      mode:
+        input: true
+        pulldown: true
+  check_nano_pin: 
+      number: GPIO07
+      mode:
+        output: true
+  reset_stm32_pin: 
+      number: GPIO06
+      mode:
+        output: true
+  red_led:
+      number: GPIO46
+      mode:
+        output: true
+      ignore_strapping_warning: true
+  green_led:
+      number: GPIO00
+      mode:
+        output: true
+      ignore_strapping_warning: true
+  blue_led:
+      number: GPIO45
+      mode:
+        output: true
+      ignore_strapping_warning: true
+  i2c_switch_1:
+      number: GPIO03
+      mode:
+        output: true
+      ignore_strapping_warning: true
+  i2c_switch_2:
+      number: GPIO04
+      mode:
+        output: true
+
+
+sensor:
+  - platform: "arduino_alvik_esphome"
+    alvik_id: "alvik_nano"
+    alvik_alive:
+      name: alvik_alive
+    battery_charge:
+      name: "battery"
+      address: 0x36
+    alvik_x_pose:
+      name: alvik_x_pose
+    alvik_y_pose:
+      name: alvik_y_pose
+    alvik_ang_pose:
+      name: alvik_ang_pose
+    alvik_roll:
+      name: alvik_roll
+    alvik_pitch:
+      name: alvik_pitch
+    alvik_yaw:
+      name: alvik_yaw
+    alvik_yaw_estimated:
+      name: alvik_yaw_estimated
+    joints_l:
+      name: joints_l
+    joints_r:
+      name: joints_r
+    distance_l:
+      name: distance_l
+    distance_cl:
+      name: distance_cl
+    distance_c:
+      name: distance_c
+    distance_cr:
+      name: distance_cr
+    distance_r:
+      name: distance_cr
+    distance_t:
+      name: distance_t
+    distance_b:
+      name: distance_b
+
+
+text_sensor:
+  - platform: "arduino_alvik_esphome"
+    alvik_id: "alvik_nano"
+    command_list:
+      name: command_list
+#    firmware_version:
+#      name: "firmware version"
+#    library_version:
+#      name: "library version"
+
+switch:
+  - platform: "arduino_alvik_esphome"
+    alvik_id: "alvik_nano"
+    enable_alvik:
+      name: load alvik
+
+uart:  # config=SERIAL_8N1
+  id: stm_bus
+  baud_rate: 460800  #115200
+  rx_pin: GPIO44
+  tx_pin: GPIO43
+  parity: NONE
+  stop_bits: 1
+
+button:
+  - platform: "arduino_alvik_esphome"
+    alvik_id: "alvik_nano"
+    move_forward:
+      name: "Forward"
+    move_backwards:
+      name: "Backwards"
+    turn_left:
+      name: "Left turn"
+    turn_right:
+      name: "Right turn"
+    ok:
+      name: "OK"
+    cancel:
+      name: "Cancel"
+    center:
+      name: "Center"
+    hw_reset:
+      name: "hw_reset"
+    reset_pose:
+      name: "reset pose"
+
+
+number:
+  - platform: "arduino_alvik_esphome"
+    alvik_id: "alvik_nano"
+    move_forward_distance:
+      name: "move_forward_distance"
+    turn_degree:
+      name: "turn_degree"
+
+i2c:
+  sda: GPIO11
+  scl: GPIO12
+  scan: false
+  id: battery_bus
