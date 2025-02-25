@@ -114,7 +114,7 @@ sensor:
     distance_cr:
       name: distance_cr
     distance_r:
-      name: distance_cr
+      name: distance_r
     distance_t:
       name: distance_t
     distance_b:
