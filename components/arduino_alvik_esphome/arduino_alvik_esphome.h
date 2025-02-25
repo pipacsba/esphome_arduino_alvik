@@ -97,6 +97,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_i2c_switch1_pin(GPIOPin *pin) { i2c_switch1_pin_ = pin; };
     void set_i2c_switch2_pin(GPIOPin *pin) { i2c_switch2_pin_ = pin; };
     void set_forward_move_distance(float a_distance) { forward_move_distance_ = a_distance; }
+    void set_turn_degree_number(float an_angle) { turn_degree_ = an_angle; }
 
     void set_alvik_state(int a_state) { alvik_state_ = a_state; };
 
@@ -125,6 +126,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
 
     // NUMBERS
     void set_forward_distance_number(number::Number *a_number) { forward_distance_ = a_number; }
+    void set_turn_degree_number(number::Number *a_number) { turn_degree_number_ = a_number; }
 
     //TEXT SENSORS
     void set_fw_sensor(text_sensor::TextSensor *sensor1) { fw_version_sensor_ = sensor1; }
@@ -217,6 +219,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     uint8_t alvik_action_;
 
     float forward_move_distance_;
+    float turn_degree_;
 
     GPIOPin *stm32_pin_{nullptr};
     GPIOPin *nano_pin_{nullptr};
@@ -296,6 +299,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
 
 
     number::Number *forward_distance_;
+    number::Number *turn_degree_number_;
 
     button::Button *center_button_;
     button::Button *cancel_button_;
@@ -400,6 +404,14 @@ class AlvikResetPoseButton  : public button::Button, public Parented<AlvikCompon
 class AlvikForwardDistance : public number::Number, public Parented<AlvikComponent> {
  public:
   AlvikForwardDistance() = default;
+
+ protected:
+  void control(float value) override;
+};
+
+class AlvikTurnDegree : public number::Number, public Parented<AlvikComponent> {
+ public:
+  AlvikTurnDegree() = default;
 
  protected:
   void control(float value) override;
