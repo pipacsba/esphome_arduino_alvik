@@ -97,7 +97,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_i2c_switch1_pin(GPIOPin *pin) { i2c_switch1_pin_ = pin; };
     void set_i2c_switch2_pin(GPIOPin *pin) { i2c_switch2_pin_ = pin; };
     void set_forward_move_distance(float a_distance) { forward_move_distance_ = a_distance; }
-    void set_turn_degree_number(float an_angle) { turn_degree_ = an_angle; }
+    void set_turn_degree(float an_angle) { turn_degree_ = an_angle; }
 
     void set_alvik_state(int a_state) { alvik_state_ = a_state; };
 
