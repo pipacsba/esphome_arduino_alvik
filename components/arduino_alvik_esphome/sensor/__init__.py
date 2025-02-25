@@ -40,11 +40,56 @@ CONF_ALVIK_ROLL_SENSOR = "alvik_roll"
 CONF_ALVIK_PITCH_SENSOR = "alvik_pitch"
 CONF_ALVIK_YAW_SENSOR = "alvik_yaw"
 CONF_ALVIK_YAW_EST_SENSOR = "alvik_yaw_estimated"
+CONF_DISTANCE_L_SENSOR = "distance_l"
+CONF_DISTANCE_CL_SENSOR = "distance_cl"
+CONF_DISTANCE_C_SENSOR = "distance_c"
+CONF_DISTANCE_CR_SENSOR = "distance_cr"
+CONF_DISTANCE_R_SENSOR = "distance_r"
+CONF_DISTANCE_T_SENSOR = "distance_t"
+CONF_DISTANCE_B_SENSOR = "distance_b"
+CONF_JOINTS_L_SENSOR = "joints_l"
+CONF_JOINTS_R_SENSOR = "joints_r"
 
 AlvikBatterySensor = alvik_ns.class_("AlvikBatterySensor", sensor.Sensor, cg.Component, i2c.I2CDevice)
 
 CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
     {
+        cv.Optional(CONF_JOINTS_R_SENSOR): sensor.sensor_schema(
+            unit_of_measurement=UNIT_DEGREES,
+            state_class=STATE_CLASS_MEASUREMENT,
+        ),
+        cv.Optional(CONF_JOINTS_L_SENSOR): sensor.sensor_schema(
+            unit_of_measurement=UNIT_DEGREES,
+            state_class=STATE_CLASS_MEASUREMENT,
+        ),
+        cv.Optional(CONF_DISTANCE_B_SENSOR): sensor.sensor_schema(
+            unit_of_measurement=UNIT_MILLIMETER,
+            state_class=STATE_CLASS_MEASUREMENT,
+        ),
+        cv.Optional(CONF_DISTANCE_T_SENSOR): sensor.sensor_schema(
+            unit_of_measurement=UNIT_MILLIMETER,
+            state_class=STATE_CLASS_MEASUREMENT,
+        ),
+        cv.Optional(CONF_DISTANCE_R_SENSOR): sensor.sensor_schema(
+            unit_of_measurement=UNIT_MILLIMETER,
+            state_class=STATE_CLASS_MEASUREMENT,
+        ),
+        cv.Optional(CONF_DISTANCE_CR_SENSOR): sensor.sensor_schema(
+            unit_of_measurement=UNIT_MILLIMETER,
+            state_class=STATE_CLASS_MEASUREMENT,
+        ),
+        cv.Optional(CONF_DISTANCE_C_SENSOR): sensor.sensor_schema(
+            unit_of_measurement=UNIT_MILLIMETER,
+            state_class=STATE_CLASS_MEASUREMENT,
+        ),
+        cv.Optional(CONF_DISTANCE_CL_SENSOR): sensor.sensor_schema(
+            unit_of_measurement=UNIT_MILLIMETER,
+            state_class=STATE_CLASS_MEASUREMENT,
+        ),        
+        cv.Optional(CONF_DISTANCE_L_SENSOR): sensor.sensor_schema(
+            unit_of_measurement=UNIT_MILLIMETER,
+            state_class=STATE_CLASS_MEASUREMENT,
+        ),
         cv.Optional(CONF_BATTERY_CHARGE_SENSOR): sensor.sensor_schema(
             AlvikBatterySensor,
             unit_of_measurement=UNIT_PERCENT,
@@ -87,6 +132,33 @@ CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
 async def to_code(config):
     alvik_id = await cg.get_variable(config[CONF_ALVIK_ID])
 
+    if joints_config := config.get(CONF_JOINTS_R_SENSOR):
+        sens = await sensor.new_sensor(joints_config)
+        cg.add(alvik_id.set_joints_r_sensor(sens))
+    if joints_config := config.get(CONF_JOINTS_L_SENSOR):
+        sens = await sensor.new_sensor(joints_config)
+        cg.add(alvik_id.set_joints_l_sensor(sens))
+    if distance_config := config.get(CONF_DISTANCE_B_SENSOR):
+        sens = await sensor.new_sensor(distance_config)
+        cg.add(alvik_id.set_distance_b_sensor(sens))
+    if distance_config := config.get(CONF_DISTANCE_T_SENSOR):
+        sens = await sensor.new_sensor(distance_config)
+        cg.add(alvik_id.set_distance_t_sensor(sens))
+    if distance_config := config.get(CONF_DISTANCE_R_SENSOR):
+        sens = await sensor.new_sensor(distance_config)
+        cg.add(alvik_id.set_distance_r_sensor(sens))
+    if distance_config := config.get(CONF_DISTANCE_CR_SENSOR):
+        sens = await sensor.new_sensor(distance_config)
+        cg.add(alvik_id.set_distance_cr_sensor(sens))
+    if distance_config := config.get(CONF_DISTANCE_C_SENSOR):
+        sens = await sensor.new_sensor(distance_config)
+        cg.add(alvik_id.set_distance_c_sensor(sens))
+    if distance_config := config.get(CONF_DISTANCE_CL_SENSOR):
+        sens = await sensor.new_sensor(distance_config)
+        cg.add(alvik_id.set_distance_cl_sensor(sens))
+    if distance_config := config.get(CONF_DISTANCE_L_SENSOR):
+        sens = await sensor.new_sensor(distance_config)
+        cg.add(alvik_id.set_distance_l_sensor(sens))
     if battery_charge_sensor_config := config.get(CONF_BATTERY_CHARGE_SENSOR):
         sens = await sensor.new_sensor(battery_charge_sensor_config)
         await i2c.register_i2c_device(sens, battery_charge_sensor_config)
