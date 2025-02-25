@@ -89,6 +89,9 @@ namespace alvik {
         battery_soc = 0.0;
         battery_is_charging = false;
 
+        this->forward_distance_->publish_state(150);
+        this->turn_degree_number_->publish_state(90);
+
         this->set_stm32_fw_compatible(false);
         //this->stm_pin_->pin_mode(FLAG_PULLDOWN);
         this->stm32_pin_->pin_mode(gpio::FLAG_INPUT | gpio::FLAG_PULLDOWN);
