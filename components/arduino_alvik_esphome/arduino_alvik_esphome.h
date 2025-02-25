@@ -308,8 +308,8 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     sensor::Sensor *pitch_sensor_;
     sensor::Sensor *yaw_sensor_;
     sensor::Sensor *yaw_est_sensor_;
-    sensor::Sensor *joint_l_;
-    sensor::Sensor *joint_r_;
+    sensor::Sensor *joints_l_;
+    sensor::Sensor *joints_r_;
     sensor::Sensor *distance_l_;
     sensor::Sensor *distance_cl_;
     sensor::Sensor *distance_c_;
