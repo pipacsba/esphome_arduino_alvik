@@ -289,10 +289,10 @@ namespace alvik {
                                     this->distance_cr_->publish_state(this->distances[3]);
                                 if (this->distance_r_ != nullptr)
                                     this->distance_r_->publish_state(this->distances[4]);
-                                if (this->distance_b_ != nullptr)
-                                    this->distance_b_->publish_state(this->distances[5]);
                                 if (this->distance_t_ != nullptr)
-                                    this->distance_t_->publish_state(this->distances[6]);
+                                    this->distance_t_->publish_state(this->distances[5]);
+                                if (this->distance_b_ != nullptr)
+                                    this->distance_b_->publish_state(this->distances[6]);
                                 this->last_sensor_time_= now;
                             }
                             break;
