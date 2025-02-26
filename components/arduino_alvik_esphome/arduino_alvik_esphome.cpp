@@ -121,6 +121,7 @@ namespace alvik {
 
         this->last_command_time_ = 0;
         this->last_sensor_time_  = 0;
+        this->sensor_group_ = 0;
         this->last_command_received_time_ = 0;
         this->alvik_command_list_.clear();
         this->alvik_action_= ACTION_PERFORM_COMMAND_LIST;
@@ -253,47 +254,61 @@ namespace alvik {
                         case TASK_WRITE_SENSOR:
                             if ((now - this->last_sensor_time_) >= 1 * 1000)
                             {
-                                if (this->battery_sensor_ != nullptr)
-                                    this->battery_sensor_->publish_state(this->battery);
-                                if (this->alvik_alive_sensor_ != nullptr)
-                                    this->alvik_alive_sensor_->publish_state(this->alvik_state_);
-                                if (this->pose_x_sensor_ != nullptr)
-                                    this->pose_x_sensor_->publish_state(this->robot_pose[0]);
-                                if (this->pose_y_sensor_ != nullptr)
-                                    this->pose_y_sensor_->publish_state(this->robot_pose[1]);
-                                if (this->pose_ang_sensor_ != nullptr)
-                                    this->pose_ang_sensor_->publish_state(this->robot_pose[2]);
-                                if (this->command_list_sensor_ != nullptr)
-                                    this->command_list_sensor_->publish_state(this->alvik_command_list_);
-                                if (this->roll_sensor_ != nullptr)
-                                    this->roll_sensor_->publish_state(this->orientation[0]);
-                                if (this->pitch_sensor_ != nullptr)
-                                    this->pitch_sensor_->publish_state(this->orientation[1]);
-                                if (this->yaw_sensor_ != nullptr)
-                                    this->yaw_sensor_->publish_state(this->orientation[2]);
-                                if (this->yaw_est_sensor_ != nullptr)
-                                    this->yaw_est_sensor_->publish_state(this->yaw_est);
-                                if (this->yaw_est_sensor_ != nullptr)
-                                    this->yaw_est_sensor_->publish_state(this->yaw_est);
-                                if (this->joints_l_ != nullptr)
-                                    this->joints_l_->publish_state(this->joints_position[0]);
-                                if (this->joints_r_ != nullptr)
-                                    this->joints_r_->publish_state(this->joints_position[1]);
-                                if (this->distance_l_ != nullptr)
-                                    this->distance_l_->publish_state(this->distances[0]);
-                                if (this->distance_cl_ != nullptr)
-                                    this->distance_cl_->publish_state(this->distances[1]);
-                                if (this->distance_c_ != nullptr)
-                                    this->distance_c_->publish_state(this->distances[2]);
-                                if (this->distance_cr_ != nullptr)
-                                    this->distance_cr_->publish_state(this->distances[3]);
-                                if (this->distance_r_ != nullptr)
-                                    this->distance_r_->publish_state(this->distances[4]);
-                                if (this->distance_t_ != nullptr)
-                                    this->distance_t_->publish_state(this->distances[5]);
-                                if (this->distance_b_ != nullptr)
-                                    this->distance_b_->publish_state(this->distances[6]);
-                                this->last_sensor_time_= now;
+                                switch (this->sensor_group_ )
+                                {
+                                    case 1:
+                                        if (this->battery_sensor_ != nullptr)
+                                            this->battery_sensor_->publish_state(this->battery);
+                                        if (this->alvik_alive_sensor_ != nullptr)
+                                            this->alvik_alive_sensor_->publish_state(this->alvik_state_);
+                                        if (this->pose_x_sensor_ != nullptr)
+                                            this->pose_x_sensor_->publish_state(this->robot_pose[0]);
+                                        if (this->pose_y_sensor_ != nullptr)
+                                            this->pose_y_sensor_->publish_state(this->robot_pose[1]);
+                                        if (this->pose_ang_sensor_ != nullptr)
+                                            this->pose_ang_sensor_->publish_state(this->robot_pose[2]);
+                                        if (this->command_list_sensor_ != nullptr)
+                                            this->command_list_sensor_->publish_state(this->alvik_command_list_);
+                                        if (this->roll_sensor_ != nullptr)
+                                            this->roll_sensor_->publish_state(this->orientation[0]);
+                                        if (this->pitch_sensor_ != nullptr)
+                                            this->pitch_sensor_->publish_state(this->orientation[1]);
+                                        if (this->yaw_sensor_ != nullptr)
+                                            this->yaw_sensor_->publish_state(this->orientation[2]);
+                                        if (this->yaw_est_sensor_ != nullptr)
+                                            this->yaw_est_sensor_->publish_state(this->yaw_est);
+                                        if (this->yaw_est_sensor_ != nullptr)
+                                            this->yaw_est_sensor_->publish_state(this->yaw_est);
+
+                                        this->sensor_group_ = this->sensor_group_ + 1;
+                                        break;
+                                    case 2:
+                                        if (this->joints_l_ != nullptr)
+                                            this->joints_l_->publish_state(this->joints_position[0]);
+                                        if (this->joints_r_ != nullptr)
+                                            this->joints_r_->publish_state(this->joints_position[1]);
+                                        if (this->distance_l_ != nullptr)
+                                            this->distance_l_->publish_state(this->distances[0]);
+                                        if (this->distance_cl_ != nullptr)
+                                            this->distance_cl_->publish_state(this->distances[1]);
+                                        if (this->distance_c_ != nullptr)
+                                            this->distance_c_->publish_state(this->distances[2]);
+                                        if (this->distance_cr_ != nullptr)
+                                            this->distance_cr_->publish_state(this->distances[3]);
+                                        if (this->distance_r_ != nullptr)
+                                            this->distance_r_->publish_state(this->distances[4]);
+                                        if (this->distance_t_ != nullptr)
+                                            this->distance_t_->publish_state(this->distances[5]);
+                                        if (this->distance_b_ != nullptr)
+                                            this->distance_b_->publish_state(this->distances[6]);
+
+                                        this->sensor_group_ = this->sensor_group_ + 1;
+                                        break;
+                                    default:
+                                        this->last_sensor_time_= now;
+                                        break;
+                                }
+
                             }
                             break;
                         default:
