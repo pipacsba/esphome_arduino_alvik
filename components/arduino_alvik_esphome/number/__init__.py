@@ -46,7 +46,7 @@ CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
             entity_category=ENTITY_CATEGORY_CONFIG,
             icon="mdi:angle-acute",
             unit_of_measurement="°",
-            mode="box",
+            mode="BOX",
         ),
       
     }
