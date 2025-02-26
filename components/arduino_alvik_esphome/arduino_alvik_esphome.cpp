@@ -256,7 +256,7 @@ namespace alvik {
                             {
                                 switch (this->sensor_group_ )
                                 {
-                                    case 1:
+                                    case 0:
                                     {
                                         if (this->battery_sensor_ != nullptr)
                                             this->battery_sensor_->publish_state(this->battery);
@@ -284,7 +284,7 @@ namespace alvik {
                                         this->sensor_group_ = this->sensor_group_ + 1;
                                         break;
                                     }
-                                    case 2:
+                                    case 1:
                                     {
                                         if (this->joints_l_ != nullptr)
                                             this->joints_l_->publish_state(this->joints_position[0]);
