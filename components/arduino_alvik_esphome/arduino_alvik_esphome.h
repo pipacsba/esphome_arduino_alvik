@@ -255,6 +255,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     int last_command_time_;
     int last_sensor_time_;
     int last_command_received_time_;
+    int sensor_group_;
 
     //ucPack * packeter;
     //uint8_t msg_size;
