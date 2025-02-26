@@ -63,11 +63,11 @@ async def to_code(config):
             min_value=0,
             max_value=180,
             step=1,
-            #mode="BOX",
+            mode="BOX",
         )
         await cg.register_parented(n, alvik_id)
         cg.add(alvik_id.set_turn_degree_number(n))
-        cg.add(n.traits.set_mode(1))
+        #cg.add(n.traits.set_mode(1))
 
     if forward_distance__config := config.get(CONF_FORWARD_DISTANCE):
         n = await number.new_number(
@@ -75,8 +75,8 @@ async def to_code(config):
             min_value=0,
             max_value=1000,
             step=1,
-            #mode="BOX",
+            mode="BOX",
         )
         await cg.register_parented(n, alvik_id)
         cg.add(alvik_id.set_forward_distance_number(n))
-        cg.add(n.traits.set_mode(1))
+        #cg.add(n.traits.set_mode(1))
