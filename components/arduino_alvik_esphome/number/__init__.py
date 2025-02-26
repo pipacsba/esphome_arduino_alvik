@@ -39,14 +39,14 @@ CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
             entity_category=ENTITY_CATEGORY_CONFIG,
             icon="mdi:map-marker-distance",
             unit_of_measurement="mm",
-            mode="BOX",
+
         ),
         cv.Optional(CONF_TURN_DEGREE): number.number_schema(
             AlvikTurnDegree,
             entity_category=ENTITY_CATEGORY_CONFIG,
             icon="mdi:angle-acute",
             unit_of_measurement="°",
-            mode="BOX",
+
         ),
       
     }
@@ -62,7 +62,7 @@ async def to_code(config):
             min_value=0,
             max_value=180,
             step=1,
-            #initial_value=90,
+            mode="BOX",
         )
         await cg.register_parented(n, alvik_id)
         cg.add(alvik_id.set_turn_degree_number(n))
@@ -73,7 +73,7 @@ async def to_code(config):
             min_value=0,
             max_value=1000,
             step=1,
-            #initial_value=150,
+            mode="BOX",
         )
         await cg.register_parented(n, alvik_id)
         cg.add(alvik_id.set_forward_distance_number(n))
