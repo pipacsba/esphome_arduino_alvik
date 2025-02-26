@@ -257,6 +257,7 @@ namespace alvik {
                                 switch (this->sensor_group_ )
                                 {
                                     case 1:
+                                    {
                                         if (this->battery_sensor_ != nullptr)
                                             this->battery_sensor_->publish_state(this->battery);
                                         if (this->alvik_alive_sensor_ != nullptr)
@@ -282,7 +283,9 @@ namespace alvik {
 
                                         this->sensor_group_ = this->sensor_group_ + 1;
                                         break;
+                                    }
                                     case 2:
+                                    {
                                         if (this->joints_l_ != nullptr)
                                             this->joints_l_->publish_state(this->joints_position[0]);
                                         if (this->joints_r_ != nullptr)
@@ -304,9 +307,12 @@ namespace alvik {
 
                                         this->sensor_group_ = this->sensor_group_ + 1;
                                         break;
+                                    }
                                     default:
+                                    {
                                         this->last_sensor_time_= now;
                                         break;
+                                    }
                                 }
 
                             }
