@@ -311,6 +311,7 @@ namespace alvik {
                                     default:
                                     {
                                         this->last_sensor_time_= now;
+                                        this->sensor_group_ = 0;
                                         break;
                                     }
                                 }
