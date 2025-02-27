@@ -65,6 +65,12 @@ class AlvikBatterySensor : public sensor::Sensor, public i2c::I2CDevice
     AlvikBatterySensor() = default;
 };
 
+class AlvikCompassSensor : public sensor::Sensor, public i2c::I2CDevice
+{
+  public:
+    AlvikCompassSensor() = default;
+};
+
 
 //class AlvikComponent  : public Component, public i2c::I2CDevice, public uart::UARTDevice {
 class AlvikComponent  : public Component, public uart::UARTDevice {
@@ -113,6 +119,8 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void loop() override;
 
     // SENSORS
+
+    void set_compass_sensor(AlvikCompassSensor *sensor1) { compass_sensor_ = sensor1; }
     void set_battery_sensor(AlvikBatterySensor *sensor1) { battery_sensor_ = sensor1; }
     void set_alive_sensor(sensor::Sensor *sensor1) { alvik_alive_sensor_ = sensor1; }
     void set_pose_x_sensor(sensor::Sensor *sensor1) { pose_x_sensor_ = sensor1; }
@@ -301,6 +309,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
 
     //sensor::Sensor *battery_sensor_;
     AlvikBatterySensor *battery_sensor_;
+    AlvikCompassSensor *compass_sensor_;
     sensor::Sensor *alvik_alive_sensor_;
     sensor::Sensor *pose_x_sensor_;
     sensor::Sensor *pose_y_sensor_;
