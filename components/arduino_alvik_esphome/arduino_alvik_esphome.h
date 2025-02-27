@@ -31,6 +31,18 @@ namespace alvik {
 const uint8_t BATTERY_REGISTER       = 0x06;
 const uint8_t CHARGE_THRESHOLD       = 97;
 
+//COMPASS_SENSOR
+const uint8_t CRA_REG_M              = 0x00;
+const uint8_t CRB_REG_M              = 0x01;
+const uint8_t M_REG_M                = 0x02;
+const uint8_t M_REG_M_CONTINOUS      = 0x00;
+const uint8_t M_REG_MEASUREMENT      = 0x03;
+const uint8_t M_REG_MEASUREMENT_LEN  = 6;
+
+const int _lsm303Mag_Gauss_LSB_XY    = 1100;
+const int _lsm303Mag_Gauss_LSB_Z     =  980;
+
+
 //ALVIK STATE MACHINE
 const uint8_t ALVIK_STARTUP          =   0;
 const uint8_t ALVIK_HW_RESET         =   1;
