@@ -241,6 +241,8 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_stm32_fw_compatible(bool compatible) { stm32_fw_compatible_ = compatible; };
     void push_alvik_command(char a) {alvik_command_list_.push_back(a);}
 
+    void read_compass_data();
+
   protected:
     friend AlvikBatterySensor;
     int cycle_;
