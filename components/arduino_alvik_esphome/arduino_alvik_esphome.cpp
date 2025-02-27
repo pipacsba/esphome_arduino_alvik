@@ -631,7 +631,7 @@ namespace alvik {
 
     void AlvikComponent::read_compass_data()
     {
-        this->compass_angle_ = 0;
+        this->compass_angle = 0;
         this->compass_measurements[0] = 0;
         this->compass_measurements[1] = 0;
         this->compass_measurements[2] = 0;
