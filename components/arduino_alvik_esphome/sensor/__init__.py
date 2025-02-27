@@ -69,7 +69,7 @@ CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
             unit_of_measurement=UNIT_MICROTESLA,
             state_class=STATE_CLASS_MEASUREMENT,
         ),
-        cv.Optional(CONF_COMPASS_X_SENSOR): sensor.sensor_schema(
+        cv.Optional(CONF_COMPASS_Y_SENSOR): sensor.sensor_schema(
             unit_of_measurement=UNIT_MICROTESLA,
             state_class=STATE_CLASS_MEASUREMENT,
         ),
