@@ -128,7 +128,7 @@ namespace alvik {
 
        if (this->compass_sensor_  != nullptr)
        {
-            if ((this->compass_sensor_->write_register(&M_REG_M, M_REG_M_CONTINOUS, 1, false) != i2c::ERROR_OK)) 
+            if ((this->compass_sensor_->write_register(M_REG_M, M_REG_M_CONTINOUS, 1, false) != i2c::ERROR_OK)) 
             {
                 ESP_LOGE(TAG, "Write Compass register to start continous failed");
             }
