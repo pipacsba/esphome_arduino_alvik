@@ -130,10 +130,7 @@ namespace alvik {
 
        if (this->compass_sensor_  != nullptr)
        {
-            if ((this->compass_sensor_->write_byte(M_REG_M, M_REG_M_CONTINOUS, false) != i2c::ERROR_OK)) 
-            {
-                ESP_LOGE(TAG, "Write Compass register to start continous failed");
-            }
+            this->compass_sensor_->write_byte(M_REG_M, 0x00);
         }        
         
         ESP_LOGD(TAG, "Setup is finished, STM32 is in reset");
