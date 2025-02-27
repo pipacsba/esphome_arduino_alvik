@@ -32,6 +32,9 @@ from .. import (
 )
 
 CONF_COMPASS_SENSOR = "compass_direction"
+CONF_COMPASS_X_SENSOR = "compass_x"
+CONF_COMPASS_Y_SENSOR = "compass_y"
+CONF_COMPASS_Z_SENSOR = "compass_z"
 CONF_BATTERY_CHARGE_SENSOR = "battery_charge"
 CONF_ALIVE_SENSOR = "alvik_alive"
 CONF_ALVIK_POSE_X_SENSOR = "alvik_x_pose"
@@ -61,6 +64,18 @@ CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
             unit_of_measurement=UNIT_DEGREES,
             state_class=STATE_CLASS_MEASUREMENT,
         ).extend(i2c.i2c_device_schema(0x1e)),
+        cv.Optional(CONF_COMPASS_X_SENSOR): sensor.sensor_schema(
+            unit_of_measurement=UNIT_MICROTESLA,
+            state_class=STATE_CLASS_MEASUREMENT,
+        ),
+        cv.Optional(CONF_COMPASS_X_SENSOR): sensor.sensor_schema(
+            unit_of_measurement=UNIT_MICROTESLA,
+            state_class=STATE_CLASS_MEASUREMENT,
+        ),
+        cv.Optional(CONF_COMPASS_Z_SENSOR): sensor.sensor_schema(
+            unit_of_measurement=UNIT_MICROTESLA,
+            state_class=STATE_CLASS_MEASUREMENT,
+        ),
         cv.Optional(CONF_JOINTS_R_SENSOR): sensor.sensor_schema(
             unit_of_measurement=UNIT_DEGREES,
             state_class=STATE_CLASS_MEASUREMENT,
@@ -143,6 +158,15 @@ async def to_code(config):
         sens = await sensor.new_sensor(compass_config)
         await i2c.register_i2c_device(sens, compass_config)
         cg.add(alvik_id.set_compass_sensor(sens))
+    if compass_x := config.get(CONF_COMPASS_X_SENSOR):
+        sens = await sensor.new_sensor(compass_x)
+        cg.add(alvik_id.set_compass_x_sensor(sens))
+    if compass_y := config.get(CONF_COMPASS_Y_SENSOR):
+        sens = await sensor.new_sensor(compass_y)
+        cg.add(alvik_id.set_compass_y_sensor(sens))
+    if compass_z := config.get(CONF_COMPASS_Z_SENSOR):
+        sens = await sensor.new_sensor(compass_z)
+        cg.add(alvik_id.set_compass_z_sensor(sens))
     if joints_config := config.get(CONF_JOINTS_R_SENSOR):
         sens = await sensor.new_sensor(joints_config)
         cg.add(alvik_id.set_joints_r_sensor(sens))
