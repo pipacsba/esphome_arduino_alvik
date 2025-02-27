@@ -303,6 +303,8 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
 
     float imu[6];
 
+    float compass_angle;
+
     //[L, CL, C, CR, R, T, B] [mm]
     int16_t distances[7];
 
