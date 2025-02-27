@@ -39,8 +39,9 @@ const uint8_t M_REG_M_CONTINOUS      = 0x00;
 const uint8_t M_REG_MEASUREMENT      = 0x03;
 const uint8_t M_REG_MEASUREMENT_LEN  = 6;
 
-const int _lsm303Mag_Gauss_LSB_XY    = 1100;
-const int _lsm303Mag_Gauss_LSB_Z     =  980;
+const int16_t _lsm303Mag_Gauss_LSB_XY    = 1100;
+const int16_t _lsm303Mag_Gauss_LSB_Z     =  980;
+const float SENSORS_GAUSS_TO_MICROTESLA  =  100;
 
 
 //ALVIK STATE MACHINE
