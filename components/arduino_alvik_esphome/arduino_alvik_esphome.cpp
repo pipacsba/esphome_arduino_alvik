@@ -641,9 +641,9 @@ namespace alvik {
     void AlvikComponent::read_compass_data()
     {
         uint8_t raw_data[6];
-        float raw_x;
-        float raw_y;
-        float raw_z;
+        int16_t raw_x;
+        int16_t raw_y;
+        int16_t raw_z;
 
         this->compass_sensor_->write_byte(M_REG_M, 0x00);
         
