@@ -321,6 +321,13 @@ namespace alvik {
                                         read_compass_data();
                                         if (this->compass_sensor_ != nullptr)
                                             this->compass_sensor_->publish_state(this->compass_angle);
+                                        if (this->compass_x_ != nullptr)
+                                            this->compass_x_->publish_state(this->compass_measurements[0]);
+                                        if (this->compass_y_ != nullptr)
+                                            this->compass_y_->publish_state(this->compass_measurements[1]);
+                                        if (this->compass_z_ != nullptr)
+                                            this->compass_z_->publish_state(this->compass_measurements[2]);
+                                        
                                     }
                                     default:
                                     {
@@ -631,10 +638,26 @@ namespace alvik {
 
     void AlvikComponent::read_compass_data()
     {
+        uint8_t raw_data[6];
+        int16_t raw_x;
+        int16_t raw_y;
+        int16_t raw_z;
+        
+        if ((this->write(&M_REG_MEASUREMENT, 1, false) != i2c::ERROR_OK) || !this->read_bytes_raw(raw_data, M_REG_MEASUREMENT_LEN  )) 
+        {
+            ESP_LOGE(TAG, "Unable to read compass data");
+        }
+        else 
+        {
+            raw_x = (int16_t)((raw_data[0] << 8) | raw_data[1]);
+            raw_z = (int16_t)((raw_data[2] << 8) | raw_data[3]);
+            raw_y = (int16_t)((raw_data[4] << 8) | raw_data[5]);
+            ESP_LOGD(TAG, "Compass data read %d, %d, %d", raw_x, raw_y, raw_z);
+            this->compass_measurements[0] = (float)raw_x / _lsm303Mag_Gauss_LSB_XY * SENSORS_GAUSS_TO_MICROTESLA;
+            this->compass_measurements[1] = (float)raw_y / _lsm303Mag_Gauss_LSB_XY * SENSORS_GAUSS_TO_MICROTESLA;
+            this->compass_measurements[2] = (float)raw_z / _lsm303Mag_Gauss_LSB_Z * SENSORS_GAUSS_TO_MICROTESLA;
+        }
         this->compass_angle = 0;
-        this->compass_measurements[0] = 0;
-        this->compass_measurements[1] = 0;
-        this->compass_measurements[2] = 0;
     }
     
     void AlvikComponent::center_button_action()
