@@ -23,6 +23,7 @@ from esphome.const import (
     STATE_CLASS_MEASUREMENT,
     UNIT_MILLIMETER,
     UNIT_DEGREES,
+    UNIT_MICROTESLA,
 )
 
 from .. import (
