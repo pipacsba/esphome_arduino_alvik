@@ -31,6 +31,7 @@ from .. import (
     alvik_ns,
 )
 
+CONF_COMPASS_SENSOR = "compass_direction"
 CONF_BATTERY_CHARGE_SENSOR = "battery_charge"
 CONF_ALIVE_SENSOR = "alvik_alive"
 CONF_ALVIK_POSE_X_SENSOR = "alvik_x_pose"
@@ -51,9 +52,15 @@ CONF_JOINTS_L_SENSOR = "joints_l"
 CONF_JOINTS_R_SENSOR = "joints_r"
 
 AlvikBatterySensor = alvik_ns.class_("AlvikBatterySensor", sensor.Sensor, cg.Component, i2c.I2CDevice)
+AlvikCompassSensor = alvik_ns.class_("AlvikCompassSensor", sensor.Sensor, cg.Component, i2c.I2CDevice)
 
 CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
     {
+        cv.Optional(CONF_COMPASS_SENSOR): sensor.sensor_schema(
+            AlvikCompassSensor,
+            unit_of_measurement=UNIT_DEGREES,
+            state_class=STATE_CLASS_MEASUREMENT,
+        ).extend(i2c.i2c_device_schema(0x1e)),
         cv.Optional(CONF_JOINTS_R_SENSOR): sensor.sensor_schema(
             unit_of_measurement=UNIT_DEGREES,
             state_class=STATE_CLASS_MEASUREMENT,
@@ -132,6 +139,10 @@ CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
 async def to_code(config):
     alvik_id = await cg.get_variable(config[CONF_ALVIK_ID])
 
+    if compass_config := config.get(CONF_COMPASS_SENSOR):
+        sens = await sensor.new_sensor(compass_config)
+        await i2c.register_i2c_device(sens, compass_config)
+        cg.add(alvik_id.set_compass_sensor(sens))
     if joints_config := config.get(CONF_JOINTS_R_SENSOR):
         sens = await sensor.new_sensor(joints_config)
         cg.add(alvik_id.set_joints_r_sensor(sens))
