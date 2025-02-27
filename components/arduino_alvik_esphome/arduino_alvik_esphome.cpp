@@ -131,6 +131,9 @@ namespace alvik {
        if (this->compass_sensor_  != nullptr)
        {
             this->compass_sensor_->write_byte(M_REG_M, 0x00);
+            this->compass_sensor_->write_byte(CRA_REG_M, 0x08);
+            this->compass_sensor_->write_byte(CRB_REG_M, 0x10);
+            this->compass_sensor_->write_byte(M_REG_M, 0x00);
         }        
         
         ESP_LOGD(TAG, "Setup is finished, STM32 is in reset");
@@ -642,7 +645,10 @@ namespace alvik {
         int16_t raw_y;
         int16_t raw_z;
 
+        this->compass_sensor_->write_byte(CRA_REG_M, 0x08);
+        this->compass_sensor_->write_byte(CRB_REG_M, 0x10);
         this->compass_sensor_->write_byte(M_REG_M, 0x00);
+        
         
         if ((this->compass_sensor_->write(&M_REG_MEASUREMENT, 1, false) != i2c::ERROR_OK) || !this->compass_sensor_->read_bytes_raw(raw_data, M_REG_MEASUREMENT_LEN  )) 
         {
@@ -658,7 +664,7 @@ namespace alvik {
             this->compass_measurements[1] = (float)raw_y / _lsm303Mag_Gauss_LSB_XY * SENSORS_GAUSS_TO_MICROTESLA;
             this->compass_measurements[2] = (float)raw_z / _lsm303Mag_Gauss_LSB_Z * SENSORS_GAUSS_TO_MICROTESLA;
         }
-        this->compass_angle =  (atan2(this->compass_measurements[1], this->compass_measurements[2]) * 180) / PI;
+        this->compass_angle =  (atan2(this->compass_measurements[2], this->compass_measurements[1]) * 180) / PI;
     }
     
     void AlvikComponent::center_button_action()
