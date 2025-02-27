@@ -645,9 +645,9 @@ namespace alvik {
         int16_t raw_y;
         int16_t raw_z;
 
-        this->compass_sensor_->write_byte(CRA_REG_M, 0x08);
-        this->compass_sensor_->write_byte(CRB_REG_M, 0x10);
-        this->compass_sensor_->write_byte(M_REG_M, 0x00);
+        //this->compass_sensor_->write_byte(CRA_REG_M, 0x08);
+        //this->compass_sensor_->write_byte(CRB_REG_M, 0x10);
+        //this->compass_sensor_->write_byte(M_REG_M, 0x00);
         
         
         if ((this->compass_sensor_->write(&M_REG_MEASUREMENT, 1, false) != i2c::ERROR_OK) || !this->compass_sensor_->read_bytes_raw(raw_data, M_REG_MEASUREMENT_LEN  )) 
