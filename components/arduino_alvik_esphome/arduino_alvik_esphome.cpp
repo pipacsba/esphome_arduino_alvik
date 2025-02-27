@@ -125,6 +125,14 @@ namespace alvik {
         this->last_command_received_time_ = 0;
         this->alvik_command_list_.clear();
         this->alvik_action_= ACTION_PERFORM_COMMAND_LIST;
+
+       if (this->compass_sensor_  != nullptr)
+       {
+            if ((this->compass_sensor_->write_register(&M_REG_M, M_REG_M_CONTINOUS, 1, false) != i2c::ERROR_OK)) 
+            {
+                ESP_LOGE(TAG, "Write Compass register to start continous failed");
+            }
+        }        
         
         ESP_LOGD(TAG, "Setup is finished, STM32 is in reset");
     }
@@ -307,6 +315,12 @@ namespace alvik {
 
                                         this->sensor_group_ = this->sensor_group_ + 1;
                                         break;
+                                    }
+                                    case 2:
+                                    {
+                                        read_compass_data();
+                                        if (this->compass_sensor_ != nullptr)
+                                            this->compass_sensor_->publish_state(this->compass_angle);
                                     }
                                     default:
                                     {
@@ -615,6 +629,14 @@ namespace alvik {
       return 0;
     }
 
+    void AlvikComponent::read_compass_data()
+    {
+        this->compass_angle_ = 0;
+        this->compass_measurements[0] = 0;
+        this->compass_measurements[1] = 0;
+        this->compass_measurements[2] = 0;
+    }
+    
     void AlvikComponent::center_button_action()
     {
         //alvik_command_list_.push_back('c'); // c: Center
