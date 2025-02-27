@@ -643,7 +643,7 @@ namespace alvik {
         int16_t raw_y;
         int16_t raw_z;
         
-        if ((this->write(&M_REG_MEASUREMENT, 1, false) != i2c::ERROR_OK) || !this->read_bytes_raw(raw_data, M_REG_MEASUREMENT_LEN  )) 
+        if ((this->compass_sensor_->write(&M_REG_MEASUREMENT, 1, false) != i2c::ERROR_OK) || !this->compass_sensor_->read_bytes_raw(raw_data, M_REG_MEASUREMENT_LEN  )) 
         {
             ESP_LOGE(TAG, "Unable to read compass data");
         }
