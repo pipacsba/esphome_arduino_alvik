@@ -135,11 +135,11 @@ namespace alvik {
             this->compass_sensor_->write_byte(CRB_REG_M, 0x10);
             this->compass_sensor_->write_byte(M_REG_M, 0x00);
             this->compass_x_min = 55;
-            this->compass_x_max = 63; 
-            this->compass_y_min = -72;
-            this->compass_y_max = -17; 
-            this->compass_z_min = -76;
-            this->compass_z_max = -18;
+            this->compass_x_max = 55; 
+            this->compass_y_min = -65;
+            this->compass_y_max = -23; 
+            this->compass_z_min = -70;
+            this->compass_z_max = -28;
             this->compass_x_offset = (this->compass_x_max + this->compass_x_min) / 2;
             this->compass_y_offset = (this->compass_y_max + this->compass_y_min) / 2;
             this->compass_z_offset = (this->compass_z_max + this->compass_z_min) / 2;
