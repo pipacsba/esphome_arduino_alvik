@@ -653,6 +653,9 @@ namespace alvik {
         int16_t raw_x;
         int16_t raw_y;
         int16_t raw_z;
+        float x;
+        float y;
+        float z;
         
         if ((this->compass_sensor_->write(&M_REG_MEASUREMENT, 1, false) != i2c::ERROR_OK) || !this->compass_sensor_->read_bytes_raw(raw_data, M_REG_MEASUREMENT_LEN  )) 
         {
@@ -664,23 +667,24 @@ namespace alvik {
             raw_z = (int16_t)((raw_data[2] << 8) | raw_data[3]);
             raw_y = (int16_t)((raw_data[4] << 8) | raw_data[5]);
             ESP_LOGD(TAG, "Compass data read %d, %d, %d", raw_x, raw_y, raw_z);
-            this->compass_measurements[0] = (float)raw_x / _lsm303Mag_Gauss_LSB_XY * SENSORS_GAUSS_TO_MICROTESLA - 59;
-            this->compass_measurements[1] = (float)raw_y / _lsm303Mag_Gauss_LSB_XY * SENSORS_GAUSS_TO_MICROTESLA +47.8;
-            this->compass_measurements[2] = (float)raw_z / _lsm303Mag_Gauss_LSB_Z * SENSORS_GAUSS_TO_MICROTESLA  + 50;
+            x = (float)raw_x / _lsm303Mag_Gauss_LSB_XY * SENSORS_GAUSS_TO_MICROTESLA;
+            y = (float)raw_y / _lsm303Mag_Gauss_LSB_XY * SENSORS_GAUSS_TO_MICROTESLA;
+            z = (float)raw_z / _lsm303Mag_Gauss_LSB_Z * SENSORS_GAUSS_TO_MICROTESLA;
 
-            if (this->compass_measurements[0] > this->compass_x_max) {this->compass_x_max = this->compass_measurements[0]; }
-            if (this->compass_measurements[0] < this->compass_x_min) {this->compass_x_min = this->compass_measurements[0]; }
-            if (this->compass_measurements[1] > this->compass_y_max) {this->compass_y_max = this->compass_measurements[1]; }
-            if (this->compass_measurements[1] < this->compass_y_min) {this->compass_y_min = this->compass_measurements[1]; }
-            if (this->compass_measurements[2] > this->compass_z_max) {this->compass_z_max = this->compass_measurements[2]; }
-            if (this->compass_measurements[2] < this->compass_z_min) {this->compass_z_min = this->compass_measurements[2]; }
+            if (x > this->compass_x_max) {this->compass_x_max = x; }
+            if (x < this->compass_x_min) {this->compass_x_min = x; }
+            if (y > this->compass_y_max) {this->compass_y_max = y; }
+            if (y < this->compass_y_min) {this->compass_y_min = y; }
+            if (z > this->compass_z_max) {this->compass_z_max = z; }
+            if (z < this->compass_z_min) {this->compass_z_min = z; }
 
-            
             this->compass_x_offset = (this->compass_x_max + this->compass_x_min) / 2;
             this->compass_y_offset = (this->compass_y_max + this->compass_y_min) / 2;
             this->compass_z_offset = (this->compass_z_max + this->compass_z_min) / 2;
-        
-        
+            
+            this->compass_measurements[0] = x - this->compass_x_offset;
+            this->compass_measurements[1] = y - this->compass_y_offset;            
+            this->compass_measurements[2] = x - this->compass_z_offset;
         
             this->compass_angle = - (atan2(this->compass_measurements[1], this->compass_measurements[2]) * 180) / PI;
             if (this->compass_angle < 0) { this->compass_angle += 360; }
