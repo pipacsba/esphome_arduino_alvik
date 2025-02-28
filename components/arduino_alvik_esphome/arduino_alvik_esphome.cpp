@@ -137,8 +137,8 @@ namespace alvik {
             this->compass_x_min = 55;
             this->compass_x_max = 55; 
             this->compass_y_min = -65;
-            this->compass_y_max = -23; 
-            this->compass_z_min = -70;
+            this->compass_y_max = -30; 
+            this->compass_z_min = -60;
             this->compass_z_max = -28;
             this->compass_x_offset = (this->compass_x_max + this->compass_x_min) / 2;
             this->compass_y_offset = (this->compass_y_max + this->compass_y_min) / 2;
