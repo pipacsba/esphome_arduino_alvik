@@ -664,7 +664,7 @@ namespace alvik {
             this->compass_measurements[1] = (float)raw_y / _lsm303Mag_Gauss_LSB_XY * SENSORS_GAUSS_TO_MICROTESLA +47.8;
             this->compass_measurements[2] = (float)raw_z / _lsm303Mag_Gauss_LSB_Z * SENSORS_GAUSS_TO_MICROTESLA  + 50;
         }
-        this->compass_angle =  (atan2(this->compass_measurements[1], this->compass_measurements[2]) * 180) / PI;
+        this->compass_angle = - (atan2(this->compass_measurements[1], this->compass_measurements[2]) * 180) / PI;
     }
     
     void AlvikComponent::center_button_action()
