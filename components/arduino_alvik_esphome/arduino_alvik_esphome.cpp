@@ -660,9 +660,9 @@ namespace alvik {
             raw_z = (int16_t)((raw_data[2] << 8) | raw_data[3]);
             raw_y = (int16_t)((raw_data[4] << 8) | raw_data[5]);
             ESP_LOGD(TAG, "Compass data read %d, %d, %d", raw_x, raw_y, raw_z);
-            this->compass_measurements[0] = (float)raw_x / _lsm303Mag_Gauss_LSB_XY * SENSORS_GAUSS_TO_MICROTESLA;
-            this->compass_measurements[1] = (float)raw_y / _lsm303Mag_Gauss_LSB_XY * SENSORS_GAUSS_TO_MICROTESLA;
-            this->compass_measurements[2] = (float)raw_z / _lsm303Mag_Gauss_LSB_Z * SENSORS_GAUSS_TO_MICROTESLA;
+            this->compass_measurements[0] = (float)raw_x / _lsm303Mag_Gauss_LSB_XY * SENSORS_GAUSS_TO_MICROTESLA - 59;
+            this->compass_measurements[1] = (float)raw_y / _lsm303Mag_Gauss_LSB_XY * SENSORS_GAUSS_TO_MICROTESLA +47.8;
+            this->compass_measurements[2] = (float)raw_z / _lsm303Mag_Gauss_LSB_Z * SENSORS_GAUSS_TO_MICROTESLA  + 50;
         }
         this->compass_angle =  (atan2(this->compass_measurements[1], this->compass_measurements[2]) * 180) / PI;
     }
