@@ -475,22 +475,22 @@ namespace alvik {
                 char c = this->alvik_command_list_[0];
                 if (c == 0x65) // e
                 {
-                    this->move(150);
+                    this->move(this->forward_move_distance_);
                 }
                 else if (c == 0x68) // h
                 {
-                    this->move(-150);
+                    this->move(-this->forward_move_distance_);
                 }
                 else if (c == 0x6a) // j
                 {
-                    this->rotate(-90);
-                    this->yaw_est -= 90;
+                    this->rotate(-this->turn_degree_);
+                    this->yaw_est -= this->turn_degree_;
                     if (yaw_est < 0) this->yaw_est += 360;
                 }
                 else if (c == 0x62) // b
                 {
-                    this->rotate(90);
-                    this->yaw_est += 90;
+                    this->rotate(this->turn_degree_);
+                    this->yaw_est += this->turn_degree_;
                     if (yaw_est > 360) this->yaw_est -= 360;
                 }
                 //clear the fulfilled request
