@@ -656,6 +656,7 @@ namespace alvik {
         float x;
         float y;
         float z;
+        bool learn_happened = false;
         
         if ((this->compass_sensor_->write(&M_REG_MEASUREMENT, 1, false) != i2c::ERROR_OK) || !this->compass_sensor_->read_bytes_raw(raw_data, M_REG_MEASUREMENT_LEN  )) 
         {
@@ -671,12 +672,43 @@ namespace alvik {
             y = (float)raw_y / _lsm303Mag_Gauss_LSB_XY * SENSORS_GAUSS_TO_MICROTESLA;
             z = (float)raw_z / _lsm303Mag_Gauss_LSB_Z * SENSORS_GAUSS_TO_MICROTESLA;
 
-            if (x > this->compass_x_max) {this->compass_x_max = x; }
-            if (x < this->compass_x_min) {this->compass_x_min = x; }
-            if (y > this->compass_y_max) {this->compass_y_max = y; }
-            if (y < this->compass_y_min) {this->compass_y_min = y; }
-            if (z > this->compass_z_max) {this->compass_z_max = z; }
-            if (z < this->compass_z_min) {this->compass_z_min = z; }
+            if (x > this->compass_x_max) 
+            {
+                this->compass_x_max = x; 
+                learn_happened = true;
+            }
+            if (x < this->compass_x_min) 
+            {
+                this->compass_x_min = x; 
+                learn_happened = true;
+            }
+            if (y > this->compass_y_max) 
+            {
+                this->compass_y_max = y; 
+                learn_happened = true;
+            }
+            if (y < this->compass_y_min) 
+            {
+                this->compass_y_min = y; 
+                learn_happened = true;
+            }
+            if (z > this->compass_z_max) 
+            {
+                this->compass_z_max = z;
+                learn_happened = true;
+            }
+            if (z < this->compass_z_min) 
+            {
+                this->compass_z_min = z;
+                learn_happened = true;
+            }
+
+            if (learn_happened)
+            {
+                ESP_LOGD(TAG, "Compass x min, max", this->compass_x_min, this->compass_x_max);
+                ESP_LOGD(TAG, "Compass y min, max", this->compass_y_min, this->compass_y_max);
+                ESP_LOGD(TAG, "Compass z min, max", this->compass_z_min, this->compass_z_max);
+            }
 
             this->compass_x_offset = (this->compass_x_max + this->compass_x_min) / 2;
             this->compass_y_offset = (this->compass_y_max + this->compass_y_min) / 2;
