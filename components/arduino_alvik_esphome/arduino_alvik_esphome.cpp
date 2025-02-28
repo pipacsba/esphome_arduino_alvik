@@ -667,7 +667,7 @@ namespace alvik {
             raw_x = (int16_t)((raw_data[0] << 8) | raw_data[1]);
             raw_z = (int16_t)((raw_data[2] << 8) | raw_data[3]);
             raw_y = (int16_t)((raw_data[4] << 8) | raw_data[5]);
-            ESP_LOGD(TAG, "Compass data read %d, %d, %d", raw_x, raw_y, raw_z);
+            ESP_LOGV(TAG, "Compass data read %d, %d, %d", raw_x, raw_y, raw_z);
             x = (float)raw_x / _lsm303Mag_Gauss_LSB_XY * SENSORS_GAUSS_TO_MICROTESLA;
             y = (float)raw_y / _lsm303Mag_Gauss_LSB_XY * SENSORS_GAUSS_TO_MICROTESLA;
             z = (float)raw_z / _lsm303Mag_Gauss_LSB_Z * SENSORS_GAUSS_TO_MICROTESLA;
@@ -706,8 +706,8 @@ namespace alvik {
             if (learn_happened)
             {
                 ESP_LOGD(TAG, "Compass x min, max %.2f, %.2f", this->compass_x_min, this->compass_x_max);
-                ESP_LOGD(TAG, "Compass y min, max", this->compass_y_min, this->compass_y_max);
-                ESP_LOGD(TAG, "Compass z min, max", this->compass_z_min, this->compass_z_max);
+                ESP_LOGD(TAG, "Compass y min, max %.2f, %.2f", this->compass_y_min, this->compass_y_max);
+                ESP_LOGD(TAG, "Compass z min, max %.2f, %.2f", this->compass_z_min, this->compass_z_max);
             }
 
             this->compass_x_offset = (this->compass_x_max + this->compass_x_min) / 2;
