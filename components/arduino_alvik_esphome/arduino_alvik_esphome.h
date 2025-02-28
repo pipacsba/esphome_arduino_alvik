@@ -311,6 +311,12 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
 
     float compass_angle;
     float compass_measurements[3];
+    float compass_x_min;
+    float compass_x_max;
+    float compass_y_min;
+    float compass_y_max;
+    float compass_z_min;
+    float compass_z_max;
 
     //[L, CL, C, CR, R, T, B] [mm]
     int16_t distances[7];
