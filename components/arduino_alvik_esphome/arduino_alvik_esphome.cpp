@@ -705,7 +705,7 @@ namespace alvik {
 
             if (learn_happened)
             {
-                ESP_LOGD(TAG, "Compass x min, max", this->compass_x_min, this->compass_x_max);
+                ESP_LOGD(TAG, "Compass x min, max %.2f, %.2f", this->compass_x_min, this->compass_x_max);
                 ESP_LOGD(TAG, "Compass y min, max", this->compass_y_min, this->compass_y_max);
                 ESP_LOGD(TAG, "Compass z min, max", this->compass_z_min, this->compass_z_max);
             }
