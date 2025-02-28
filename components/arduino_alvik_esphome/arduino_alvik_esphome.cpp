@@ -134,6 +134,15 @@ namespace alvik {
             this->compass_sensor_->write_byte(CRA_REG_M, 0x08);
             this->compass_sensor_->write_byte(CRB_REG_M, 0x10);
             this->compass_sensor_->write_byte(M_REG_M, 0x00);
+            this->compass_x_min = 55;
+            this->compass_x_max = 63; 
+            this->compass_y_min = -72;
+            this->compass_y_max = -17; 
+            this->compass_z_min = -76;
+            this->compass_z_max = -18; 
+
+
+           
         }        
         
         ESP_LOGD(TAG, "Setup is finished, STM32 is in reset");
