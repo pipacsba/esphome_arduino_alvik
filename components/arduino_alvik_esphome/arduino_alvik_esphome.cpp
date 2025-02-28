@@ -137,7 +137,7 @@ namespace alvik {
             this->compass_sensor_->write_byte(CRB_REG_M, 0x20);  // 1.3Gauss range
             this->compass_sensor_->write_byte(M_REG_M, 0x00);    // continous measuremeent mode
             this->compass_x_min = 55;//51.36; //50.91;
-            this->compass_x_max = 66;//61.64; 
+            this->compass_x_max = 55;//61.64; 
             this->compass_y_min = -60;//-73.36; //-73.09;
             this->compass_y_max = -35;//-26.91; 
             this->compass_z_min = -60;//-74.18; //-67.04;
