@@ -92,9 +92,9 @@ namespace alvik {
         battery_is_charging = false;
 
         this->forward_distance_->publish_state(150);
-        this->parent_->set_forward_move_distance(150);
+        this->set_forward_move_distance(150);
         this->turn_degree_number_->publish_state(90);
-        this->parent_->set_turn_degree(90);
+        this->set_turn_degree(90);
         
         this->set_stm32_fw_compatible(false);
         //this->stm_pin_->pin_mode(FLAG_PULLDOWN);
