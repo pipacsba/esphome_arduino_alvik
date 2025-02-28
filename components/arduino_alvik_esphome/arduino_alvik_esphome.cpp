@@ -684,7 +684,7 @@ namespace alvik {
             
             this->compass_measurements[0] = x - this->compass_x_offset;
             this->compass_measurements[1] = y - this->compass_y_offset;            
-            this->compass_measurements[2] = x - this->compass_z_offset;
+            this->compass_measurements[2] = z - this->compass_z_offset;
         
             this->compass_angle = - (atan2(this->compass_measurements[1], this->compass_measurements[2]) * 180) / PI;
             if (this->compass_angle < 0) { this->compass_angle += 360; }
