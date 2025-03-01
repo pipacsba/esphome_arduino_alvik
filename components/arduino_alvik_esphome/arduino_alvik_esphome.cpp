@@ -12,8 +12,6 @@
 namespace esphome {
 namespace alvik {
 
-# define PI           3.14159265358979323846  /* pi */
-
     static const char *const TAG = "arduinoalvik";
 
     static uint32_t millis()
