@@ -838,6 +838,9 @@ namespace alvik {
             case ALVIK_FW_COMPATIBLE:
                 ESP_LOGCONFIG(TAG, "       Everything is ready to use");
                 break;
+            case ALVIK_EXTERNAL_SUPPLY:
+                ESP_LOGCONFIG(TAG, "       Battery charging");
+                break;
             default:
                 ESP_LOGCONFIG(TAG, "       State is unknown");
                 break;
@@ -846,6 +849,13 @@ namespace alvik {
         LOG_PIN("  Pin: ", this->stm32_pin_);
         LOG_PIN("  Pin: ", this->nano_pin_);
         LOG_PIN("  Pin: ", this->reset_pin_);
+
+        if ((this->compass_sensor_ != nullptr) & (this->alvik_state_ != ALVIK_EXTERNAL_SUPPLY))
+        {
+            ESP_LOGCONFIG(TAG, "Compass x min, max %.2f, %.2f", this->compass_x_min, this->compass_x_max);
+            ESP_LOGCONFIG(TAG, "Compass y min, max %.2f, %.2f", this->compass_y_min, this->compass_y_max);
+            ESP_LOGCONFIG(TAG, "Compass z min, max %.2f, %.2f", this->compass_z_min, this->compass_z_max);
+        }
         
         if (this->battery_sensor_ != nullptr)
         {
