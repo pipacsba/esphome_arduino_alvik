@@ -659,6 +659,8 @@ namespace alvik {
         float y;
         float z;
         bool learn_happened = false;
+        float normalized_y;
+        float normalized_z;
         
         if ((this->compass_sensor_->write(&M_REG_MEASUREMENT, 1, false) != i2c::ERROR_OK) || !this->compass_sensor_->read_bytes_raw(raw_data, M_REG_MEASUREMENT_LEN  )) 
         {
@@ -719,8 +721,11 @@ namespace alvik {
             this->compass_measurements[0] = x - this->compass_x_offset;
             this->compass_measurements[1] = y - this->compass_y_offset;            
             this->compass_measurements[2] = z - this->compass_z_offset;
+
+            normalized_y = this->compass_measurements[1] / (this->compass_y_max + this->compass_y_min);
+            normalized_z = this->compass_measurements[2] / (this->compass_z_max + this->compass_z_min);
         
-            this->compass_angle = - (atan2(this->compass_measurements[1], this->compass_measurements[2]) * 180) / PI;
+            this->compass_angle = - (atan2(normalized_y, normalized_z) * 180) / PI;
             if (this->compass_angle < 0) { this->compass_angle += 360; }
         
         }
