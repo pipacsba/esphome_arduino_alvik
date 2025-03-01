@@ -722,8 +722,8 @@ namespace alvik {
             this->compass_measurements[1] = y - this->compass_y_offset;            
             this->compass_measurements[2] = z - this->compass_z_offset;
 
-            normalized_y = this->compass_measurements[1] / (this->compass_y_max + this->compass_y_min);
-            normalized_z = this->compass_measurements[2] / (this->compass_z_max + this->compass_z_min);
+            normalized_y = this->compass_measurements[1] / abs(this->compass_y_max - this->compass_y_min);
+            normalized_z = this->compass_measurements[2] / abs(this->compass_z_max - this->compass_z_min);
         
             this->compass_angle = - (atan2(normalized_y, normalized_z) * 180) / PI;
             if (this->compass_angle < 0) { this->compass_angle += 360; }
