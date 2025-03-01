@@ -238,6 +238,7 @@ namespace alvik {
                         this->set_servo_positions(0,0);
                         this->yaw_est = this->compass_angle;
                         this->reset_pose(0, 0, this->compass_angle);
+                        this->angle_at_offset = this->compass_angle;
                         this->last_command_time_ = now;
                         this->alvik_action_= ACTION_PERFORM_COMMAND_LIST;
                     }
@@ -448,7 +449,7 @@ namespace alvik {
         float this_yaw =0;
         if ( (( now - this->last_command_time_) >= 3 * 950 ) & (( now - this->last_command_time_) < 3 * 1000 ) )
         {
-            if (this->orientation_correction_enabled)
+            if (this->orientation_correction_enabled & (abs(this->compass_angle - this->angle_at_offset) < 20 ) )
             {
                 //this_yaw = this->robot_pose[2];
                 this_yaw = this->compass_angle; //this->orientation[2];
