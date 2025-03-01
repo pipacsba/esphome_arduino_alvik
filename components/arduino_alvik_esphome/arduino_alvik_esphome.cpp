@@ -301,8 +301,6 @@ namespace alvik {
                                             this->yaw_sensor_->publish_state(this->orientation[2]);
                                         if (this->yaw_est_sensor_ != nullptr)
                                             this->yaw_est_sensor_->publish_state(this->yaw_est);
-                                        if (this->yaw_est_sensor_ != nullptr)
-                                            this->yaw_est_sensor_->publish_state(this->yaw_est);
 
                                         this->sensor_group_ = this->sensor_group_ + 1;
                                         break;
