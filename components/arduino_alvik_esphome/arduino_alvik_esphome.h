@@ -306,6 +306,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
 
     float orientation[3];
     float yaw_est;
+    float angle_at_offset;
     uint8_t move_bits;
 
     float imu[6];
