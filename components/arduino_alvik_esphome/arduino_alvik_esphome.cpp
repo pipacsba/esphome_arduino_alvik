@@ -23,7 +23,7 @@ namespace alvik {
 
     void AlvikComponent::setup() {
         this->set_cycle(0);
-        this->orientation_correction_enabled = false;
+        this->orientation_correction_enabled = true;
 
         last_ack = NO_ACK;
         waiting_ack = NO_ACK;
@@ -459,7 +459,7 @@ namespace alvik {
                 if (this_yaw == 360) { this_yaw = 0; }
                 if (this->yaw_est == 360) { this->yaw_est = 0; }
                 orientation_error = this_yaw - this->yaw_est;
-                if (abs(orientation_error) > 4)
+                if (abs(orientation_error) > 8)
                 {
                     orientation_correction_needed = true;
                     this->rotate(-orientation_error);
