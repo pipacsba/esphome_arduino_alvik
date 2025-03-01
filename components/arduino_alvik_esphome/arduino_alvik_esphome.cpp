@@ -222,6 +222,7 @@ namespace alvik {
                         ESP_LOGD(TAG, "Wait_for_Ack completed!");
                         if (this->alvik_alive_sensor_ != nullptr)
                             this->alvik_alive_sensor_->publish_state(this->alvik_state_);
+                        read_compass_data();
                     }
                     break;
                 }
@@ -237,7 +238,8 @@ namespace alvik {
                         this->set_behaviour(BEHAVIOUR_ILLUMINATOR_RISE);
                         this->set_behaviour(BEHAVIOUR_BATTERY_ALERT);
                         this->set_servo_positions(0,0);
-                        this->yaw_est = 0;
+                        this->yaw_est = this->compass_angle;
+                        this->reset_pose(0, 0, this->compass_angle)
                         this->last_command_time_ = now;
                         this->alvik_action_= ACTION_PERFORM_COMMAND_LIST;
                     }
@@ -453,7 +455,7 @@ namespace alvik {
             if (this->orientation_correction_enabled)
             {
                 //this_yaw = this->robot_pose[2];
-                this_yaw = this->orientation[2];
+                this_yaw = this->compass_angle; //this->orientation[2];
                 while (this_yaw < 0) { this_yaw += 360; }
                 while (this_yaw > 360) { this_yaw -= 360; }
                 if (this_yaw == 360) { this_yaw = 0; }
