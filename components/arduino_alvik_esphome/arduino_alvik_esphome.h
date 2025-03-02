@@ -43,7 +43,7 @@ const uint8_t M_REG_MEASUREMENT_LEN  = 6;
 const int16_t _lsm303Mag_Gauss_LSB_XY    = 1100;
 const int16_t _lsm303Mag_Gauss_LSB_Z     =  980;
 const float SENSORS_GAUSS_TO_MICROTESLA  =  100;
-const float PI                           = 3.14159265358979323846  /* pi */
+const float PI                           = 3.14159265358979323846;  /* pi */
 
 //ALVIK STATE MACHINE
 const uint8_t ALVIK_STARTUP          =   0;
