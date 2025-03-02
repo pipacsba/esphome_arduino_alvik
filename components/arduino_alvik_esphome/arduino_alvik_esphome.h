@@ -143,6 +143,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_compass_z_sensor(sensor::Sensor *sensor1) { compass_z_ = sensor1; }
     void set_battery_sensor(AlvikBatterySensor *sensor1) { battery_sensor_ = sensor1; }
     void set_alive_sensor(sensor::Sensor *sensor1) { alvik_alive_sensor_ = sensor1; }
+    void set_action_sensor(sensor::Sensor *sensor1) { alvik_action_state_ = sensor1; }
     void set_pose_x_sensor(sensor::Sensor *sensor1) { pose_x_sensor_ = sensor1; }
     void set_pose_y_sensor(sensor::Sensor *sensor1) { pose_y_sensor_ = sensor1; }
     void set_pose_ang_sensor(sensor::Sensor *sensor1) { pose_ang_sensor_ = sensor1; }
@@ -349,6 +350,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     sensor::Sensor *compass_y_;
     sensor::Sensor *compass_z_;
     sensor::Sensor *alvik_alive_sensor_;
+    sensor::Sensor *alvik_action_state_;
     sensor::Sensor *pose_x_sensor_;
     sensor::Sensor *pose_y_sensor_;
     sensor::Sensor *pose_ang_sensor_;
