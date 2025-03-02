@@ -126,7 +126,7 @@ namespace alvik {
         this->sensor_group_ = 0;
         this->last_command_received_time_ = 0;
         this->alvik_command_list_.clear();
-        this->alvik_action_= ACTION_PERFORM_COMMAND_LIST;
+        this->alvik_action_= ACTION_NOT_SET;
 
        if (this->compass_sensor_  != nullptr)
        {
@@ -271,6 +271,10 @@ namespace alvik {
                                     this->change_alvik_left_right_leds(LEFT_BLUE + RIGHT_BLUE, true);
                                 if ((now - this->last_command_received_time_) > 300)
                                     this->change_alvik_left_right_leds(LEFT_BLUE + RIGHT_BLUE, false);
+                            }
+                            if (this->alvik_action_ == ACTION_FOLLOW)
+                            {
+
                             }
                             break;
                         case TASK_WRITE_SENSOR:
@@ -733,12 +737,29 @@ namespace alvik {
     void AlvikComponent::center_button_action()
     {
         //alvik_command_list_.push_back('c'); // c: Center
-        if (this->alvik_action_ == ACTION_PERFORM_COMMAND_LIST)
+        switch(this->alvik_action_)
         {
-            this->alvik_action_= ACTION_COLLECT_COMMAND_LIST;
-            this->change_alvik_left_right_leds(LEFT_GREEN + RIGHT_GREEN, true);
+            case ACTION_PERFORM_COMMAND_LIST:
+                this->alvik_action_= ACTION_COLLECT_COMMAND_LIST;
+                this->change_alvik_left_right_leds(0, false);
+                this->change_alvik_left_right_leds(LEFT_GREEN + RIGHT_GREEN, true);
+                break;
+            case ACTION_COLLECT_COMMAND_LIST:
+                this->alvik_action_= ACTION_FOLLOW;
+                this->change_alvik_left_right_leds(0, false);
+                this->change_alvik_left_right_leds(LEFT_GREEN + LEFT_RED + RIGHT_GREEN + RIGHT_RED, true);
+                break;
+            case ACTION_FOLLOW:
+                this->alvik_action_= ACTION_PERFORM_COMMAND_LIST;
+                this->change_alvik_left_right_leds(0, false);
+                break;
+            default:
+                this->alvik_action_= ACTION_PERFORM_COMMAND_LIST;
+                this->change_alvik_left_right_leds(0, false);
+                break;
         }
     }
+
     void AlvikComponent::cancel_button_action()
     {
         //alvik_command_list_.push_back('x'); // x: Cancel
