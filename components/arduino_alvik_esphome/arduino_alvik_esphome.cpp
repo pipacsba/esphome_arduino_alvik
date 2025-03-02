@@ -288,6 +288,8 @@ namespace alvik {
                                             this->battery_sensor_->publish_state(this->battery);
                                         if (this->alvik_alive_sensor_ != nullptr)
                                             this->alvik_alive_sensor_->publish_state(this->alvik_state_);
+                                        if (this->alvik_action_state_ != nullptr)
+                                            this->alvik_action_state_->publish_state(this->alvik_action_);
                                         if (this->pose_x_sensor_ != nullptr)
                                             this->pose_x_sensor_->publish_state(this->robot_pose[0]);
                                         if (this->pose_y_sensor_ != nullptr)
