@@ -741,21 +741,21 @@ namespace alvik {
         {
             case ACTION_PERFORM_COMMAND_LIST:
                 this->alvik_action_= ACTION_COLLECT_COMMAND_LIST;
-                this->change_alvik_left_right_leds(0, false);
+                this->change_alvik_left_right_leds(0xff, false);
                 this->change_alvik_left_right_leds(LEFT_GREEN + RIGHT_GREEN, true);
                 break;
             case ACTION_COLLECT_COMMAND_LIST:
                 this->alvik_action_= ACTION_FOLLOW;
-                this->change_alvik_left_right_leds(0, false);
+                this->change_alvik_left_right_leds(0xff, false);
                 this->change_alvik_left_right_leds(LEFT_GREEN + LEFT_RED + RIGHT_GREEN + RIGHT_RED, true);
                 break;
             case ACTION_FOLLOW:
                 this->alvik_action_= ACTION_PERFORM_COMMAND_LIST;
-                this->change_alvik_left_right_leds(0, false);
+                this->change_alvik_left_right_leds(0xff, false);
                 break;
             default:
                 this->alvik_action_= ACTION_PERFORM_COMMAND_LIST;
-                this->change_alvik_left_right_leds(0, false);
+                this->change_alvik_left_right_leds(0xff, false);
                 break;
         }
     }
