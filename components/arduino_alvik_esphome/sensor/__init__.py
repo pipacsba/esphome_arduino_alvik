@@ -38,6 +38,7 @@ CONF_COMPASS_Y_SENSOR = "compass_y"
 CONF_COMPASS_Z_SENSOR = "compass_z"
 CONF_BATTERY_CHARGE_SENSOR = "battery_charge"
 CONF_ALIVE_SENSOR = "alvik_alive"
+CONF_ACTION_SENSOR = "alvik_action_state"
 CONF_ALVIK_POSE_X_SENSOR = "alvik_x_pose"
 CONF_ALVIK_POSE_Y_SENSOR = "alvik_y_pose"
 CONF_ALVIK_POSE_ANG_SENSOR = "alvik_ang_pose"
@@ -121,6 +122,8 @@ CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
         ).extend(i2c.i2c_device_schema(0x36)),
         cv.Optional(CONF_ALIVE_SENSOR): sensor.sensor_schema(
         ),
+        cv.Optional(CONF_ACTION_SENSOR): sensor.sensor_schema(
+        ),
         cv.Optional(CONF_ALVIK_POSE_X_SENSOR): sensor.sensor_schema(
             unit_of_measurement=UNIT_MILLIMETER,
             state_class=STATE_CLASS_MEASUREMENT,
@@ -202,6 +205,9 @@ async def to_code(config):
     if alive_sensor_config := config.get(CONF_ALIVE_SENSOR):
         sens = await sensor.new_sensor(alive_sensor_config)
         cg.add(alvik_id.set_alive_sensor(sens))
+    if alive_action_config := config.get(CONF_ACTION_SENSOR):
+        sens = await sensor.new_sensor(alive_action_config)
+        cg.add(alvik_id.set_action_sensor(sens))
     if pose_x_config := config.get(CONF_ALVIK_POSE_X_SENSOR):
         sens = await sensor.new_sensor(pose_x_config)
         cg.add(alvik_id.set_pose_x_sensor(sens))
