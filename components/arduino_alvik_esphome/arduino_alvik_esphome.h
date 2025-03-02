@@ -22,7 +22,7 @@ namespace esphome {
 namespace alvik {
 
 #define NO_ACK 0xFF
-//#define PI     3.14159265358979323846  /* pi */
+const float PI     3.14159265358979323846  /* pi */
 
 // behaviours
 #define BEHAVIOUR_DISABLED 0
