@@ -529,6 +529,7 @@ namespace alvik {
     
     int AlvikComponent::parse_message(){                                               //it is private
       this->code = this->packeter->payloadTop();
+      uint32_t now = millis();
       switch(code){
         // get ack code
         case 'x':
@@ -597,7 +598,7 @@ namespace alvik {
         // get data from ToF in mm: L, CL, C, CR, R, B, T
         case 'f':
           this->packeter->unpacketC7I(this->code, distances[0], distances[1], distances[2], distances[3], distances[4], distances[5], distances[6]);
-          ESP_LOGD("distance message received : %u", millis());
+          ESP_LOGD("distance message received : %u", now);
           break;    
     
         // get data from touch pads: any, ok, delete, center, left, down, right, up
