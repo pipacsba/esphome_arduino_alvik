@@ -1,76 +1,19 @@
-Device Address:
-    #define _ADDRESS_MAG 0x1E
-Device has 3 config regs
-CRA_REG_M [00h] -> default (0001000) means 3Hz output rate - which is OK for this project now
-CRB_REG_M [01h] -> default (0010000) means measurement range is set to  ±1.3 -> which is OK for compass mode
-    _lsm303Mag_Gauss_LSB_XY = 1100;
-    _lsm303Mag_Gauss_LSB_Z = 980;
-M_REG_M   [02h] -> default means sleep mode so the register shall be set to continous mode by setting this register to 00h
+void set_speed(const float velocity, const uint8_t unit = RPM);
 
-Registers [03h]..[08h] are the measurements registers
-    // Note high before low (different than accel)
-    Adafruit_BusIO_Register data_reg =      Adafruit_BusIO_Register(i2c_dev, LSM303_REGISTER_MAG_OUT_X_H_M, 6);
-    data_reg.read(buffer, 6);
-    
-    uint8_t xhi = buffer[0];
-    uint8_t xlo = buffer[1];
-    uint8_t zhi = buffer[2];
-    uint8_t zlo = buffer[3];
-    uint8_t yhi = buffer[4];
-    uint8_t ylo = buffer[5];
-    
-    raw.x = (int16_t)((xhi << 8) | xlo);
-    raw.y = (int16_t)((yhi << 8) | ylo);
-    raw.z = (int16_t)((zhi << 8) | zlo);
+#define ROTATE_MAX_SPEED 170.0 //45    //EZ AKKOR MIFENE?
+
+const float MOTOR_MAX_RPM = 70.0;
+
+#define MOTOR_GEAR_RATIO 150.0          // Gear ratio of the motor, maybe 150.58?
 
 
-
-    event->magnetic.x =   (float)raw.x / _lsm303Mag_Gauss_LSB_XY * SENSORS_GAUSS_TO_MICROTESLA;
-    event->magnetic.y =   (float)raw.y / _lsm303Mag_Gauss_LSB_XY * SENSORS_GAUSS_TO_MICROTESLA;
-    event->magnetic.z =   (float)raw.z / _lsm303Mag_Gauss_LSB_Z * SENSORS_GAUSS_TO_MICROTESLA;
-    float heading = (atan2(event.magnetic.y, event.magnetic.x) * 180) / Pi;
-
-// Enable the magnetometer
-Adafruit_BusIO_Register mag_mr_reg =
-  Adafruit_BusIO_Register(i2c_dev, LSM303_REGISTER_MAG_MR_REG_M, 1);
-mag_mr_reg.write(0x00);
-
-
-void Adafruit_LSM303DLH_Mag_Unified::setMagGain(lsm303MagGain gain) {
-  Adafruit_BusIO_Register crb_reg = Adafruit_BusIO_Register(i2c_dev, LSM303_REGISTER_MAG_CRB_REG_M, 1);
-  Adafruit_BusIO_RegisterBits mag_gain =  Adafruit_BusIO_RegisterBits(&crb_reg, 3, 5);
-  mag_gain.write(gain);
-
-  magGain = gain;
-  switch (gain) {
-  case LSM303_MAGGAIN_1_3:
-    _lsm303Mag_Gauss_LSB_XY = 1100;
-    _lsm303Mag_Gauss_LSB_Z = 980;
-    break;
-  case LSM303_MAGGAIN_1_9:
-    _lsm303Mag_Gauss_LSB_XY = 855;
-    _lsm303Mag_Gauss_LSB_Z = 760;
-    break;
-  case LSM303_MAGGAIN_2_5:
-    _lsm303Mag_Gauss_LSB_XY = 670;
-    _lsm303Mag_Gauss_LSB_Z = 600;
-    break;
-  case LSM303_MAGGAIN_4_0:
-    _lsm303Mag_Gauss_LSB_XY = 450;
-    _lsm303Mag_Gauss_LSB_Z = 400;
-    break;
-  case LSM303_MAGGAIN_4_7:
-    _lsm303Mag_Gauss_LSB_XY = 400;
-    _lsm303Mag_Gauss_LSB_Z = 355;
-    break;
-  case LSM303_MAGGAIN_5_6:
-    _lsm303Mag_Gauss_LSB_XY = 330;
-    _lsm303Mag_Gauss_LSB_Z = 295;
-    break;
-  case LSM303_MAGGAIN_8_1:
-    _lsm303Mag_Gauss_LSB_XY = 230;
-    _lsm303Mag_Gauss_LSB_Z = 205;
-    break;
+void Arduino_Alvik::ArduinoAlvikWheel::set_speed(const float velocity, const uint8_t unit){
+  if (unit==PERCENTAGE){
+    converted_vel = (velocity/100.0)*MOTOR_MAX_RPM;
   }
+  else{
+    converted_vel = convert_rotational_speed(velocity, unit, RPM);
+  }
+  _msg_size = _packeter->packetC2B1F('W', _label, 'V', converted_vel);
+  _serial->write(_packeter->msg, _msg_size);
 }
-
