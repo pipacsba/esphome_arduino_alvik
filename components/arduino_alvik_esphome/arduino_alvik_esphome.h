@@ -32,6 +32,8 @@ namespace alvik {
 const uint8_t BATTERY_REGISTER       = 0x06;
 const uint8_t CHARGE_THRESHOLD       = 97;
 
+const float MOTOR_MAX_RPM = 70.0;
+
 //COMPASS_SENSOR
 const uint8_t CRA_REG_M              = 0x00;
 const uint8_t CRB_REG_M              = 0x01;
@@ -202,6 +204,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
 
     void get_wheels_position(float & left, float & right);
     void set_wheels_position(const float left, const float right, const bool blocking = true);
+    void set_wheels_speed(const float left, const float right); //RPM
 
     void get_drive_speed(float & linear, float & angular);
     void drive(const float linear, const float angular);
@@ -333,6 +336,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     uint8_t touch, touch_bits;
 
     float joints_velocity[2];
+    float wheel_speeds[2];
 
     //[Left, Right] degree
     float joints_position[2];
