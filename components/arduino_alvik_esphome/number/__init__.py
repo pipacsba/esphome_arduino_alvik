@@ -124,7 +124,7 @@ async def to_code(config):
         n = await number.new_number(
             follow_gain_f_config,
             min_value=0,
-            max_value=5,
+            max_value=20,
             step=0.1,
         )
         await cg.register_parented(n, alvik_id)
