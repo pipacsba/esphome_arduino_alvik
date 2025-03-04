@@ -382,7 +382,7 @@ namespace alvik {
         float error_distance;
         float common_speed = 0;
         float diff_speed = 0;
-        float min_distance = 150;
+        float min_distance = 1500;
         float l, cl, c, cr, r;
         float sum_weight, sum_values, centoid;
         float max_distance = 1500;
