@@ -49,44 +49,33 @@ CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
             entity_category=ENTITY_CATEGORY_CONFIG,
             icon="mdi:map-marker-distance",
             unit_of_measurement="mm",
-
         ),
         cv.Optional(CONF_FOLLOW_TOLERANCE): number.number_schema(
             AlvikFollowTolerance,
             entity_category=ENTITY_CATEGORY_CONFIG,
             icon="mdi:map-marker-distance",
             unit_of_measurement="mm",
-
         ),
         cv.Optional(CONF_FOLLOW_GAIN_HORIZONTAL): number.number_schema(
             AlvikFollowGainHorizontal,
             entity_category=ENTITY_CATEGORY_CONFIG,
-            icon="mdi:map-marker-distance",
-            unit_of_measurement="mm",
-
         ),
         cv.Optional(CONF_FOLLOW_GAIN_FRONT): number.number_schema(
             AlvikFollowGainFront,
             entity_category=ENTITY_CATEGORY_CONFIG,
-            icon="mdi:map-marker-distance",
-            unit_of_measurement="mm",
-
         ),
         cv.Optional(CONF_FORWARD_DISTANCE): number.number_schema(
             AlvikForwardDistance,
             entity_category=ENTITY_CATEGORY_CONFIG,
             icon="mdi:map-marker-distance",
             unit_of_measurement="mm",
-
         ),
         cv.Optional(CONF_TURN_DEGREE): number.number_schema(
             AlvikTurnDegree,
             entity_category=ENTITY_CATEGORY_CONFIG,
             icon="mdi:angle-acute",
             unit_of_measurement="°",
-
         ),
-      
     }
 )
 
