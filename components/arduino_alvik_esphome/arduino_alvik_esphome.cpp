@@ -385,55 +385,56 @@ namespace alvik {
         float min_distance = 150;
         float l, cl, c, cr, r;
         float sum_weight, sum_values, centoid;
+        float max_distance = 1500;
 
-        if (distances[0] > 100)
+        if (distances[0] > max_distance * 0.7)
         {
             l = 0;
         }
         else
         {
             if (min_distance > distances[0]) { min_distance == distances[0]; }
-            l = 150 - distances[0];
+            l = max_distance - distances[0];
         }
 
-        if (distances[1] > 100)
+        if (distances[1] > max_distance * 0.7)
         {
             cl = 0;
         }
         else
         {
             if (min_distance > distances[1]) { min_distance == distances[1]; }
-            cl = 150 - distances[1];
+            cl = max_distance - distances[1];
         }
 
-        if (distances[2] > 100)
+        if (distances[2] > max_distance * 0.7)
         {
             c = 0;
         }
         else
         {
             if (min_distance > distances[2]) { min_distance == distances[2]; }
-            c = 150 - distances[2];
+            c = max_distance - distances[2];
         }
 
-        if (distances[3] > 100)
+        if (distances[3] > max_distance * 0.7)
         {
             cr = 0;
         }
         else
         {
             if (min_distance > distances[3]) { min_distance == distances[3]; }
-            cr = 150 - distances[3];
+            cr = max_distance - distances[3];
         }
         
-        if (distances[4] > 100)
+        if (distances[4] > max_distance * 0.7)
         {
             r = 0;
         }
         else
         {
             if (min_distance > distances[4]) { min_distance == distances[4]; }
-            r = 150 - distances[4];
+            r = max_distance - distances[4];
         }
 
         sum_weight = l + cl + c + cr + r;
