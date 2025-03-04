@@ -378,7 +378,7 @@ namespace alvik {
     {
         float target_distance = 150;
         float Kp = 5;
-        
+        float K_horizontal = 5;
         float error_distance;
         float common_speed = 0;
         float diff_speed = 0;
@@ -445,10 +445,13 @@ namespace alvik {
         if (error_distance > 0.0) { common_speed = std::min(error_distance * Kp, MOTOR_MAX_RPM - 10); }
         if (error_distance < 0.0) { common_speed = std::max(error_distance * Kp, 10 - MOTOR_MAX_RPM); }
 
-
+        if ( abs(centoid) > 0.5 )
+        {
+            diff_speed = centoid * K_horizontal;
+        }
         
-        wheel_speeds[0] = common_speed;
-        wheel_speeds[1] = common_speed;
+        wheel_speeds[0] = common_speed + diff_speed;
+        wheel_speeds[1] = common_speed - diff_speed;
         
         set_wheels_speed(this->wheel_speeds[0], this->wheel_speeds[1]);
     }
