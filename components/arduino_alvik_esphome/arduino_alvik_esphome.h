@@ -201,11 +201,10 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     float get_setup_priority() const override { return setup_priority::DATA; }
 
     void get_wheels_speed(float & left, float & right);
-    void set_wheels_speed(const float left, const float right);
+    void set_wheels_speed(const float left, const float right);  //RPM
 
     void get_wheels_position(float & left, float & right);
     void set_wheels_position(const float left, const float right);
-    void set_wheels_speed(const float left, const float right); //RPM
 
     void get_drive_speed(float & linear, float & angular);
     void drive(const float linear, const float angular);
