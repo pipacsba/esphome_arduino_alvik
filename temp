@@ -18,6 +18,11 @@ void Arduino_Alvik::ArduinoAlvikWheel::set_speed(const float velocity, const uin
   _serial->write(_packeter->msg, _msg_size);
 }
 
+void Arduino_Alvik::set_wheels_speed(const float left, const float right, const uint8_t unit){
+  msg_size = packeter->packetC2F('J', convert_rotational_speed(left, unit, RPM), convert_rotational_speed(right, unit, RPM));
+  uart->write(packeter->msg, msg_size);
+}
+
 21	2	27][D][arduinoalvik	601]	 distance message received 	8776	
 [21	2	27][D][arduinoalvik	601]	 distance message received 	9173	397
 [21	2	28][D][arduinoalvik	601]	 distance message received 	9880	707
