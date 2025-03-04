@@ -29,12 +29,49 @@ from .. import (
 
 AlvikForwardDistance = alvik_ns.class_("AlvikForwardDistance", number.Number)
 AlvikTurnDegree = alvik_ns.class_("AlvikTurnDegree", number.Number)
+AlvikFollowDistance = alvik_ns.class_("AlvikFollowDistance", number.Number)
+AlvikFollowTolerance = alvik_ns.class_("AlvikFollowTolerance", number.Number)
+AlvikFollowGainHorizontal = alvik_ns.class_("AlvikFollowGainHorizontal", number.Number)
+AlvikFollowGainFront = alvik_ns.class_("AlvikFollowGainFront", number.Number)
 
 CONF_FORWARD_DISTANCE = "move_forward_distance"
 CONF_TURN_DEGREE = "turn_degree"
+CONF_FOLLOW_DISTANCE = "follow_distance"
+CONF_FOLLOW_TOLERANCE = "follow_tolerance"
+CONF_FOLLOW_GAIN_HORIZONTAL = "follow_gain_horizontal"
+CONF_FOLLOW_GAIN_FRONT = "follow_gain_front"
+
 
 CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
     {
+        cv.Optional(CONF_FOLLOW_DISTANCE): number.number_schema(
+            AlvikFollowDistance,
+            entity_category=ENTITY_CATEGORY_CONFIG,
+            icon="mdi:map-marker-distance",
+            unit_of_measurement="mm",
+
+        ),
+        cv.Optional(CONF_FOLLOW_TOLERANCE): number.number_schema(
+            AlvikFollowTolerance,
+            entity_category=ENTITY_CATEGORY_CONFIG,
+            icon="mdi:map-marker-distance",
+            unit_of_measurement="mm",
+
+        ),
+        cv.Optional(CONF_FOLLOW_GAIN_HORIZONTAL): number.number_schema(
+            AlvikFollowGainHorizontal,
+            entity_category=ENTITY_CATEGORY_CONFIG,
+            icon="mdi:map-marker-distance",
+            unit_of_measurement="mm",
+
+        ),
+        cv.Optional(CONF_FOLLOW_GAIN_FRONT): number.number_schema(
+            AlvikFollowGainFront,
+            entity_category=ENTITY_CATEGORY_CONFIG,
+            icon="mdi:map-marker-distance",
+            unit_of_measurement="mm",
+
+        ),
         cv.Optional(CONF_FORWARD_DISTANCE): number.number_schema(
             AlvikForwardDistance,
             entity_category=ENTITY_CATEGORY_CONFIG,
@@ -56,27 +93,57 @@ CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
 async def to_code(config):
     alvik_id = await cg.get_variable(config[CONF_ALVIK_ID])
 
-
+    if follow_distance_config := config.get(CONF_FOLLOW_DISTANCE):
+        n = await number.new_number(
+            follow_distance_config,
+            min_value=0,
+            max_value=500,
+            step=1,
+        )
+        await cg.register_parented(n, alvik_id)
+        cg.add(alvik_id.set_follow_distance_config(n))
+    if follow_tolerance_config := config.get(CONF_FOLLOW_TOLERANCE):
+        n = await number.new_number(
+            follow_tolerance_config,
+            min_value=0,
+            max_value=200,
+            step=1,
+        )
+        await cg.register_parented(n, alvik_id)
+        cg.add(alvik_id.set_follow_tolerance_config(n))
+    if follow_gain_h_config := config.get(CONF_FOLLOW_GAIN_HORIZONTAL):
+        n = await number.new_number(
+            follow_gain_h_config,
+            min_value=0,
+            max_value=20,
+            step=0.1,
+        )
+        await cg.register_parented(n, alvik_id)
+        cg.add(alvik_id.set_follow_gain_h_config(n))
+    if follow_gain_f_config := config.get(CONF_FOLLOW_GAIN_FRONT):
+        n = await number.new_number(
+            follow_gain_f_config,
+            min_value=0,
+            max_value=5,
+            step=0.1,
+        )
+        await cg.register_parented(n, alvik_id)
+        cg.add(alvik_id.set_follow_gain_f_config(n))
     if angle_turn_config := config.get(CONF_TURN_DEGREE):
         n = await number.new_number(
             angle_turn_config,
             min_value=0,
             max_value=180,
             step=1,
-            #mode="BOX",
         )
         await cg.register_parented(n, alvik_id)
         cg.add(alvik_id.set_turn_degree_number(n))
-        #cg.add(n.traits.set_mode((uint8_t)1)) # "BOX"
-
     if forward_distance__config := config.get(CONF_FORWARD_DISTANCE):
         n = await number.new_number(
             forward_distance__config,
             min_value=0,
             max_value=1000,
             step=1,
-            #mode="BOX",
         )
         await cg.register_parented(n, alvik_id)
         cg.add(alvik_id.set_forward_distance_number(n))
-        #cg.add(n.traits.set_mode((uint8_t)1)) # "BOX"
