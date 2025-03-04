@@ -381,10 +381,10 @@ namespace alvik {
     void AlvikComponent::alvik_follow_control()
     {
         //tuning parameters
-        float target_distance = 150;
-        float Kp = 5;
-        float K_horizontal = 5;
-        float distance_tolerance = 5;
+        float target_distance =  this->follow_distance_number_->state;
+        float Kp = this->follow_gain_front_number_->state;
+        float K_horizontal = this->follow_gain_horizontal_number_->state;
+        float distance_tolerance = this->follow_tolerance_number_->state;
 
         //internal variables
         float error_distance;
