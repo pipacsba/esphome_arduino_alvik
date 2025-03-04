@@ -376,9 +376,13 @@ namespace alvik {
 
     void AlvikComponent::alvik_follow_control()
     {
+        //tuning parameters
         float target_distance = 150;
         float Kp = 5;
         float K_horizontal = 5;
+        float distance_tolerance = 5;
+
+        //internal variables
         float error_distance;
         float common_speed = 0;
         float diff_speed = 0;
@@ -386,6 +390,7 @@ namespace alvik {
         float l, cl, c, cr, r;
         float sum_weight, sum_values, centoid;
         float max_distance = 1500;
+        
 
         if (distances[0] > max_distance * 0.7)
         {
@@ -443,9 +448,12 @@ namespace alvik {
         centoid = sum_values / sum_weight - 3;
 
         error_distance = min_distance - target_distance;
-        if (error_distance > 0.0) { common_speed = std::min(error_distance * Kp, MOTOR_MAX_RPM - 10); }
-        if (error_distance < 0.0) { common_speed = std::max(error_distance * Kp, 10 - MOTOR_MAX_RPM); }
-
+        if (error_distance > distance_tolerance)
+        {
+            if (error_distance > 0.0) { common_speed = std::min(error_distance * Kp, MOTOR_MAX_RPM - 10); }
+            if (error_distance < 0.0) { common_speed = std::max(error_distance * Kp, 10 - MOTOR_MAX_RPM); }
+        }
+        
         if ( abs(centoid) > 0.5 )
         {
             diff_speed = centoid * K_horizontal;
