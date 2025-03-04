@@ -505,7 +505,7 @@ class AlvikFollowDistance : public number::Number, public Parented<AlvikComponen
   AlvikFollowDistance() = default;
 
  protected:
-  //void control(float value) override;
+  void control(float value) override;
 };
 
 class AlvikFollowTolerance : public number::Number, public Parented<AlvikComponent> {
@@ -513,7 +513,7 @@ class AlvikFollowTolerance : public number::Number, public Parented<AlvikCompone
   AlvikFollowTolerance() = default;
 
  protected:
-  //void control(float value) override;
+  void control(float value) override;
 };
 
 class AlvikFollowGainHorizontal : public number::Number, public Parented<AlvikComponent> {
@@ -521,7 +521,7 @@ class AlvikFollowGainHorizontal : public number::Number, public Parented<AlvikCo
   AlvikFollowGainHorizontal() = default;
 
  protected:
-  //void control(float value) override;
+  void control(float value) override;
 };
 
 class AlvikFollowGainFront : public number::Number, public Parented<AlvikComponent> {
@@ -529,7 +529,7 @@ class AlvikFollowGainFront : public number::Number, public Parented<AlvikCompone
   AlvikFollowGainFront() = default;
 
  protected:
-  //void control(float value) override;
+  void control(float value) override;
 };
 
 
