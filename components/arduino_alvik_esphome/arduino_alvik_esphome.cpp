@@ -440,6 +440,7 @@ namespace alvik {
         centoid = sum_values / sum_weight - 3;
 
         error_distance = min_distance - target_distance;
+
         if (error_distance > distance_tolerance)
         {
             if (error_distance > 0.0) { common_speed = std::min(error_distance * Kp, MOTOR_MAX_RPM - 10); }
@@ -450,6 +451,8 @@ namespace alvik {
         {
             diff_speed = centoid * K_horizontal;
         }
+
+        ESP_LOGD(TAG, "Error distance is: %.1f, Centoid is: %.1f, Common speed is: %.1f, diff_speed is: %.1f", error_distance, centoid, common_speed, diff_speed);
         
         wheel_speeds[0] = common_speed + diff_speed;
         wheel_speeds[1] = common_speed - diff_speed;
