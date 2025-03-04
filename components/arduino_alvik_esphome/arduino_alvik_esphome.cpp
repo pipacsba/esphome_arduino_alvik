@@ -406,40 +406,28 @@ namespace alvik {
             l = max_distance - distances[0];
         }
 
-        if (distances[1] > max_distance * 0.7)
-        {
-            cl = 0;
-        }
+        if (distances[1] > max_distance * 0.7) { cl = 0; }
         else
         {
             if (min_distance > distances[1]) { min_distance == distances[1]; }
             cl = max_distance - distances[1];
         }
 
-        if (distances[2] > max_distance * 0.7)
-        {
-            c = 0;
-        }
+        if (distances[2] > max_distance * 0.7) { c = 0; }
         else
         {
             if (min_distance > distances[2]) { min_distance == distances[2]; }
             c = max_distance - distances[2];
         }
 
-        if (distances[3] > max_distance * 0.7)
-        {
-            cr = 0;
-        }
+        if (distances[3] > max_distance * 0.7) { cr = 0; }
         else
         {
             if (min_distance > distances[3]) { min_distance == distances[3]; }
             cr = max_distance - distances[3];
         }
         
-        if (distances[4] > max_distance * 0.7)
-        {
-            r = 0;
-        }
+        if (distances[4] > max_distance * 0.7) { r = 0; }
         else
         {
             if (min_distance > distances[4]) { min_distance == distances[4]; }
