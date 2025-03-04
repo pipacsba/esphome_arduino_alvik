@@ -374,6 +374,13 @@ namespace alvik {
 
     }
 
+    void AlvikComponent::alvik_follow_control()
+    {
+        this->wheel_speeds[0] = 0;
+        this->wheel_speeds[1] = 0;
+        set_wheels_speed(this->wheel_speeds[0], this->wheel_speeds[1]);
+    }
+
     void AlvikComponent::external_supply_measurement(bool ison)
     {
         uint8_t batt_regs[] = {0, 0};
@@ -819,7 +826,13 @@ namespace alvik {
 
     void AlvikComponent::reset_pose(const float x, const float y, const float theta){
         this->msg_size = this->packeter->packetC3F('Z', x, y, theta);
-        this->write_array(this->packeter->msg, msg_size); 
+        this->write_array(this->packeter->msg, this->msg_size); 
+    }
+
+    void AlvikComponent::set_wheels_speed(const float left, const float right)
+    {
+          this->msg_size = this->packeter->packetC2F('J', left, right);
+          this->write_array(this->packeter->msg, this->msg_size);
     }
 
     void AlvikComponent::set_behaviour(const uint8_t behaviour){
