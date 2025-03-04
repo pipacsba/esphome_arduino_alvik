@@ -274,7 +274,7 @@ namespace alvik {
                             }
                             if (this->alvik_action_ == ACTION_FOLLOW)
                             {
-
+                                alvik_follow_control();
                             }
                             break;
                         case TASK_WRITE_SENSOR:
