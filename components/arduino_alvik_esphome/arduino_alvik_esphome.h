@@ -169,6 +169,10 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     // NUMBERS
     void set_forward_distance_number(number::Number *a_number) { forward_distance_ = a_number; }
     void set_turn_degree_number(number::Number *a_number) { turn_degree_number_ = a_number; }
+    void set_follow_distance_config(number::Number *a_number) { follow_distance_number_ = a_number; }
+    void set_follow_tolerance_config(number::Number *a_number) { follow_tolerance_number_ = a_number; }
+    void set_follow_gain_h_config(number::Number *a_number) { follow_gain_horizontal_number_ = a_number; }
+    void set_follow_gain_f_config(number::Number *a_number) { follow_gain_front_number_ = a_number; }
 
     //TEXT SENSORS
     void set_fw_sensor(text_sensor::TextSensor *sensor1) { fw_version_sensor_ = sensor1; }
@@ -375,6 +379,10 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
 
     number::Number *forward_distance_;
     number::Number *turn_degree_number_;
+    number::Number *follow_distance_number_;
+    number::Number *follow_tolerance_number_;
+    number::Number *follow_gain_horizontal_number_;
+    number::Number *follow_gain_front_number_;
 
     button::Button *center_button_;
     button::Button *cancel_button_;
@@ -491,6 +499,39 @@ class AlvikTurnDegree : public number::Number, public Parented<AlvikComponent> {
  protected:
   void control(float value) override;
 };
+
+class AlvikFollowDistance : public number::Number, public Parented<AlvikComponent> {
+ public:
+  AlvikFollowDistance() = default;
+
+ protected:
+  void control(float value) override;
+};
+
+class AlvikFollowTolerance : public number::Number, public Parented<AlvikComponent> {
+ public:
+  AlvikFollowTolerance() = default;
+
+ protected:
+  void control(float value) override;
+};
+
+class AlvikFollowGainHorizontal : public number::Number, public Parented<AlvikComponent> {
+ public:
+  AlvikFollowGainHorizontal() = default;
+
+ protected:
+  void control(float value) override;
+};
+
+class AlvikFollowGainFront : public number::Number, public Parented<AlvikComponent> {
+ public:
+  AlvikFollowGainFront() = default;
+
+ protected:
+  void control(float value) override;
+};
+
 
 }  // namespace alvik
 }  // namespace esphome
