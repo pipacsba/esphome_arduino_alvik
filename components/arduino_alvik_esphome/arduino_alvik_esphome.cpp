@@ -440,7 +440,7 @@ namespace alvik {
 
         error_distance = min_distance - target_distance;
 
-        if (error_distance > distance_tolerance)
+        if (abs(error_distance) > distance_tolerance)
         {
             if (error_distance > 0.0) { common_speed = std::min(error_distance * Kp, MOTOR_MAX_RPM - 10); }
             if (error_distance < 0.0) { common_speed = std::max(error_distance * Kp, 10 - MOTOR_MAX_RPM); }
