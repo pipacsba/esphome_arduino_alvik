@@ -381,11 +381,72 @@ namespace alvik {
         
         float error_distance;
         float common_speed = 0;
+        float diff_speed = 0;
+        float min_distance = 150;
+        float l, cl, c, cr, r;
+        float sum_weight, sum_values, centoid;
+
+        if (distance[0] > 100)
+        {
+            l = 0;
+        }
+        else
+        {
+            if (min_distance > distance[0]) { min_distance == distance[0]; }
+            l = 150 - distance[0];
+        }
+
+        if (distance[1] > 100)
+        {
+            cl = 0;
+        }
+        else
+        {
+            if (min_distance > distance[1]) { min_distance == distance[1]; }
+            cl = 150 - distance[1];
+        }
+
+        if (distance[2] > 100)
+        {
+            c = 0;
+        }
+        else
+        {
+            if (min_distance > distance[2]) { min_distance == distance[2]; }
+            c = 150 - distance[2];
+        }
+
+        if (distance[3] > 100)
+        {
+            cr = 0;
+        }
+        else
+        {
+            if (min_distance > distance[3]) { min_distance == distance[3]; }
+            cr = 150 - distance[3];
+        }
         
-        error_distance = this->distances[2] - target_distance;
+        if (distance[4] > 100)
+        {
+            r = 0;
+        }
+        else
+        {
+            if (min_distance > distance[4]) { min_distance == distance[4]; }
+            r = 150 - distance[4];
+        }
+
+        sum_weight = l + cl + c + cr + r;
+        sum_values = l + cl*2 + c*3 + cr*4 + r*5;
+
+        centoid = sum_values / sum_weight - 3;
+
+        error_distance = min_distance - target_distance;
         if (error_distance > 0.0) { common_speed = std::min(error_distance * Kp, MOTOR_MAX_RPM - 10); }
         if (error_distance < 0.0) { common_speed = std::max(error_distance * Kp, 10 - MOTOR_MAX_RPM); }
 
+
+        
         wheel_speeds[0] = common_speed;
         wheel_speeds[1] = common_speed;
         
