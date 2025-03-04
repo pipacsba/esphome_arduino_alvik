@@ -386,6 +386,8 @@ namespace alvik {
         float K_horizontal = this->follow_gain_horizontal_number_->state;
         float distance_tolerance = this->follow_tolerance_number_->state;
 
+        ESP_LOGD(TAG, "target distance is: %.1f, tolerance is: %.1f, Kp is: %.1f, K_horizontal is: %.1f", target_distance, distance_tolerance, Kp, K_horizontal);
+
         //internal variables
         float error_distance;
         float common_speed = 0;
@@ -452,7 +454,7 @@ namespace alvik {
             diff_speed = centoid * K_horizontal;
         }
 
-        ESP_LOGD(TAG, "Error distance is: %.1f, Centoid is: %.1f, Common speed is: %.1f, diff_speed is: %.1f", error_distance, centoid, common_speed, diff_speed);
+        ESP_LOGD(TAG, "Error distance is: %.1f, Centoid is: %.1f, Common speed is: %.1f, diff_speed is: %.1f, Min distance is: %.1f", error_distance, centoid, common_speed, diff_speed, min_distance);
         
         wheel_speeds[0] = common_speed + diff_speed;
         wheel_speeds[1] = common_speed - diff_speed;
