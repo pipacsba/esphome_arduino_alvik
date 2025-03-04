@@ -376,8 +376,19 @@ namespace alvik {
 
     void AlvikComponent::alvik_follow_control()
     {
-        this->wheel_speeds[0] = 0;
-        this->wheel_speeds[1] = 0;
+        float target_distance = 150;
+        float Kp = 5;
+        
+        float error_distance;
+        float common_speed = 0;
+        
+        error_distance = this->distances[2] - target_distance;
+        if (errordistance > 0.0) { common_speed = std::min(error_distance * Kp, MOTOR_MAX_RPM - 10); }
+        if (errordistance < 0.0) { common_speed = std::max(error_distance * Kp, 10 - MOTOR_MAX_RPM); }
+
+        wheel_speeds[0] = common_speed;
+        wheel_speeds[1] = common_speed;
+        
         set_wheels_speed(this->wheel_speeds[0], this->wheel_speeds[1]);
     }
 
