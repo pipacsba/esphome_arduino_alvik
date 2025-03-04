@@ -9,14 +9,20 @@ esp32:
   variant: ESP32S3
   framework:
     type: arduino
-    #version: 2.0.14
   flash_size: 16MB
   partitions: /config/esphome/app3M_fat9M_fact512k_16MB.csv
 
 
+debug:
+
 # Enable logging
 logger:
   hardware_uart: USB_CDC
+  level: DEBUG
+  logs:
+    sensor: WARN
+    text_sensor: WARN
+
 
 # Enable Home Assistant API
 api:
@@ -29,6 +35,13 @@ wifi:
   networks:
   - ssid: !secret wifi_ssid
     password: !secret wifi_password
+  - ssid: !secret wifi_ssid_backup
+    password: !secret wifi_password
+  ap:
+    ssid: "Alvik_Nano_Fallback"
+    password: !secret wifi_password
+  domain: .lan
+
 
 external_components:
   - source:
@@ -39,7 +52,6 @@ external_components:
 
 arduino_alvik_esphome:
   id: "alvik_nano"
-  #address: 0x36
   check_stm32_pin:
       number: GPIO13
       mode:
@@ -84,6 +96,8 @@ sensor:
     alvik_id: "alvik_nano"
     alvik_alive:
       name: alvik_alive
+    alvik_action_state:
+      name: alvik_action_state
     battery_charge:
       name: "battery"
       address: 0x36
@@ -119,7 +133,14 @@ sensor:
       name: distance_t
     distance_b:
       name: distance_b
-
+    compass_direction:
+      name: compass_direction
+    compass_x:
+      name: compass_x
+    compass_y:
+      name: compass_y
+    compass_z:
+      name: compass_z
 
 text_sensor:
   - platform: "arduino_alvik_esphome"
@@ -173,11 +194,32 @@ number:
     alvik_id: "alvik_nano"
     move_forward_distance:
       name: "move_forward_distance"
+      mode: BOX
     turn_degree:
       name: "turn_degree"
+      mode: BOX
+    follow_distance:
+      name: "follow_distance"
+      mode: BOX
+    follow_tolerance:
+      name: "follow_tolerance"
+      mode: BOX
+    follow_gain_horizontal:
+      name: "follow_gain_horizontal"
+      mode: BOX
+    follow_gain_front:
+      name: "follow_gain_front"
+      mode: BOX
 
 i2c:
   sda: GPIO11
   scl: GPIO12
   scan: false
   id: battery_bus
+  #address: 0x36
+  #Wire.write(0x06); -> ezzel indíd, ha nincs hiba ((Wire.endTransmission(false)!=0)), kéri az infót:
+  #    Wire.requestFrom(0x36, 2);
+  #    battery_v[0] = Wire.read();
+  #    battery_v[1] = Wire.read();
+  #    battery_val = (battery_v[1] << 8) + battery_v[0]; 
+  #    battery_soc = battery_val * 0.00390625;
