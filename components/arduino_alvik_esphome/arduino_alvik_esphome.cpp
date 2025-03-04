@@ -398,10 +398,7 @@ namespace alvik {
         float max_distance = 1500;
         
 
-        if (distances[0] > max_distance * 0.7)
-        {
-            l = 0;
-        }
+        if (distances[0] > max_distance * 0.7) { l = 0; }
         else
         {
             if (min_distance > distances[0]) { min_distance == distances[0]; }
