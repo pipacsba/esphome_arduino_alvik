@@ -433,11 +433,11 @@ namespace alvik {
             r = max_distance - distances[4];
         }
 
-        if (abs(l - min_distance) > 200) { l = 0; } 
-        if (abs(cl - min_distance) > 200) { cl = 0; } 
-        if (abs(c - min_distance) > 200) { c = 0; } 
-        if (abs(cr - min_distance) > 200) { cr = 0; } 
-        if (abs(r - min_distance) > 200) { r = 0; } 
+        if (abs(distances[0] - min_distance) > 200) { l = 0; } 
+        if (abs(distances[1] - min_distance) > 200) { cl = 0; } 
+        if (abs(distances[2] - min_distance) > 200) { c = 0; } 
+        if (abs(distances[3] - min_distance) > 200) { cr = 0; } 
+        if (abs(distances[4] - min_distance) > 200) { r = 0; } 
 
         sum_weight = l + cl + c + cr + r;
         sum_values = l + cl*2.0 + c*3.0 + cr*4.0 + r*5.0;
