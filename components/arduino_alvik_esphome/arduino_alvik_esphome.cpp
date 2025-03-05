@@ -440,9 +440,9 @@ namespace alvik {
         if (abs(r - min_distance) > 200) { r = 0; } 
 
         sum_weight = l + cl + c + cr + r;
-        sum_values = l + cl*2 + c*3 + cr*4 + r*5;
+        sum_values = l + cl*2.0 + c*3.0 + cr*4.0 + r*5.0;
 
-        centoid = sum_values / sum_weight - 3;
+        centoid = sum_values / sum_weight - 3.0;
 
         error_distance = min_distance - target_distance;
 
