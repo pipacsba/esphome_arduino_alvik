@@ -452,7 +452,7 @@ namespace alvik {
             if (error_distance < 0.0) { common_speed = std::max(error_distance * Kp, 10 - MOTOR_MAX_RPM); }
         }
         
-        if ( abs(centoid) > 0.2 )
+        if ( abs(centoid) > 0.01 )
         {
             diff_speed = centoid * K_horizontal;
             ESP_LOGD(TAG, "Centoid is: %.1f, diff_speed is: %.1f, Min distance is: %.1f", centoid, diff_speed, min_distance);
