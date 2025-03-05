@@ -433,6 +433,12 @@ namespace alvik {
             r = max_distance - distances[4];
         }
 
+        if (abs(l - min_distance) > 200) { l = 0; } 
+        if (abs(cl - min_distance) > 200) { cl = 0; } 
+        if (abs(c - min_distance) > 200) { c = 0; } 
+        if (abs(cr - min_distance) > 200) { cr = 0; } 
+        if (abs(r - min_distance) > 200) { r = 0; } 
+
         sum_weight = l + cl + c + cr + r;
         sum_values = l + cl*2 + c*3 + cr*4 + r*5;
 
@@ -454,8 +460,8 @@ namespace alvik {
 
         ESP_LOGVV(TAG, "Error distance is: %.1f, Centoid is: %.1f, Common speed is: %.1f, diff_speed is: %.1f, Min distance is: %.1f", error_distance, centoid, common_speed, diff_speed, min_distance);
         
-        wheel_speeds[0] = common_speed - diff_speed;
-        wheel_speeds[1] = common_speed + diff_speed;
+        wheel_speeds[0] = common_speed + diff_speed;
+        wheel_speeds[1] = common_speed - diff_speed;
         
         set_wheels_speed(this->wheel_speeds[0], this->wheel_speeds[1]);
     }
