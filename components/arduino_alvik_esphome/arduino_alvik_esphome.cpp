@@ -94,7 +94,7 @@ namespace alvik {
         this->turn_degree_number_->publish_state(90);
         this->set_turn_degree(90);
         this->follow_distance_number_->publish_state(150);
-        this->follow_tolerance_number_->publish_state(50);
+        this->follow_tolerance_number_->publish_state(20);
         this->follow_gain_horizontal_number_->publish_state(50);
         this->follow_gain_front_number_->publish_state(10);
         
