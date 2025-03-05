@@ -454,8 +454,8 @@ namespace alvik {
 
         ESP_LOGVV(TAG, "Error distance is: %.1f, Centoid is: %.1f, Common speed is: %.1f, diff_speed is: %.1f, Min distance is: %.1f", error_distance, centoid, common_speed, diff_speed, min_distance);
         
-        wheel_speeds[0] = common_speed + diff_speed;
-        wheel_speeds[1] = common_speed - diff_speed;
+        wheel_speeds[0] = common_speed - diff_speed;
+        wheel_speeds[1] = common_speed + diff_speed;
         
         set_wheels_speed(this->wheel_speeds[0], this->wheel_speeds[1]);
     }
