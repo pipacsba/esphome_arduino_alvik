@@ -455,7 +455,7 @@ namespace alvik {
         if ( abs(centoid) > 0.01 )
         {
             diff_speed = centoid * K_horizontal;
-            ESP_LOGD(TAG, "Centoid is: %.1f, diff_speed is: %.1f, Min distance is: %.1f", centoid, diff_speed, min_distance);
+            ESP_LOGVV(TAG, "Centoid is: %.1f, diff_speed is: %.1f, Min distance is: %.1f", centoid, diff_speed, min_distance);
         }
 
         ESP_LOGVV(TAG, "Error distance is: %.1f, Centoid is: %.1f, Common speed is: %.1f, diff_speed is: %.1f, Min distance is: %.1f", error_distance, centoid, common_speed, diff_speed, min_distance);
