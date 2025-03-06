@@ -20,7 +20,7 @@ from esphome.const import (
     CONF_STEP,
     DEVICE_CLASS_BATTERY,
     UNIT_PERCENT,
-    UNIT_RPM,
+    UNIT_REVOLUTIONS_PER_MINUTE ,
     STATE_CLASS_MEASUREMENT,
     UNIT_MILLIMETER,
     UNIT_DEGREES,
@@ -66,11 +66,11 @@ AlvikCompassSensor = alvik_ns.class_("AlvikCompassSensor", sensor.Sensor, cg.Com
 CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
     {
         cv.Optional(CONF_JOINTS_L_SPEED_SENSOR): sensor.sensor_schema(
-            unit_of_measurement=UNIT_RPM,
+            unit_of_measurement=UNIT_REVOLUTIONS_PER_MINUTE ,
             state_class=STATE_CLASS_MEASUREMENT,
         ),
         cv.Optional(CONF_JOINTS_R_SPEED_SENSOR): sensor.sensor_schema(
-            unit_of_measurement=UNIT_RPM,
+            unit_of_measurement=UNIT_REVOLUTIONS_PER_MINUTE ,
             state_class=STATE_CLASS_MEASUREMENT,
         ),
         cv.Optional(CONF_TOF_CENTOID_SENSOR): sensor.sensor_schema(
