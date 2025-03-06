@@ -273,20 +273,26 @@ namespace alvik {
                             }
                             break;
                         case TASK_PERFORM_ACTION:
-                            if (this->alvik_action_ == ACTION_PERFORM_COMMAND_LIST)
+                            switch (this->alvik_action_)
                             {
-                                this->do_one_item_from_command_list(now);
-                            }
-                            if (this->alvik_action_ == ACTION_COLLECT_COMMAND_LIST)
-                            {
-                                if ((now - this->last_command_received_time_) < 50)
-                                    this->change_alvik_left_right_leds(LEFT_BLUE + RIGHT_BLUE, true);
-                                if ((now - this->last_command_received_time_) > 300)
-                                    this->change_alvik_left_right_leds(LEFT_BLUE + RIGHT_BLUE, false);
-                            }
-                            if (this->alvik_action_ == ACTION_FOLLOW)
-                            {
-                                alvik_follow_control();
+                                case ACTION_PERFORM_COMMAND_LIST:
+                                {
+                                    this->do_one_item_from_command_list(now);
+                                    break;
+                                }
+                                case ACTION_COLLECT_COMMAND_LIST:
+                                {
+                                    if ((now - this->last_command_received_time_) < 50)
+                                        this->change_alvik_left_right_leds(LEFT_BLUE + RIGHT_BLUE, true);
+                                    if ((now - this->last_command_received_time_) > 300)
+                                        this->change_alvik_left_right_leds(LEFT_BLUE + RIGHT_BLUE, false);
+                                    break;
+                                }
+                                case ACTION_FOLLOW:
+                                {
+                                    alvik_follow_control();
+                                    break;
+                                }
                             }
                             break;
                         case TASK_WRITE_SENSOR:
