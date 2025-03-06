@@ -472,8 +472,8 @@ namespace alvik {
 
             if (abs(error_distance) > distance_tolerance)
             {
-                if (common_speed >= MOTOR_MAX_RPM - abs(diff_speed)) { commmon_speed = MOTOR_MAX_RPM - abs(diff_speed); }
-                if (common_speed <= - MOTOR_MAX_RPM + abs(diff_speed)) { commmon_speed = - MOTOR_MAX_RPM + abs(diff_speed); }
+                if (common_speed >= MOTOR_MAX_RPM - abs(diff_speed)) { common_speed = MOTOR_MAX_RPM - abs(diff_speed); }
+                if (common_speed <= - MOTOR_MAX_RPM + abs(diff_speed)) { common_speed = - MOTOR_MAX_RPM + abs(diff_speed); }
                 
                 //if (error_distance > 0.0) { common_speed = std::min(error_distance * Kp, MOTOR_MAX_RPM - diff_speed); }
                 //if (error_distance < 0.0) { common_speed = std::max(error_distance * Kp, - (MOTOR_MAX_RPM - diff_speed)); }
