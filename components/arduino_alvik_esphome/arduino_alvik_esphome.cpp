@@ -386,12 +386,10 @@ namespace alvik {
     void AlvikComponent::alvik_follow_control()
     {
         //tuning parameters
-        float target_distance =  this->follow_distance_number_->state;
-        float Kp = this->follow_gain_front_number_->state;
-        float K_horizontal = this->follow_gain_horizontal_number_->state;
-        float distance_tolerance = this->follow_tolerance_number_->state;
-
-        ESP_LOGVV(TAG, "target distance is: %.1f, tolerance is: %.1f, Kp is: %.1f, K_horizontal is: %.1f", target_distance, distance_tolerance, Kp, K_horizontal);
+        float target_distance;
+        float Kp;
+        float K_horizontal;
+        float distance_tolerance;
 
         //internal variables
         float error_distance;
@@ -401,6 +399,13 @@ namespace alvik {
         float l, cl, c, cr, r;
         float sum_weight, sum_values, centoid;
         float max_distance = 1500.0;
+        
+        distance_tolerance = this->follow_tolerance_number_->state;
+        target_distance =  this->follow_distance_number_->state;
+        Kp = this->follow_gain_front_number_->state;
+        K_horizontal = this->follow_gain_horizontal_number_->state;
+
+        ESP_LOGVV(TAG, "target distance is: %.1f, tolerance is: %.1f, Kp is: %.1f, K_horizontal is: %.1f", target_distance, distance_tolerance, Kp, K_horizontal);
         
         if (this->distances_updated)
         {
