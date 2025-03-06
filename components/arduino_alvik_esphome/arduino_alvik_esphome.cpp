@@ -97,7 +97,7 @@ namespace alvik {
         this->follow_distance_number_->publish_state(150);
         this->follow_tolerance_number_->publish_state(20);
         this->follow_gain_horizontal_number_->publish_state(20);
-        this->follow_gain_front_number_->publish_state(10);
+        this->follow_gain_front_number_->publish_state(1);
         
         this->set_stm32_fw_compatible(false);
         //this->stm_pin_->pin_mode(FLAG_PULLDOWN);
