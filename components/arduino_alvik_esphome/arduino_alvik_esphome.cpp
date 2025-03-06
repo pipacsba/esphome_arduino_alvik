@@ -337,6 +337,12 @@ namespace alvik {
                                             this->distance_b_->publish_state(this->distances[6]);
                                         if (this->tof_centoid_ != nullptr)
                                             this->tof_centoid_->publish_state(this->centoid_filt);
+                                        if (this->wheel_speed_left_ != nullptr)
+                                            this->wheel_speed_left_->publish_state(this->joints_velocity[0]);
+                                        if (this->wheel_speed_right_ != nullptr)
+                                            this->wheel_speed_right_->publish_state(this->joints_velocity[1]);
+
+                                        wheel_speed_left_
 
                                         this->sensor_group_ = this->sensor_group_ + 1;
                                         break;
