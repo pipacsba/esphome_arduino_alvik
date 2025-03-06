@@ -345,7 +345,10 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     float joints_velocity[2];
     float wheel_speeds[2];
     float centoid_filt;
-
+    float follow_target_;
+    float follow_Kp_;
+    float follow_K_horizontal_;
+    float follow_tolerance_;
 
     //[Left, Right] degree
     float joints_position[2];
