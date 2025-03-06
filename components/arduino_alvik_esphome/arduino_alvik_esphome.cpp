@@ -314,20 +314,12 @@ namespace alvik {
                                             this->roll_sensor_->publish_state(this->orientation[0]);
                                         if (this->pitch_sensor_ != nullptr)
                                             this->pitch_sensor_->publish_state(this->orientation[1]);
-                                        if (this->yaw_sensor_ != nullptr)
-                                            this->yaw_sensor_->publish_state(this->orientation[2]);
-                                        if (this->yaw_est_sensor_ != nullptr)
-                                            this->yaw_est_sensor_->publish_state(this->yaw_est);
 
                                         this->sensor_group_ = this->sensor_group_ + 1;
                                         break;
                                     }
                                     case 1:
                                     {
-                                        if (this->joints_l_ != nullptr)
-                                            this->joints_l_->publish_state(this->joints_position[0]);
-                                        if (this->joints_r_ != nullptr)
-                                            this->joints_r_->publish_state(this->joints_position[1]);
                                         if (this->distance_l_ != nullptr)
                                             this->distance_l_->publish_state(this->distances[0]);
                                         if (this->distance_cl_ != nullptr)
@@ -342,6 +334,20 @@ namespace alvik {
                                             this->distance_t_->publish_state(this->distances[5]);
                                         if (this->distance_b_ != nullptr)
                                             this->distance_b_->publish_state(this->distances[6]);
+                                        if (this->yaw_sensor_ != nullptr)
+                                            this->yaw_sensor_->publish_state(this->orientation[2]);
+                                        if (this->yaw_est_sensor_ != nullptr)
+                                            this->yaw_est_sensor_->publish_state(this->yaw_est);
+
+                                        this->sensor_group_ = this->sensor_group_ + 1;
+                                        break;
+                                    }
+                                    case 2:
+                                    {
+                                        if (this->joints_l_ != nullptr)
+                                            this->joints_l_->publish_state(this->joints_position[0]);
+                                        if (this->joints_r_ != nullptr)
+                                            this->joints_r_->publish_state(this->joints_position[1]);
                                         if (this->tof_centoid_ != nullptr)
                                             this->tof_centoid_->publish_state(this->centoid_filt);
                                         if (this->wheel_speed_left_ != nullptr)
@@ -349,11 +355,10 @@ namespace alvik {
                                         if (this->wheel_speed_right_ != nullptr)
                                             this->wheel_speed_right_->publish_state(this->joints_velocity[1]);
 
-
                                         this->sensor_group_ = this->sensor_group_ + 1;
                                         break;
                                     }
-                                    case 2:
+                                    case 3:
                                     {
                                         read_compass_data();
                                         if (this->compass_sensor_ != nullptr)
@@ -364,7 +369,7 @@ namespace alvik {
                                             this->compass_y_->publish_state(this->compass_measurements[1]);
                                         if (this->compass_z_ != nullptr)
                                             this->compass_z_->publish_state(this->compass_measurements[2]);
-                                        
+
                                         this->sensor_group_ = this->sensor_group_ + 1;
                                         break;
                                     }
