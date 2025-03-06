@@ -32,7 +32,7 @@ namespace alvik {
 const uint8_t BATTERY_REGISTER       = 0x06;
 const uint8_t CHARGE_THRESHOLD       = 97;
 
-const float MOTOR_MAX_RPM = 270.0; // 70
+const float MOTOR_MAX_RPM = 70.0; // 70
 
 //COMPASS_SENSOR
 const uint8_t CRA_REG_M              = 0x00;
