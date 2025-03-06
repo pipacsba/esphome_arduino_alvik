@@ -335,6 +335,8 @@ namespace alvik {
                                             this->distance_t_->publish_state(this->distances[5]);
                                         if (this->distance_b_ != nullptr)
                                             this->distance_b_->publish_state(this->distances[6]);
+                                        if (this->tof_centoid_ != nullptr)
+                                            this->tof_centoid_->publish_state(this->centoid_filt);
 
                                         this->sensor_group_ = this->sensor_group_ + 1;
                                         break;
@@ -351,6 +353,8 @@ namespace alvik {
                                         if (this->compass_z_ != nullptr)
                                             this->compass_z_->publish_state(this->compass_measurements[2]);
                                         
+                                        this->sensor_group_ = this->sensor_group_ + 1;
+                                        break;
                                     }
                                     default:
                                     {
