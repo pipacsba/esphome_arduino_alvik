@@ -461,7 +461,10 @@ namespace alvik {
             if (sum_weight != 0) 
             {  
                 centoid = sum_values / sum_weight - 3.0; 
-                this->centoid_filt = (centoid + 2 * this->centoid_filt) / 3.0;
+                if (abs(centoid) > 0.05)
+                {
+                    this->centoid_filt = (centoid + 2 * this->centoid_filt) / 3.0;
+                }
             }
     
             error_distance = min_distance - target_distance;
