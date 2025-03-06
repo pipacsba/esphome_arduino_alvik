@@ -63,7 +63,8 @@ AlvikCompassSensor = alvik_ns.class_("AlvikCompassSensor", sensor.Sensor, cg.Com
 CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
     {
         cv.Optional(CONF_TOF_CENTOID_SENSOR): sensor.sensor_schema(
-            state_class=STATE_CLASS_MEASUREMENT,
+            accuracy_decimals=5,
+            cv.Optional(CONF_ACCURACY_DECIMALS): validate_accuracy_decimals,
         ),
         cv.Optional(CONF_COMPASS_SENSOR): sensor.sensor_schema(
             AlvikCompassSensor,
