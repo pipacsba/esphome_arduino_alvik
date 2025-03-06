@@ -405,10 +405,10 @@ namespace alvik {
         float sum_weight, sum_values, centoid;
         float max_distance = 1500.0;
         
-        distance_tolerance = this->follow_tolerance_number_->state;
-        target_distance =  this->follow_distance_number_->state;
-        Kp = this->follow_gain_front_number_->state;
-        K_horizontal = this->follow_gain_horizontal_number_->state;
+        distance_tolerance = this->follow_tolerance_;
+        target_distance =  this->follow_target_;
+        Kp = this->follow_Kp_;
+        K_horizontal = this->follow_K_horizontal_;
 
         ESP_LOGVV(TAG, "target distance is: %.1f, tolerance is: %.1f, Kp is: %.1f, K_horizontal is: %.1f", target_distance, distance_tolerance, Kp, K_horizontal);
         
@@ -1037,10 +1037,10 @@ namespace alvik {
 
     void AlvikForwardDistance::control(float a_distance) { this->parent_->set_forward_move_distance(a_distance); }
     void AlvikTurnDegree::control(float an_angle) { this->parent_->set_turn_degree(an_angle); }
-    void AlvikFollowDistance::control(float an_angle) {  }
-    void AlvikFollowTolerance::control(float an_angle) {  }
-    void AlvikFollowGainHorizontal::control(float an_angle) {  }
-    void AlvikFollowGainFront::control(float an_angle) {  }
+    void AlvikFollowDistance::control(float a_distance) { this->parent_->set_follow_target(a_distance); }
+    void AlvikFollowTolerance::control(float a_distance) { this->parent_->set_follow_tolerance(a_distance); }
+    void AlvikFollowGainHorizontal::control(float a_gain) { this->parent_->set_follow_Kp(a_gain); }
+    void AlvikFollowGainFront::control(float a_gain) { this->parent_->set_follow_K_horizontal(a_gain); }
 
 }  // namespace alvik
 }  // namespace esphome
