@@ -164,7 +164,6 @@ async def to_code(config):
 
     if tof_centoid_config := config.get(CONF_TOF_CENTOID_SENSOR):
         sens = await sensor.new_sensor(tof_centoid_config)
-        await i2c.register_i2c_device(sens, compass_config)
         cg.add(alvik_id.set_to_centoid_sensor(sens))
     if compass_config := config.get(CONF_COMPASS_SENSOR):
         sens = await sensor.new_sensor(compass_config)
