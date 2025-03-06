@@ -123,6 +123,10 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_i2c_switch2_pin(GPIOPin *pin) { i2c_switch2_pin_ = pin; };
     void set_forward_move_distance(float a_distance) { forward_move_distance_ = a_distance; }
     void set_turn_degree(float an_angle) { turn_degree_ = an_angle; }
+    void set_follow_target(float a_distance) {follow_target_ = a_distance;}
+    void set_follow_tolerance(float a_distance) {follow_tolerance_ = a_distance;}
+    void set_follow_Kp(float a_gain) {follow_Kp_ = a_gain;}
+    void set_follow_K_horizontal(float a_gain) {follow_K_horizontal_ = a_gain;}
 
     void set_alvik_state(int a_state) { alvik_state_ = a_state; };
 
