@@ -467,11 +467,16 @@ namespace alvik {
             error_distance = min_distance - target_distance;
 
             if (abs(this->centoid_filt) > 0.1) { diff_speed = this->centoid_filt * K_horizontal;}
-            
+
+            common_speed = error_distance * Kp;
+
             if (abs(error_distance) > distance_tolerance)
             {
-                if (error_distance > 0.0) { common_speed = std::min(error_distance * Kp, MOTOR_MAX_RPM - diff_speed); }
-                if (error_distance < 0.0) { common_speed = std::max(error_distance * Kp, - (MOTOR_MAX_RPM - diff_speed)); }
+                if (common_speed >= MOTOR_MAX_RPM - abs(diff_speed)) { commmon_speed = MOTOR_MAX_RPM - abs(diff_speed); }
+                if (common_speed <= - MOTOR_MAX_RPM + abs(diff_speed)) { commmon_speed = - MOTOR_MAX_RPM + abs(diff_speed); }
+                
+                //if (error_distance > 0.0) { common_speed = std::min(error_distance * Kp, MOTOR_MAX_RPM - diff_speed); }
+                //if (error_distance < 0.0) { common_speed = std::max(error_distance * Kp, - (MOTOR_MAX_RPM - diff_speed)); }
             }
 
             ESP_LOGVV(TAG, "Centoid is: %.1f, diff_speed is: %.1f, Min distance is: %.1f", this->centoid_filt, diff_speed, min_distance);
