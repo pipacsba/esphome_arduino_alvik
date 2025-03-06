@@ -336,12 +336,14 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
 
     //[L, CL, C, CR, R, T, B] [mm]
     int16_t distances[7];
+    bool distances_updated;
 
     uint8_t touch, touch_bits;
 
     float joints_velocity[2];
     float wheel_speeds[2];
     float centoid_filt;
+
 
     //[Left, Right] degree
     float joints_position[2];
