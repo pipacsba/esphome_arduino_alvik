@@ -68,6 +68,7 @@ namespace alvik {
         distances[4] = 0.0;
         distances[5] = 0.0;
         distances[6] = 0.0;
+        distances_updated = 0;
         
         touch = 0;
         touch_bits = 0;
@@ -397,74 +398,78 @@ namespace alvik {
         float sum_weight, sum_values, centoid;
         float max_distance = 1500.0;
         
-
-        if (distances[0] > max_distance * 0.7) { l = 0; }
-        else
+        if (this->distances_updated)
         {
-            if (min_distance > distances[0]) { min_distance = distances[0]; }
-            l = max_distance - distances[0];
+            if (distances[0] > max_distance * 0.7) { l = 0; }
+            else
+            {
+                if (min_distance > distances[0]) { min_distance = distances[0]; }
+                l = max_distance - distances[0];
+            }
+    
+            if (distances[1] > max_distance * 0.7) { cl = 0; }
+            else
+            {
+                if (min_distance > distances[1]) { min_distance = distances[1]; }
+                cl = max_distance - distances[1];
+            }
+    
+            if (distances[2] > max_distance * 0.7) { c = 0; }
+            else
+            {
+                if (min_distance > distances[2]) { min_distance = distances[2]; }
+                c = max_distance - distances[2];
+            }
+    
+            if (distances[3] > max_distance * 0.7) { cr = 0; }
+            else
+            {
+                if (min_distance > distances[3]) { min_distance = distances[3]; }
+                cr = max_distance - distances[3];
+            }
+            
+            if (distances[4] > max_distance * 0.7) { r = 0; }
+            else
+            {
+                if (min_distance > distances[4]) { min_distance = distances[4]; }
+                r = max_distance - distances[4];
+            }
+    
+            if (abs(distances[0] - min_distance) > 200) { l = 0; } 
+            if (abs(distances[1] - min_distance) > 200) { cl = 0; } 
+            if (abs(distances[2] - min_distance) > 200) { c = 0; } 
+            if (abs(distances[3] - min_distance) > 200) { cr = 0; } 
+            if (abs(distances[4] - min_distance) > 200) { r = 0; } 
+    
+            sum_weight = l + cl + c + cr + r;
+            sum_values = l + cl*2.0 + c*3.0 + cr*4.0 + r*5.0;
+    
+            centoid = sum_values / sum_weight - 3.0;
+            this->centoid_filt = (centoid * 0.2 +this->centoid_filt) / 2.0;
+    
+            error_distance = min_distance - target_distance;
+    
+            if (abs(error_distance) > distance_tolerance)
+            {
+                if (error_distance > 0.0) { common_speed = std::min(error_distance * Kp, MOTOR_MAX_RPM); }
+                if (error_distance < 0.0) { common_speed = std::max(error_distance * Kp, - MOTOR_MAX_RPM); }
+            }
+            
+            if ( abs(this->centoid_filt) > 0.01 )
+            {
+                diff_speed = this->centoid_filt * K_horizontal;
+                ESP_LOGVV(TAG, "Centoid is: %.1f, diff_speed is: %.1f, Min distance is: %.1f", this->centoid_filt, diff_speed, min_distance);
+            }
+    
+            ESP_LOGVV(TAG, "Error distance is: %.1f, Centoid is: %.1f, Common speed is: %.1f, diff_speed is: %.1f, Min distance is: %.1f", error_distance, centoid, common_speed, diff_speed, min_distance);
+            
+            wheel_speeds[0] = common_speed + diff_speed;
+            wheel_speeds[1] = common_speed - diff_speed;
+            
+            set_wheels_speed(this->wheel_speeds[0], this->wheel_speeds[1]);
+
+            this->distances_updated = false;
         }
-
-        if (distances[1] > max_distance * 0.7) { cl = 0; }
-        else
-        {
-            if (min_distance > distances[1]) { min_distance = distances[1]; }
-            cl = max_distance - distances[1];
-        }
-
-        if (distances[2] > max_distance * 0.7) { c = 0; }
-        else
-        {
-            if (min_distance > distances[2]) { min_distance = distances[2]; }
-            c = max_distance - distances[2];
-        }
-
-        if (distances[3] > max_distance * 0.7) { cr = 0; }
-        else
-        {
-            if (min_distance > distances[3]) { min_distance = distances[3]; }
-            cr = max_distance - distances[3];
-        }
-        
-        if (distances[4] > max_distance * 0.7) { r = 0; }
-        else
-        {
-            if (min_distance > distances[4]) { min_distance = distances[4]; }
-            r = max_distance - distances[4];
-        }
-
-        if (abs(distances[0] - min_distance) > 200) { l = 0; } 
-        if (abs(distances[1] - min_distance) > 200) { cl = 0; } 
-        if (abs(distances[2] - min_distance) > 200) { c = 0; } 
-        if (abs(distances[3] - min_distance) > 200) { cr = 0; } 
-        if (abs(distances[4] - min_distance) > 200) { r = 0; } 
-
-        sum_weight = l + cl + c + cr + r;
-        sum_values = l + cl*2.0 + c*3.0 + cr*4.0 + r*5.0;
-
-        centoid = sum_values / sum_weight - 3.0;
-        this->centoid_filt = (centoid * 0.2 +this->centoid_filt) / 2.0;
-
-        error_distance = min_distance - target_distance;
-
-        if (abs(error_distance) > distance_tolerance)
-        {
-            if (error_distance > 0.0) { common_speed = std::min(error_distance * Kp, MOTOR_MAX_RPM); }
-            if (error_distance < 0.0) { common_speed = std::max(error_distance * Kp, - MOTOR_MAX_RPM); }
-        }
-        
-        if ( abs(this->centoid_filt) > 0.01 )
-        {
-            diff_speed = this->centoid_filt * K_horizontal;
-            ESP_LOGVV(TAG, "Centoid is: %.1f, diff_speed is: %.1f, Min distance is: %.1f", this->centoid_filt, diff_speed, min_distance);
-        }
-
-        ESP_LOGVV(TAG, "Error distance is: %.1f, Centoid is: %.1f, Common speed is: %.1f, diff_speed is: %.1f, Min distance is: %.1f", error_distance, centoid, common_speed, diff_speed, min_distance);
-        
-        wheel_speeds[0] = common_speed + diff_speed;
-        wheel_speeds[1] = common_speed - diff_speed;
-        
-        set_wheels_speed(this->wheel_speeds[0], this->wheel_speeds[1]);
     }
 
     void AlvikComponent::external_supply_measurement(bool ison)
@@ -691,6 +696,7 @@ namespace alvik {
         // get data from ToF in mm: L, CL, C, CR, R, B, T
         case 'f':
           this->packeter->unpacketC7I(this->code, distances[0], distances[1], distances[2], distances[3], distances[4], distances[5], distances[6]);
+          this->distances_updated = true;
           ESP_LOGVV(TAG,"distance message received : %u", now);
           break;    
     
