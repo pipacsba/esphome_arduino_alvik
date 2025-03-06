@@ -342,7 +342,6 @@ namespace alvik {
                                         if (this->wheel_speed_right_ != nullptr)
                                             this->wheel_speed_right_->publish_state(this->joints_velocity[1]);
 
-                                        wheel_speed_left_
 
                                         this->sensor_group_ = this->sensor_group_ + 1;
                                         break;
