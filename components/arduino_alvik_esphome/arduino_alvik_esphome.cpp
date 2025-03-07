@@ -561,9 +561,14 @@ namespace alvik {
             this->cycle_=0;
             this->battery_is_charging = (battery > 0) ? true : false;
             if (this->battery_sensor_ != nullptr)
+            {
                 this->battery_sensor_->publish_state(this->battery);
+            }
             if (this->battery > CHARGE_THRESHOLD)
+            {
                 this->green_led_pin_->digital_write(false);
+                this->red_led_pin_->digital_write(false);
+            }
         }
 
         if (ison)
