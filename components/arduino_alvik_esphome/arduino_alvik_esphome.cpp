@@ -477,14 +477,9 @@ namespace alvik {
             sum_values = l + cl*2.0 + c*3.0 + cr*4.0 + r*5.0;
 
             //calculate axial (difference) wheel speeds
-            if (sum_weight != 0) 
-            {  
-                centoid = sum_values / sum_weight - 3.0; 
-                if (abs(centoid) > 0.05)
-                {
-                    this->centoid_filt = (centoid + 2 * this->centoid_filt) / 3.0;
-                }
-            }
+            if (sum_weight != 0) { centoid = sum_values / sum_weight - 3.0; }
+            else { centoid = 0.0; }
+            this->centoid_filt = (centoid + 2 * this->centoid_filt) / 3.0;
             if (abs(this->centoid_filt) > 0.5) { diff_speed = this->centoid_filt * K_horizontal;}
 
             // calculate longitudinal (common) wheel speeds
