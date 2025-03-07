@@ -476,6 +476,7 @@ namespace alvik {
             sum_weight = l + cl + c + cr + r;
             sum_values = l + cl*2.0 + c*3.0 + cr*4.0 + r*5.0;
 
+            //calculate axial (difference) wheel speeds
             if (sum_weight != 0) 
             {  
                 centoid = sum_values / sum_weight - 3.0; 
@@ -484,29 +485,23 @@ namespace alvik {
                     this->centoid_filt = (centoid + 2 * this->centoid_filt) / 3.0;
                 }
             }
-    
-            error_distance = min_distance - target_distance;
-
             if (abs(this->centoid_filt) > 0.5) { diff_speed = this->centoid_filt * K_horizontal;}
 
-            common_speed = error_distance * Kp;
-
+            // calculate longitudinal (common) wheel speeds
+            error_distance = min_distance - target_distance;
             if (abs(error_distance) > distance_tolerance)
             {
+                common_speed = error_distance * Kp;
                 if (common_speed >= MOTOR_MAX_RPM - abs(diff_speed)) { common_speed = MOTOR_MAX_RPM - abs(diff_speed); }
                 if (common_speed <= - MOTOR_MAX_RPM + abs(diff_speed)) { common_speed = - MOTOR_MAX_RPM + abs(diff_speed); }
-                
-                //if (error_distance > 0.0) { common_speed = std::min(error_distance * Kp, MOTOR_MAX_RPM - diff_speed); }
-                //if (error_distance < 0.0) { common_speed = std::max(error_distance * Kp, - (MOTOR_MAX_RPM - diff_speed)); }
             }
 
             ESP_LOGVV(TAG, "Centoid is: %.1f, diff_speed is: %.1f, Min distance is: %.1f", this->centoid_filt, diff_speed, min_distance);
-    
             ESP_LOGVV(TAG, "Error distance is: %.1f, Centoid is: %.1f, Common speed is: %.1f, diff_speed is: %.1f, Min distance is: %.1f", error_distance, centoid, common_speed, diff_speed, min_distance);
-            
+
+            //set final requested wheel speeds
             this->wheel_speeds[0] = common_speed + diff_speed;
             this->wheel_speeds[1] = common_speed - diff_speed;
-            
             set_wheels_speed(this->wheel_speeds[0], this->wheel_speeds[1]);
 
             this->distances_updated = false;
