@@ -487,7 +487,7 @@ namespace alvik {
     
             error_distance = min_distance - target_distance;
 
-            if (abs(this->centoid_filt) > 0.1) { diff_speed = this->centoid_filt * K_horizontal;}
+            if (abs(this->centoid_filt) > 0.5) { diff_speed = this->centoid_filt * K_horizontal;}
 
             common_speed = error_distance * Kp;
 
