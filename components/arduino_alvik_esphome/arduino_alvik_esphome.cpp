@@ -471,11 +471,14 @@ namespace alvik {
             if (abs(distances[2] - min_distance) > 50) { c = 0; } 
             if (abs(distances[3] - min_distance) > 50) { cr = 0; } 
             if (abs(distances[4] - min_distance) > 50) { r = 0; } 
-    
-            sum_weight = l + cl + c + cr + r;
-            sum_values = l + cl*2.0 + c*3.0 + cr*4.0 + r*5.0;
+
+            error_distance = min_distance - target_distance;
+                        
 
             //calculate axial (difference) wheel speeds
+            sum_weight = l + cl + c + cr + r;
+            sum_values = l + cl*2.0 + c*3.0 + cr*4.0 + r*5.0;
+            K_horizontal = K_horizontal * (max_distance - min_distance) / max_distance;
             if (sum_weight != 0) { centoid = sum_values / sum_weight - 3.0; }
             else { centoid = 0.0; }
             this->centoid_filt = (centoid + 2 * this->centoid_filt) / 3.0;
