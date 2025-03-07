@@ -430,7 +430,7 @@ namespace alvik {
 
         ESP_LOGVV(TAG, "target distance is: %.1f, tolerance is: %.1f, Kp is: %.1f, K_horizontal is: %.1f", target_distance, distance_tolerance, Kp, K_horizontal);
         
-        if (this->distances_updated)
+        if (this->distances_updated | 1)
         {
             if (distances[0] > max_distance * 0.7) { l = 0; }
             else
