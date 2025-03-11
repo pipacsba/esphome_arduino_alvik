@@ -134,6 +134,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void do_one_item_from_command_list(uint32_t now);
     void external_supply_measurement(bool ison);
     void alvik_follow_control();
+    void alvik_constant_direction_control();
 
     void change_alvik_left_right_leds(uint8_t change_led_state, bool onoff);
 
