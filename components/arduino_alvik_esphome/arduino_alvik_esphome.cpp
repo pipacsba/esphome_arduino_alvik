@@ -294,7 +294,7 @@ namespace alvik {
                                 }
                                 case ACTION_CONSTANT_DIRECTION:
                                 {
-                                    
+                                    alvik_constant_direction_control();
                                     break;
                                 }
                             }
@@ -407,6 +407,11 @@ namespace alvik {
             default:
                 break;
         }
+
+    }
+
+    void alvik_constant_direction_control()
+    {
 
     }
 
