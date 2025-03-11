@@ -292,6 +292,11 @@ namespace alvik {
                                     alvik_follow_control();
                                     break;
                                 }
+                                case ACTION_CONSTANT_DIRECTION:
+                                {
+                                    
+                                    break;
+                                }
                             }
                             break;
                         case TASK_WRITE_SENSOR:
@@ -891,6 +896,11 @@ namespace alvik {
                 this->change_alvik_left_right_leds(LEFT_GREEN + LEFT_RED + RIGHT_GREEN + RIGHT_RED, true);
                 break;
             case ACTION_FOLLOW:
+                this->alvik_action_= ACTION_CONSTANT_DIRECTION;
+                this->change_alvik_left_right_leds(0xff, false);
+                this->change_alvik_left_right_leds(LEFT_BLUE + LEFT_RED + RIGHT_BLUE + RIGHT_RED, true);
+                break;
+            case ACTION_CONSTANT_DIRECTION:
                 this->alvik_action_= ACTION_PERFORM_COMMAND_LIST;
                 this->change_alvik_left_right_leds(0xff, false);
                 break;
