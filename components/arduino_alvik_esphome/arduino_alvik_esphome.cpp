@@ -135,6 +135,7 @@ namespace alvik {
         this->last_command_time_ = 0;
         this->last_sensor_time_  = 0;
         this->sensor_group_ = 0;
+        this->received_messages_count_ = 0;
         this->last_command_received_time_ = 0;
         this->alvik_command_list_.clear();
         this->alvik_action_= ACTION_NOT_SET;
@@ -266,6 +267,7 @@ namespace alvik {
                                 if (read_message())
                                 {
                                     parse_message();
+                                    this->received_messages_count_ = this->received_messages_count_ + 1;
                                 }
                             }
                             //if (read_message())
@@ -326,7 +328,10 @@ namespace alvik {
                                             this->roll_sensor_->publish_state(this->orientation[0]);
                                         if (this->pitch_sensor_ != nullptr)
                                             this->pitch_sensor_->publish_state(this->orientation[1]);
+                                        if (this->received_messages_counter_sensor_ != nullptr)
+                                            this->received_messages_counter_sensor_->publish_state(this->received_messages_count_);
 
+                                        this->received_messages_count_ = 0;
                                         this->sensor_group_ = this->sensor_group_ + 1;
                                         break;
                                     }
