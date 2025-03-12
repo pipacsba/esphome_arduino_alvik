@@ -262,14 +262,16 @@ namespace alvik {
                     switch (current_action)
                     {
                         case TASK_READ_UART:
-                            if (read_message())
-                            {
-                                parse_message();
+                            while (this->available()){
+                                if (read_message())
+                                {
+                                    parse_message();
+                                }
                             }
-                            if (read_message())
-                            {
-                                parse_message();
-                            }
+                            //if (read_message())
+                            //{
+                            //    parse_message();
+                            //}
                             break;
                         case TASK_PERFORM_ACTION:
                             switch (this->alvik_action_)
