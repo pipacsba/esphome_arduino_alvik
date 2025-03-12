@@ -59,6 +59,7 @@ CONF_JOINTS_R_SENSOR = "joints_r"
 CONF_JOINTS_L_SPEED_SENSOR = "joints_l_speed"
 CONF_JOINTS_R_SPEED_SENSOR = "joints_r_speed"
 CONF_TOF_CENTOID_SENSOR = "tof_centoid"
+CONF_RECEIVED_MESSAGES_COUNTER = "received_messages_counter"
 
 AlvikBatterySensor = alvik_ns.class_("AlvikBatterySensor", sensor.Sensor, cg.Component, i2c.I2CDevice)
 AlvikCompassSensor = alvik_ns.class_("AlvikCompassSensor", sensor.Sensor, cg.Component, i2c.I2CDevice)
@@ -168,20 +169,25 @@ CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
             unit_of_measurement=UNIT_DEGREES,
             state_class=STATE_CLASS_MEASUREMENT,
         ),
+        cv.Optional(CONF_RECEIVED_MESSAGES_COUNTER): sensor.sensor_schema(
+            state_class=STATE_CLASS_MEASUREMENT,
+        ),
     }
 )
 
 async def to_code(config):
     alvik_id = await cg.get_variable(config[CONF_ALVIK_ID])
 
+    if recmes_count_config := config.get(CONF_RECEIVED_MESSAGES_COUNTER):
+        sens = await sensor.new_sensor(recmes_count_config)
+        cg.add(alvik_id.set_received_messages_counter_sensor(sens))
+    
     if joint_l_speed_config := config.get(CONF_JOINTS_L_SPEED_SENSOR):
         sens = await sensor.new_sensor(joint_l_speed_config)
         cg.add(alvik_id.set_joint_l_speed_sensor(sens))
     if joint_r_speed_config := config.get(CONF_JOINTS_R_SPEED_SENSOR):
         sens = await sensor.new_sensor(joint_r_speed_config)
         cg.add(alvik_id.set_joint_r_speed_sensor(sens))
-
-
     if tof_centoid_config := config.get(CONF_TOF_CENTOID_SENSOR):
         sens = await sensor.new_sensor(tof_centoid_config)
         cg.add(alvik_id.set_to_centoid_sensor(sens))
