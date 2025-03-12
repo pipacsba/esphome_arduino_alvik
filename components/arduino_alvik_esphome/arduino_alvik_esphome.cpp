@@ -674,7 +674,7 @@ namespace alvik {
     }
     
     int AlvikComponent::parse_message(){                                               //it is private
-        while (this->packeter->checkPayload())
+        //while (this->packeter->checkPayload())
         {
               this->code = this->packeter->payloadTop();
               uint32_t now = millis();
