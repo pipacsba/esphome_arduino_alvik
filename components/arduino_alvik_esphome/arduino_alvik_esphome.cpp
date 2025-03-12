@@ -522,7 +522,7 @@ namespace alvik {
         uint16_t battery_val = 0;
         uint16_t battery_soc = 0;
         
-        // this->cycle_ = this->cycle_ + 1; this is done in the main loop already
+        this->cycle_ = this->cycle_ + 1; //this is done in the main loop already
         if (this->battery < CHARGE_THRESHOLD)
         {
             if (this->cycle_ % 200 == 0) {  this->red_led_pin_->digital_write(false);}
