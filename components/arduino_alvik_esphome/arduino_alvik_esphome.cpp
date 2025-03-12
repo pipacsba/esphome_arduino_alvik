@@ -410,7 +410,7 @@ namespace alvik {
 
     }
 
-    void alvik_constant_direction_control()
+    void AlvikComponent::alvik_constant_direction_control()
     {
 
     }
