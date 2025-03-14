@@ -561,6 +561,14 @@ class AlvikFollowGainFront : public number::Number, public Parented<AlvikCompone
   void control(float value) override;
 };
 
+class AlvikConstantDirectionGain : public number::Number, public Parented<AlvikComponent> {
+ public:
+  AlvikConstantDirectionGain() = default;
+
+ protected:
+  void control(float value) override;
+};
+
 
 }  // namespace alvik
 }  // namespace esphome
