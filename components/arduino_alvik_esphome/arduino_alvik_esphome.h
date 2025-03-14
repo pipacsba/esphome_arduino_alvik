@@ -345,6 +345,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     float compass_z_offset;
 
     float constant_direction_target_angle_;
+    float constant_direction_tolerance_angle_;
 
     //[L, CL, C, CR, R, T, B] [mm]
     int16_t distances[7];
