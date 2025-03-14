@@ -440,7 +440,7 @@ namespace alvik {
         if (diff_speed > MOTOR_MAX_RPM) { diff_speed = MOTOR_MAX_RPM; }
         if (diff_speed < -MOTOR_MAX_RPM) { diff_speed = -MOTOR_MAX_RPM; }
 
-        set_wheels_speed(diff_speed, -diff_speed);
+        set_wheels_speed(-diff_speed, diff_speed);
     }
 
     void AlvikComponent::alvik_follow_control()
