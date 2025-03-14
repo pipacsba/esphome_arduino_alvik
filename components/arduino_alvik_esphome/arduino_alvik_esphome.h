@@ -359,6 +359,8 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     float follow_Kp_;
     float follow_K_horizontal_;
     float follow_tolerance_;
+    float centoid_tolerance_;
+
 
     //[Left, Right] degree
     float joints_position[2];
