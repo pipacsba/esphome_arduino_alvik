@@ -420,7 +420,9 @@ namespace alvik {
 
     void AlvikComponent::alvik_constant_direction_control()
     {
-
+        read_compass_data();
+        //this->compass_angle
+        
     }
 
     void AlvikComponent::alvik_follow_control()
@@ -913,6 +915,7 @@ namespace alvik {
             case ACTION_FOLLOW:
                 this->alvik_action_= ACTION_CONSTANT_DIRECTION;
                 this->change_alvik_left_right_leds(0xff, false);
+                this->constant_direction_target_angle_ = this->compass_angle;
                 this->change_alvik_left_right_leds(LEFT_BLUE + LEFT_RED + RIGHT_BLUE + RIGHT_RED, true);
                 break;
             case ACTION_CONSTANT_DIRECTION:
@@ -943,6 +946,10 @@ namespace alvik {
     void AlvikComponent::forward_button_action()
     {
         alvik_command_list_.push_back('e'); // e: Forward (Elo"re)
+        if (this->alvik_action_ == ACTION_CONSTANT_DIRECTION)
+        {
+            this->constant_direction_target_angle_ = 0;
+        }
     }
     void AlvikComponent::backwards_button_action()
     {
