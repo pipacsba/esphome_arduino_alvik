@@ -424,11 +424,21 @@ namespace alvik {
 
     void AlvikComponent::alvik_constant_direction_control()
     {
+        float angle_error;
+        float Kp;
+        float diff_speed;
+
+        Kp = this->follow_Kp_;
         read_compass_data();
-        //this->compass_angle
-        //constant_direction_target_angle_;
-        //constant_direction_tolerance_angle_;
-        
+
+        angle_error = this->constant_direction_target_angle_ - this->compass_angle;
+        if (angle_error > 180) {angle_error = angle_error - 360;}
+        if (angle_error < -180) {angle_error = angle_error + 360;}
+
+        diff_speed = 0;
+        if (abs(angle_error) > this->constant_direction_tolerance_angle_) { diff_speed = angle_error * K_horizontal;}
+
+        set_wheels_speed(diff_speed, -diff_speed);
     }
 
     void AlvikComponent::alvik_follow_control()
