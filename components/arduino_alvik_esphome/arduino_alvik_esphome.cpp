@@ -428,7 +428,7 @@ namespace alvik {
         float Kp;
         float diff_speed;
 
-        Kp = this->follow_Kp_;
+        Kp = 1; //this->follow_Kp_;
         read_compass_data();
 
         angle_error = this->constant_direction_target_angle_ - this->compass_angle;
