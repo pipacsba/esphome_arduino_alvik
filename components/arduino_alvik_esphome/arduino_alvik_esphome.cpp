@@ -93,6 +93,8 @@ namespace alvik {
 
 
         constant_direction_tolerance_angle_ = 5;
+        constant_direction_gain_ = 1;
+        this->constant_direction_gain_number_->publish_state(constant_direction_gain_);
 
         this->forward_distance_->publish_state(150);
         this->set_forward_move_distance(150);
@@ -108,7 +110,7 @@ namespace alvik {
         this->follow_tolerance_number_->publish_state(follow_tolerance_);
         this->follow_gain_horizontal_number_->publish_state(follow_K_horizontal_);
         this->follow_gain_front_number_->publish_state(follow_Kp_);
-        
+
         this->set_stm32_fw_compatible(false);
         //this->stm_pin_->pin_mode(FLAG_PULLDOWN);
         this->stm32_pin_->pin_mode(gpio::FLAG_INPUT | gpio::FLAG_PULLDOWN);
@@ -428,7 +430,7 @@ namespace alvik {
         float Kp;
         float diff_speed;
 
-        Kp = 0.1; //this->follow_Kp_;
+        Kp = this->constant_direction_gain_;
         read_compass_data();
 
         angle_error = this->constant_direction_target_angle_ - this->compass_angle;
