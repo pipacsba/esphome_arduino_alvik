@@ -436,7 +436,7 @@ namespace alvik {
         if (angle_error < -180) {angle_error = angle_error + 360;}
 
         diff_speed = 0;
-        if (abs(angle_error) > this->constant_direction_tolerance_angle_) { diff_speed = angle_error * K_horizontal;}
+        if (abs(angle_error) > this->constant_direction_tolerance_angle_) { diff_speed = angle_error * Kp;}
 
         set_wheels_speed(diff_speed, -diff_speed);
     }
