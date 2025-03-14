@@ -1109,6 +1109,7 @@ namespace alvik {
     void AlvikFollowTolerance::control(float a_distance) { this->parent_->set_follow_tolerance(a_distance); }
     void AlvikFollowGainHorizontal::control(float a_gain) { this->parent_->set_follow_K_horizontal(a_gain); }
     void AlvikFollowGainFront::control(float a_gain) { this->parent_->set_follow_Kp(a_gain); }
+    void AlvikConstantDirectionGain::control(float a_gain) { this->parent_->set_constant_direction_gain(a_gain); }
 
 }  // namespace alvik
 }  // namespace esphome
