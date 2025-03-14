@@ -128,6 +128,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_follow_tolerance(float a_distance) {follow_tolerance_ = a_distance;}
     void set_follow_Kp(float a_gain) {follow_Kp_ = a_gain;}
     void set_follow_K_horizontal(float a_gain) {follow_K_horizontal_ = a_gain;}
+    void set_constant_direction_gain(float a_gain) {constant_direction_gain_ = a_gain;}
 
     void set_alvik_state(int a_state) { alvik_state_ = a_state; };
 
@@ -182,6 +183,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_follow_tolerance_config(number::Number *a_number) { follow_tolerance_number_ = a_number; }
     void set_follow_gain_h_config(number::Number *a_number) { follow_gain_horizontal_number_ = a_number; }
     void set_follow_gain_f_config(number::Number *a_number) { follow_gain_front_number_ = a_number; }
+    void set_constant_direction_gain_config(number::Number *a_number) { constant_direction_gain_number_ = a_number; }
 
     //TEXT SENSORS
     void set_fw_sensor(text_sensor::TextSensor *sensor1) { fw_version_sensor_ = sensor1; }
@@ -346,6 +348,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
 
     float constant_direction_target_angle_;
     float constant_direction_tolerance_angle_;
+    float constant_direction_gain_;
 
     //[L, CL, C, CR, R, T, B] [mm]
     int16_t distances[7];
@@ -408,6 +411,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     number::Number *follow_tolerance_number_;
     number::Number *follow_gain_horizontal_number_;
     number::Number *follow_gain_front_number_;
+    number::Number *constant_direction_gain_number_;
 
     button::Button *center_button_;
     button::Button *cancel_button_;
