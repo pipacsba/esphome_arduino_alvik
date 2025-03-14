@@ -100,6 +100,7 @@ namespace alvik {
         follow_tolerance_    =  20;
         follow_Kp_           =   1;
         follow_K_horizontal_ =   5;
+        centoid_tolerance_   = 0.5;
         this->follow_distance_number_->publish_state(follow_target_);
         this->follow_tolerance_number_->publish_state(follow_tolerance_);
         this->follow_gain_horizontal_number_->publish_state(follow_K_horizontal_);
@@ -502,7 +503,7 @@ namespace alvik {
             if (sum_weight != 0) { centoid = sum_values / sum_weight - 3.0; }
             else { centoid = 0.0; }
             this->centoid_filt = (centoid + 2 * this->centoid_filt) / 3.0;
-            if (abs(this->centoid_filt) > 0.5) { diff_speed = this->centoid_filt * K_horizontal;}
+            if (abs(this->centoid_filt) > this->centoid_tolerance_) { diff_speed = this->centoid_filt * K_horizontal;}
 
             // calculate longitudinal (common) wheel speeds
             error_distance = min_distance - target_distance;
