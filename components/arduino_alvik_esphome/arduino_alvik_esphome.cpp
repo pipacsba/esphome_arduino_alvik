@@ -437,6 +437,8 @@ namespace alvik {
 
         diff_speed = 0;
         if (abs(angle_error) > this->constant_direction_tolerance_angle_) { diff_speed = angle_error * Kp;}
+        if (diff_speed > MOTOR_MAX_RPM) { diff_speed = MOTOR_MAX_RPM; }
+        if (diff_speed < -MOTOR_MAX_RPM) { diff_speed = -MOTOR_MAX_RPM; }
 
         set_wheels_speed(diff_speed, -diff_speed);
     }
