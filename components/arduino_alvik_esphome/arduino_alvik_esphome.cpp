@@ -91,6 +91,9 @@ namespace alvik {
         battery_soc = 0.0;
         battery_is_charging = false;
 
+
+        constant_direction_tolerance_angle_ = 5;
+
         this->forward_distance_->publish_state(150);
         this->set_forward_move_distance(150);
         this->turn_degree_number_->publish_state(90);
@@ -423,6 +426,8 @@ namespace alvik {
     {
         read_compass_data();
         //this->compass_angle
+        //constant_direction_target_angle_;
+        //constant_direction_tolerance_angle_;
         
     }
 
