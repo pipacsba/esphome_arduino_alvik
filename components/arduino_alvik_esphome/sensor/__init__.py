@@ -60,6 +60,9 @@ CONF_JOINTS_L_SPEED_SENSOR = "joints_l_speed"
 CONF_JOINTS_R_SPEED_SENSOR = "joints_r_speed"
 CONF_TOF_CENTOID_SENSOR = "tof_centoid"
 CONF_RECEIVED_MESSAGES_COUNTER = "received_messages_counter"
+CONF_ALVIK_FOLLOW_START = "follow_start"
+CONF_CONSTANT_DIRECTION_START = "constant_direction_start"
+
 
 AlvikBatterySensor = alvik_ns.class_("AlvikBatterySensor", sensor.Sensor, cg.Component, i2c.I2CDevice)
 AlvikCompassSensor = alvik_ns.class_("AlvikCompassSensor", sensor.Sensor, cg.Component, i2c.I2CDevice)
@@ -172,16 +175,27 @@ CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
         cv.Optional(CONF_RECEIVED_MESSAGES_COUNTER): sensor.sensor_schema(
             state_class=STATE_CLASS_MEASUREMENT,
         ),
+        cv.Optional(CONF_ALVIK_FOLLOW_START): sensor.sensor_schema(
+            state_class=STATE_CLASS_MEASUREMENT,
+        ),
+        cv.Optional(CONF_CONSTANT_DIRECTION_START): sensor.sensor_schema(
+            state_class=STATE_CLASS_MEASUREMENT,
+        ),
     }
 )
 
 async def to_code(config):
     alvik_id = await cg.get_variable(config[CONF_ALVIK_ID])
 
+    if follow_start_config := config.get(CONF_ALVIK_FOLLOW_START):
+        sens = await sensor.new_sensor(follow_start_config)
+        cg.add(alvik_id.set_follow_start_sensor(sens))
+    if direction_start_config := config.get(CONF_CONSTANT_DIRECTION_START):
+        sens = await sensor.new_sensor(direction_start_config)
+        cg.add(alvik_id.set_direction_control_start_sensor(sens))
     if recmes_count_config := config.get(CONF_RECEIVED_MESSAGES_COUNTER):
         sens = await sensor.new_sensor(recmes_count_config)
         cg.add(alvik_id.set_received_messages_counter_sensor(sens))
-    
     if joint_l_speed_config := config.get(CONF_JOINTS_L_SPEED_SENSOR):
         sens = await sensor.new_sensor(joint_l_speed_config)
         cg.add(alvik_id.set_joint_l_speed_sensor(sens))
