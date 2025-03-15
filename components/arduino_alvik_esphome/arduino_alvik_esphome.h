@@ -173,7 +173,8 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_to_centoid_sensor(sensor::Sensor *sensor1) { tof_centoid_ = sensor1; }
     void set_joint_l_speed_sensor(sensor::Sensor *sensor1) { wheel_speed_left_ = sensor1; }
     void set_joint_r_speed_sensor(sensor::Sensor *sensor1) { wheel_speed_right_ = sensor1; }
-    void set_received_messages_counter_sensor(sensor::Sensor *sensor1) { received_messages_counter_sensor_ = sensor1; }
+    void set_follow_start_sensor(sensor::Sensor *sensor1) { follow_start_sensor_ = sensor1; }
+    void set_direction_control_start_sensor(sensor::Sensor *sensor1) { direction_control_start_ = sensor1; }
 
 
     // NUMBERS
@@ -406,7 +407,8 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     sensor::Sensor *wheel_speed_left_;
     sensor::Sensor *wheel_speed_right_;
     sensor::Sensor *received_messages_counter_sensor_;
-
+    sensor::Sensor *follow_start_sensor_;
+    sensor::Sensor *direction_control_start_;
 
     number::Number *forward_distance_;
     number::Number *turn_degree_number_;
