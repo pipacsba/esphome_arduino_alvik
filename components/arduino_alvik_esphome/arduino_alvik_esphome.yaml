@@ -47,11 +47,12 @@ external_components:
   - source:
       type: git
       url: https://github.com/pipacsba/esphome_arduino_alvik.git
-    refresh: 1min
-    #refresh: 1days
+    #refresh: 1min
+    refresh: 1days
 
 arduino_alvik_esphome:
   id: "alvik_nano"
+  #address: 0x36
   check_stm32_pin:
       number: GPIO13
       mode:
@@ -119,6 +120,10 @@ sensor:
       name: joints_l
     joints_r:
       name: joints_r
+    joints_l_speed:
+      name: joints_l_speed
+    joints_r_speed:
+      name: joints_r_speed
     distance_l:
       name: distance_l
     distance_cl:
@@ -141,6 +146,15 @@ sensor:
       name: compass_y
     compass_z:
       name: compass_z
+    tof_centoid:
+      name: tof_centoid
+    received_messages_counter:
+      name: received_messages_counter
+    follow_start:
+      name: follow_start
+    constant_direction_start:
+      name: constant_direction_start
+     
 
 text_sensor:
   - platform: "arduino_alvik_esphome"
@@ -210,16 +224,15 @@ number:
     follow_gain_front:
       name: "follow_gain_front"
       mode: BOX
+    constant_direction_gain:
+      name: "constant_direction_gain"
+      mode: BOX
+    constant_direction_target:
+      name: constant_direction_target
+      mode: BOX
 
 i2c:
   sda: GPIO11
   scl: GPIO12
   scan: false
   id: battery_bus
-  #address: 0x36
-  #Wire.write(0x06); -> ezzel indíd, ha nincs hiba ((Wire.endTransmission(false)!=0)), kéri az infót:
-  #    Wire.requestFrom(0x36, 2);
-  #    battery_v[0] = Wire.read();
-  #    battery_v[1] = Wire.read();
-  #    battery_val = (battery_v[1] << 8) + battery_v[0]; 
-  #    battery_soc = battery_val * 0.00390625;
