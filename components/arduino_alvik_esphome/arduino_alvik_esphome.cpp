@@ -1146,7 +1146,7 @@ namespace alvik {
     void AlvikFollowGainHorizontal::control(float a_gain) { this->parent_->set_follow_K_horizontal(a_gain); }
     void AlvikFollowGainFront::control(float a_gain) { this->parent_->set_follow_Kp(a_gain); }
     void AlvikConstantDirectionGain::control(float a_gain) { this->parent_->set_constant_direction_gain(a_gain); }
-    void AlvikConstantDirectionGain::control(float an_angle) { this->parent_->set_constant_direction_target(an_angle); }
+    void AlvikConstantDirectionTarget::control(float an_angle) { this->parent_->set_constant_direction_target(an_angle); }
 
 }  // namespace alvik
 }  // namespace esphome
