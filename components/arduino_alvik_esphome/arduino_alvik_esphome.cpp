@@ -300,7 +300,7 @@ namespace alvik {
                                 }
                                 case ACTION_FOLLOW:
                                 {
-                                    if (follow_start_)
+                                    if (this->follow_start_)
                                     {
                                         alvik_follow_control();
                                     }
@@ -308,7 +308,7 @@ namespace alvik {
                                 }
                                 case ACTION_CONSTANT_DIRECTION:
                                 {
-                                    if (direction_control_start_)
+                                    if (this->direction_control_start_)
                                     {
                                         alvik_constant_direction_control();
                                     }
@@ -979,7 +979,7 @@ namespace alvik {
                 this->follow_start_ = true;
                 break;
             case ACTION_CONSTANT_DIRECTION:
-                this->direction_control_start_ = false;
+                this->direction_control_start_ = true;
                 break;
             default:
                 break;
