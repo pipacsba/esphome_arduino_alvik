@@ -346,6 +346,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     float compass_y_offset;
     float compass_z_offset;
 
+    bool direction_control_start_;
     float constant_direction_target_angle_;
     float constant_direction_tolerance_angle_;
     float constant_direction_gain_;
@@ -358,6 +359,8 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
 
     float joints_velocity[2];
     float wheel_speeds[2];
+
+    bool follow_start_;
     float centoid_filt;
     float follow_target_;
     float follow_Kp_;
