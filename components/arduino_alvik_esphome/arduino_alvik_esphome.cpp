@@ -386,8 +386,8 @@ namespace alvik {
                                             this->wheel_speed_right_->publish_state(this->joints_velocity[1]);
                                         if (this->follow_start_sensor_ != nullptr)
                                             this->follow_start_sensor_->publish_state(this->follow_start_);
-                                        if (this->direction_control_start_ != nullptr)
-                                            this->direction_control_start_->publish_state(this->direction_control_start_);
+                                        if (this->direction_control_start_sensor_ != nullptr)
+                                            this->direction_control_start_sensor_->publish_state(this->direction_control_start_);
                                         this->sensor_group_ = this->sensor_group_ + 1;
                                         break;
                                     }
