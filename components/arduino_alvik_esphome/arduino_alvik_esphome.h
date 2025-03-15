@@ -175,6 +175,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_joint_r_speed_sensor(sensor::Sensor *sensor1) { wheel_speed_right_ = sensor1; }
     void set_follow_start_sensor(sensor::Sensor *sensor1) { follow_start_sensor_ = sensor1; }
     void set_direction_control_start_sensor(sensor::Sensor *sensor1) { direction_control_start_sensor_ = sensor1; }
+    void set_received_messages_counter_sensor(sensor::Sensor *sensor1) { received_messages_counter_sensor_ = sensor1; }
 
 
     // NUMBERS
