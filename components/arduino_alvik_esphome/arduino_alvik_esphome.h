@@ -129,6 +129,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_follow_Kp(float a_gain) {follow_Kp_ = a_gain;}
     void set_follow_K_horizontal(float a_gain) {follow_K_horizontal_ = a_gain;}
     void set_constant_direction_gain(float a_gain) {constant_direction_gain_ = a_gain;}
+    void set_constant_direction_target(float an_angle) {constant_direction_target_angle_ = an_angle;}
 
     void set_alvik_state(int a_state) { alvik_state_ = a_state; };
 
