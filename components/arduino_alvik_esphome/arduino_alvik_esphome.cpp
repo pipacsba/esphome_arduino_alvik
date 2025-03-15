@@ -94,7 +94,9 @@ namespace alvik {
         direction_control_start_ = false;
         constant_direction_tolerance_angle_ = 5;
         constant_direction_gain_ = 3;
+        constant_direction_target_angle_ = 0;
         this->constant_direction_gain_number_->publish_state(constant_direction_gain_);
+        this->constant_direction_target_number_->publish_state(constant_direction_target_angle_);
 
         this->forward_distance_->publish_state(150);
         this->set_forward_move_distance(150);
@@ -952,6 +954,7 @@ namespace alvik {
                 this->follow_start_ = false;
                 this->change_alvik_left_right_leds(0xff, false);
                 this->constant_direction_target_angle_ = this->compass_angle;
+                this->constant_direction_target_number_->publish_state(constant_direction_target_angle_);
                 this->change_alvik_left_right_leds(LEFT_BLUE + LEFT_RED + RIGHT_BLUE + RIGHT_RED, true);
                 break;
             case ACTION_CONSTANT_DIRECTION:
@@ -999,6 +1002,7 @@ namespace alvik {
         if (this->alvik_action_ == ACTION_CONSTANT_DIRECTION)
         {
             this->constant_direction_target_angle_ = 0;
+            this->constant_direction_target_number_->publish_state(constant_direction_target_angle_);
         }
     }
     void AlvikComponent::backwards_button_action()
@@ -1142,6 +1146,7 @@ namespace alvik {
     void AlvikFollowGainHorizontal::control(float a_gain) { this->parent_->set_follow_K_horizontal(a_gain); }
     void AlvikFollowGainFront::control(float a_gain) { this->parent_->set_follow_Kp(a_gain); }
     void AlvikConstantDirectionGain::control(float a_gain) { this->parent_->set_constant_direction_gain(a_gain); }
+    void AlvikConstantDirectionGain::control(float an_angle) { this->parent_->set_constant_direction_target(an_angle); }
 
 }  // namespace alvik
 }  // namespace esphome
