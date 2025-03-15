@@ -186,6 +186,8 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_follow_gain_h_config(number::Number *a_number) { follow_gain_horizontal_number_ = a_number; }
     void set_follow_gain_f_config(number::Number *a_number) { follow_gain_front_number_ = a_number; }
     void set_constant_direction_gain_config(number::Number *a_number) { constant_direction_gain_number_ = a_number; }
+    void set_constant_direction_target_config(number::Number *a_number) { constant_direction_target_number_ = a_number; }
+
 
     //TEXT SENSORS
     void set_fw_sensor(text_sensor::TextSensor *sensor1) { fw_version_sensor_ = sensor1; }
@@ -418,6 +420,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     number::Number *follow_gain_horizontal_number_;
     number::Number *follow_gain_front_number_;
     number::Number *constant_direction_gain_number_;
+    number::Number *constant_direction_target_number_;
 
     button::Button *center_button_;
     button::Button *cancel_button_;
@@ -570,6 +573,14 @@ class AlvikFollowGainFront : public number::Number, public Parented<AlvikCompone
 class AlvikConstantDirectionGain : public number::Number, public Parented<AlvikComponent> {
  public:
   AlvikConstantDirectionGain() = default;
+
+ protected:
+  void control(float value) override;
+};
+
+class AlvikConstantDirectionTarget : public number::Number, public Parented<AlvikComponent> {
+ public:
+  AlvikConstantDirectionTarget() = default;
 
  protected:
   void control(float value) override;
