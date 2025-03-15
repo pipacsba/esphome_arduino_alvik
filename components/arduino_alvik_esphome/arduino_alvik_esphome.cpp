@@ -441,17 +441,22 @@ namespace alvik {
         float diff_speed;
 
         Kp = this->constant_direction_gain_;
+
+        //MÉR, IRÁNY
         read_compass_data();
 
+        //HIBA
         angle_error = this->constant_direction_target_angle_ - this->compass_angle;
         if (angle_error > 180) {angle_error = angle_error - 360;}
         if (angle_error < -180) {angle_error = angle_error + 360;}
 
+        //KERÉKSEBESSÉG KÜLÖNBSÉG
         diff_speed = 0;
         if (abs(angle_error) > this->constant_direction_tolerance_angle_) { diff_speed = angle_error * Kp;}
         if (diff_speed > MOTOR_MAX_RPM) { diff_speed = MOTOR_MAX_RPM; }
         if (diff_speed < -MOTOR_MAX_RPM) { diff_speed = -MOTOR_MAX_RPM; }
 
+        //VEZÉREL
         set_wheels_speed(-diff_speed, diff_speed);
     }
 
