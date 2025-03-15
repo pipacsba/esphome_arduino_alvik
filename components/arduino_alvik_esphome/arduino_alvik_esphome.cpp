@@ -91,16 +91,17 @@ namespace alvik {
         battery_soc = 0.0;
         battery_is_charging = false;
 
-
+        direction_control_start_ = false;
         constant_direction_tolerance_angle_ = 5;
-        constant_direction_gain_ = 1;
+        constant_direction_gain_ = 3;
         this->constant_direction_gain_number_->publish_state(constant_direction_gain_);
 
         this->forward_distance_->publish_state(150);
         this->set_forward_move_distance(150);
         this->turn_degree_number_->publish_state(90);
         this->set_turn_degree(90);
-        
+
+        follow_start_ = false;
         follow_target_       = 150;
         follow_tolerance_    =  20;
         follow_Kp_           =   1;
@@ -299,12 +300,18 @@ namespace alvik {
                                 }
                                 case ACTION_FOLLOW:
                                 {
-                                    alvik_follow_control();
+                                    if (follow_start_)
+                                    {
+                                        alvik_follow_control();
+                                    }
                                     break;
                                 }
                                 case ACTION_CONSTANT_DIRECTION:
                                 {
-                                    alvik_constant_direction_control();
+                                    if (direction_control_start_)
+                                    {
+                                        alvik_constant_direction_control();
+                                    }
                                     break;
                                 }
                             }
@@ -934,11 +941,13 @@ namespace alvik {
                 break;
             case ACTION_FOLLOW:
                 this->alvik_action_= ACTION_CONSTANT_DIRECTION;
+                this->follow_start_ = false;
                 this->change_alvik_left_right_leds(0xff, false);
                 this->constant_direction_target_angle_ = this->compass_angle;
                 this->change_alvik_left_right_leds(LEFT_BLUE + LEFT_RED + RIGHT_BLUE + RIGHT_RED, true);
                 break;
             case ACTION_CONSTANT_DIRECTION:
+                this->direction_control_start_ = false;
                 this->alvik_action_= ACTION_PERFORM_COMMAND_LIST;
                 this->change_alvik_left_right_leds(0xff, false);
                 break;
@@ -957,11 +966,24 @@ namespace alvik {
     }
     void AlvikComponent::ok_button_action()
     {
+        switch(this->alvik_action_)
+        {
+            case ACTION_COLLECT_COMMAND_LIST:
         //alvik_command_list_.push_back('o'); // o: OK
-        this->alvik_action_= ACTION_PERFORM_COMMAND_LIST;
-        this->led_state= 0;
-        this->yaw_est = this->orientation[2];
-        this->change_alvik_left_right_leds(LEFT_BLUE + RIGHT_BLUE, true);
+                this->alvik_action_= ACTION_PERFORM_COMMAND_LIST;
+                this->led_state= 0;
+                this->yaw_est = this->orientation[2];
+                this->change_alvik_left_right_leds(LEFT_BLUE + RIGHT_BLUE, true);
+                break;
+            case ACTION_FOLLOW:
+                this->follow_start_ = true;
+                break;
+            case ACTION_CONSTANT_DIRECTION:
+                this->direction_control_start_ = false;
+                break;
+            default:
+                break;
+        }
     }
     void AlvikComponent::forward_button_action()
     {
