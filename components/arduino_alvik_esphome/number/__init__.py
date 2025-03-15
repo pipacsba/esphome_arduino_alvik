@@ -34,6 +34,7 @@ AlvikFollowTolerance = alvik_ns.class_("AlvikFollowTolerance", number.Number)
 AlvikFollowGainHorizontal = alvik_ns.class_("AlvikFollowGainHorizontal", number.Number)
 AlvikFollowGainFront = alvik_ns.class_("AlvikFollowGainFront", number.Number)
 AlvikConstantDirectionGain = alvik_ns.class_("AlvikConstantDirectionGain", number.Number)
+AlvikConstantDirectionTarget = alvik_ns.class_("AlvikConstantDirectionTarget", number.Number)
 
 CONF_FORWARD_DISTANCE = "move_forward_distance"
 CONF_TURN_DEGREE = "turn_degree"
@@ -42,6 +43,8 @@ CONF_FOLLOW_TOLERANCE = "follow_tolerance"
 CONF_FOLLOW_GAIN_HORIZONTAL = "follow_gain_horizontal"
 CONF_FOLLOW_GAIN_FRONT = "follow_gain_front"
 CONF_CONSTANT_DIRECTION_GAIN = "constant_direction_gain"
+CONF_CONSTANT_DIRECTION_TARGET = "constant_direction_target"
+
 
 
 CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
@@ -81,15 +84,31 @@ CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
         cv.Optional(CONF_CONSTANT_DIRECTION_GAIN): number.number_schema(
             AlvikConstantDirectionGain,
             entity_category=ENTITY_CATEGORY_CONFIG,
+        ),
+        cv.Optional(CONF_CONSTANT_DIRECTION_TARGET): number.number_schema(
+            AlvikConstantDirectionTarget,
+            entity_category=ENTITY_CATEGORY_CONFIG,
             icon="mdi:angle-acute",
             unit_of_measurement="°",
         ),
+CONF_CONSTANT_DIRECTION_TARGET
+        
     }
 )
 
 async def to_code(config):
     alvik_id = await cg.get_variable(config[CONF_ALVIK_ID])
 
+    if constant_dir_target_config := config.get(CONF_CONSTANT_DIRECTION_TARGET):
+        n = await number.new_number(
+            constant_dir_target_config,
+            min_value=0,
+            max_value=360,
+            step=1,
+        )
+        await cg.register_parented(n, alvik_id)
+        cg.add(alvik_id.set_constant_direction_target_config(n))
+    
     if constant_dir_gain_config := config.get(CONF_CONSTANT_DIRECTION_GAIN):
         n = await number.new_number(
             constant_dir_gain_config,
@@ -99,7 +118,6 @@ async def to_code(config):
         )
         await cg.register_parented(n, alvik_id)
         cg.add(alvik_id.set_constant_direction_gain_config(n))
-    
     if follow_distance_config := config.get(CONF_FOLLOW_DISTANCE):
         n = await number.new_number(
             follow_distance_config,
