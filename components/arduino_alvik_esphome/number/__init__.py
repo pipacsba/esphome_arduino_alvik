@@ -91,8 +91,6 @@ CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
             icon="mdi:angle-acute",
             unit_of_measurement="°",
         ),
-CONF_CONSTANT_DIRECTION_TARGET
-        
     }
 )
 
