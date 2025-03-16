@@ -211,7 +211,7 @@ namespace alvik {
                     {
                         this->set_stm32_state(ison);
                         ESP_LOGD(TAG, "STM32 is up again");
-                        this->set_cycle(0);
+                        this->cycle_ = 0;
                         this->waiting_ack = 0x00;
                         this->alvik_state_ = ALVIK_STM32_UP;
                         if (this->alvik_alive_sensor_ != nullptr)
@@ -222,7 +222,7 @@ namespace alvik {
                     {
                         //USB supply, battery charging as the STM32 is not ON
                         this->alvik_state_ = ALVIK_EXTERNAL_SUPPLY;
-                        this->set_cycle(0);
+                        this->cycle_ = 0;
                         this->nano_pin_->digital_write(true);
                         if (this->alvik_alive_sensor_ != nullptr)
                             this->alvik_alive_sensor_->publish_state(this->alvik_state_);
@@ -316,6 +316,12 @@ namespace alvik {
                                     }
                                     break;
                                 }
+                                case ACTION_MAZE_SOLVER:
+                                {
+                                    break;
+                                }
+
+                                
                             }
                             break;
                         case TASK_WRITE_SENSOR:
