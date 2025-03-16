@@ -62,6 +62,9 @@ CONF_TOF_CENTOID_SENSOR = "tof_centoid"
 CONF_RECEIVED_MESSAGES_COUNTER = "received_messages_counter"
 CONF_ALVIK_FOLLOW_START = "follow_start"
 CONF_CONSTANT_DIRECTION_START = "constant_direction_start"
+CONF_LINE_SENSOR_LEFT = "line_sensor_left"
+CONF_LINE_SENSOR_CENTER = "line_sensor_center"
+CONF_LINE_SENSOR_RIGHT = "line_sensor_right"
 
 
 AlvikBatterySensor = alvik_ns.class_("AlvikBatterySensor", sensor.Sensor, cg.Component, i2c.I2CDevice)
@@ -181,12 +184,30 @@ CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
         cv.Optional(CONF_CONSTANT_DIRECTION_START): sensor.sensor_schema(
             state_class=STATE_CLASS_MEASUREMENT,
         ),
+        cv.Optional(CONF_LINE_SENSOR_LEFT): sensor.sensor_schema(
+            state_class=STATE_CLASS_MEASUREMENT,
+        ),
+        cv.Optional(CONF_LINE_SENSOR_CENTER): sensor.sensor_schema(
+            state_class=STATE_CLASS_MEASUREMENT,
+        ),
+        cv.Optional(CONF_LINE_SENSOR_RIGHT): sensor.sensor_schema(
+            state_class=STATE_CLASS_MEASUREMENT,
+        ),
     }
 )
 
 async def to_code(config):
     alvik_id = await cg.get_variable(config[CONF_ALVIK_ID])
 
+    if line_sensor_config := config.get(CONF_LINE_SENSOR_LEFT):
+        sens = await sensor.new_sensor(line_sensor_config)
+        cg.add(alvik_id.set_line_sensor_left(sens))
+    if line_sensor_config := config.get(CONF_LINE_SENSOR_CENTER):
+        sens = await sensor.new_sensor(line_sensor_config)
+        cg.add(alvik_id.set_line_sensor_center(sens))
+    if line_sensor_config := config.get(CONF_LINE_SENSOR_RIGHT):
+        sens = await sensor.new_sensor(line_sensor_config)
+        cg.add(alvik_id.set_line_sensor_right(sens))
     if follow_start_config := config.get(CONF_ALVIK_FOLLOW_START):
         sens = await sensor.new_sensor(follow_start_config)
         cg.add(alvik_id.set_follow_start_sensor(sens))
