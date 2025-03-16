@@ -396,6 +396,13 @@ namespace alvik {
                                             this->follow_start_sensor_->publish_state(this->follow_start_);
                                         if (this->direction_control_start_sensor_ != nullptr)
                                             this->direction_control_start_sensor_->publish_state(this->direction_control_start_);
+                                        if (this->line_sensor_left_ != nullptr)
+                                            this->line_sensor_left_->publish_state(this->line_sensors[0]);
+                                        if (this->line_sensor_center_ != nullptr)
+                                            this->line_sensor_center_->publish_state(this->line_sensors[1]);
+                                        if (this->line_sensor_right_ != nullptr)
+                                            this->line_sensor_right_->publish_state(this->line_sensors[2]);
+                                        
                                         this->sensor_group_ = this->sensor_group_ + 1;
                                         break;
                                     }
