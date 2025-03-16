@@ -190,6 +190,10 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_direction_control_start_sensor(sensor::Sensor *sensor1) { direction_control_start_sensor_ = sensor1; }
     void set_received_messages_counter_sensor(sensor::Sensor *sensor1) { received_messages_counter_sensor_ = sensor1; }
 
+    void set_line_sensor_left(sensor::Sensor *sensor1) { line_sensor_left_ = sensor1; }
+    void set_line_sensor_center(sensor::Sensor *sensor1) { line_sensor_center_ = sensor1; }
+    void set_line_sensor_right(sensor::Sensor *sensor1) { line_sensor_right_ = sensor1; }
+
     // NUMBERS
     void set_forward_distance_number(number::Number *a_number) { forward_distance_ = a_number; }
     void set_turn_degree_number(number::Number *a_number) { turn_degree_number_ = a_number; }
@@ -282,6 +286,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     float constant_direction_tolerance_angle_;
     float constant_direction_gain_;
 
+
     //-------------------------------------ACTION_FOLLOW
     bool follow_start_;
     float centoid_filt;
@@ -290,7 +295,6 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     float follow_K_horizontal_;
     float follow_tolerance_;
     float centoid_tolerance_;
-
 
 
     //-------------------------------------general variables
@@ -380,6 +384,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
 
 
     //-------------------------------------Exposed to Home assistant
+    //SENSOR
     AlvikBatterySensor *battery_sensor_;
     AlvikCompassSensor *compass_sensor_;
     sensor::Sensor *compass_x_;
@@ -409,7 +414,11 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     sensor::Sensor *received_messages_counter_sensor_;
     sensor::Sensor *follow_start_sensor_;
     sensor::Sensor *direction_control_start_sensor_;
+    sensor::Sensor *line_sensor_left_;
+    sensor::Sensor *line_sensor_center_;
+    sensor::Sensor *line_sensor_right_;
 
+    //NUMBER    
     number::Number *forward_distance_;
     number::Number *turn_degree_number_;
     number::Number *follow_distance_number_;
@@ -419,6 +428,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     number::Number *constant_direction_gain_number_;
     number::Number *constant_direction_target_number_;
 
+    //BUTTON
     button::Button *center_button_;
     button::Button *cancel_button_;
     button::Button *ok_button_;
@@ -429,6 +439,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     button::Button *hw_reset_button_;
     button::Button *reset_pose_button_;
 
+    //TEXT_SENSOR
     text_sensor::TextSensor *fw_version_sensor_;
     text_sensor::TextSensor *lib_version_sensor_;
     text_sensor::TextSensor *command_list_sensor_;
