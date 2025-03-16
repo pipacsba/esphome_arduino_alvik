@@ -65,7 +65,8 @@ const uint8_t ACTION_PERFORM_COMMAND_LIST = 0;
 const uint8_t ACTION_COLLECT_COMMAND_LIST = 1;
 const uint8_t ACTION_FOLLOW               = 2;
 const uint8_t ACTION_CONSTANT_DIRECTION   = 3;
-const uint8_t ACTION_NOT_SET = 255;
+const uint8_t ACTION_MAZE_SOLVER          = 4;
+const uint8_t ACTION_NOT_SET              = 255;
 
 
 // LEFT and RIGHT LED COLORS
