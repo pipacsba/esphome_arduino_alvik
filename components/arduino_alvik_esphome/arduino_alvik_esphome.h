@@ -228,6 +228,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void move(const float distance);   // distance [mm]
 
     void set_servo_positions(const uint8_t a_position, const uint8_t b_position);
+    void reset_pose(const float x = 0.0, const float y = 0.0, const float theta = 0.0);
 
     void set_behaviour(const uint8_t behaviour);
 
@@ -265,7 +266,6 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     //void get_drive_speed(float & linear, float & angular);
     //void drive(const float linear, const float angular);
     //void get_pose(float & x, float & y, float & theta);
-    //void reset_pose(const float x = 0.0, const float y = 0.0, const float theta = 0.0);
     //void get_wheels_speed(float & left, float & right);
 
 
