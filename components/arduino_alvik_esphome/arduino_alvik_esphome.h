@@ -113,8 +113,32 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     uint8_t last_ack;
     uint8_t waiting_ack;
 
+
+    //-------------------------------------ESPHOME
     void setup() override;
     void dump_config() override;
+    float get_setup_priority() const override { return setup_priority::DATA; }
+    void loop() override;
+
+    //-------------------------------------ALVIK ACTIONS
+    void do_one_item_from_command_list(uint32_t now);
+    void external_supply_measurement(bool ison);
+    void alvik_follow_control();
+    void alvik_constant_direction_control();
+
+    void set_cycle(int a_cycle) { cycle_ = a_cycle; };
+
+    void center_button_action();
+    void cancel_button_action();
+    void ok_button_action();
+    void forward_button_action();
+    void backwards_button_action();
+    void left_button_action();
+    void right_button_action();
+
+    void push_alvik_command(char a) {alvik_command_list_.push_back(a);}
+
+    //-------------------------------------Exposed to Home Assistant
     void set_check_stm32_pin(GPIOPin *pin) { stm32_pin_ = pin; };
     void set_check_nano_pin(GPIOPin *pin) { nano_pin_ = pin; };
     void set_reset_stm32_pin(GPIOPin *pin) { reset_pin_ = pin; };
@@ -134,21 +158,8 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
 
     void set_alvik_state(int a_state) { alvik_state_ = a_state; };
 
-    void do_one_item_from_command_list(uint32_t now);
-    void external_supply_measurement(bool ison);
-    void alvik_follow_control();
-    void alvik_constant_direction_control();
-
-    void change_alvik_left_right_leds(uint8_t change_led_state, bool onoff);
-
-
-    void set_stm32_state(bool ison) { stm32_is_on_ = ison; }
-    void set_cycle(int a_cycle) { cycle_ = a_cycle; };
-
-    void loop() override;
 
     // SENSORS
-
     void set_compass_sensor(AlvikCompassSensor *sensor1) { compass_sensor_ = sensor1; }
     void set_compass_x_sensor(sensor::Sensor *sensor1) { compass_x_ = sensor1; }
     void set_compass_y_sensor(sensor::Sensor *sensor1) { compass_y_ = sensor1; }
@@ -179,7 +190,6 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_direction_control_start_sensor(sensor::Sensor *sensor1) { direction_control_start_sensor_ = sensor1; }
     void set_received_messages_counter_sensor(sensor::Sensor *sensor1) { received_messages_counter_sensor_ = sensor1; }
 
-
     // NUMBERS
     void set_forward_distance_number(number::Number *a_number) { forward_distance_ = a_number; }
     void set_turn_degree_number(number::Number *a_number) { turn_degree_number_ = a_number; }
@@ -190,12 +200,10 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_constant_direction_gain_config(number::Number *a_number) { constant_direction_gain_number_ = a_number; }
     void set_constant_direction_target_config(number::Number *a_number) { constant_direction_target_number_ = a_number; }
 
-
     //TEXT SENSORS
     void set_fw_sensor(text_sensor::TextSensor *sensor1) { fw_version_sensor_ = sensor1; }
     void set_lib_sensor(text_sensor::TextSensor *sensor1) { lib_version_sensor_ = sensor1; }
     void set_command_list_sensor(text_sensor::TextSensor *sensor1) { command_list_sensor_ = sensor1; }
-
 
     //SWITCHES
     void set_enable_alvik_switch(switch_::Switch *sw) { enable_alvik_switch_ = sw; }
@@ -210,81 +218,87 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_forward_button(button::Button *bttn) { forwards_button_ = bttn; }
     void set_hw_reset_button(button::Button *bttn) { hw_reset_button_ = bttn; }
     void set_reset_pose_button(button::Button *bttn) { reset_pose_button_ = bttn; }
-    void center_button_action();
-    void cancel_button_action();
-    void ok_button_action();
-    void forward_button_action();
-    void backwards_button_action();
-    void left_button_action();
-    void right_button_action();
- 
 
-    float get_setup_priority() const override { return setup_priority::DATA; }
 
-    void get_wheels_speed(float & left, float & right);
+
+    //-------------------------------------ALVIK CARRIER INTERFACES
     void set_wheels_speed(const float left, const float right);  //RPM
 
-    void get_wheels_position(float & left, float & right);
-    void set_wheels_position(const float left, const float right);
-
-    void get_drive_speed(float & linear, float & angular);
-    void drive(const float linear, const float angular);
-
-    void get_pose(float & x, float & y, float & theta);
-    void reset_pose(const float x = 0.0, const float y = 0.0, const float theta = 0.0);
-
-    bool is_target_reached();
     void rotate(const float angle);    // angle [deg]
     void move(const float distance);   // distance [mm]
 
-    void brake();
-    
-
-    void get_line_sensors(int & left, int & center, int & right);
-    void get_orientation(float & roll, float & pitch, float & yaw);
-    void get_accelerations(float & x, float & y, float & z);
-    void get_gyros(float & x, float & y, float & z);
-    void get_imu(float & ax, float & ay, float & az, float & gx, float & gy, float & gz);
-    bool get_shake();
-    // String get_tilt();
-
-    void get_distance(float & left, float & center_left, float & center, float & center_right, float & right);
-    float get_distance_top();
-    float get_distance_bottom();
-
-
-    bool get_touch_any();
-    bool get_touch_ok();
-    bool get_touch_cancel();
-    bool get_touch_center();
-    bool get_touch_up();
-    bool get_touch_left();
-    bool get_touch_down();
-    bool get_touch_right();
-
-
-    void set_builtin_led(const bool value);
-    void set_illuminator(const bool value);
-    void set_leds();  
-
     void set_servo_positions(const uint8_t a_position, const uint8_t b_position);
-    void get_servo_positions(int & a_position, int & b_position);
 
     void set_behaviour(const uint8_t behaviour);
-    void set_stm32_fw_compatible(bool compatible) { stm32_fw_compatible_ = compatible; };
-    void push_alvik_command(char a) {alvik_command_list_.push_back(a);}
 
+    void set_stm32_fw_compatible(bool compatible) { stm32_fw_compatible_ = compatible; };
+    void change_alvik_left_right_leds(uint8_t change_led_state, bool onoff);
+    void set_stm32_state(bool ison) { stm32_is_on_ = ison; }
+
+    //-------------------------------------LSM303DLHC (magnetic compass) measurement
     void read_compass_data();
+
+    //-------------------------------------NOT YET USED AND IMPLEMENTED
+    //void get_servo_positions(int & a_position, int & b_position);
+    //void get_line_sensors(int & left, int & center, int & right);
+    //void get_orientation(float & roll, float & pitch, float & yaw);
+    //void get_accelerations(float & x, float & y, float & z);
+    //void get_gyros(float & x, float & y, float & z);
+    //void get_imu(float & ax, float & ay, float & az, float & gx, float & gy, float & gz);
+    //bool get_shake();
+    //void get_distance(float & left, float & center_left, float & center, float & center_right, float & right);
+    //float get_distance_top();
+    //float get_distance_bottom();
+    //bool get_touch_any();
+    //bool get_touch_ok();
+    //bool get_touch_cancel();
+    //bool get_touch_center();
+    //bool get_touch_up();
+    //bool get_touch_left();
+    //bool get_touch_down();
+    //bool get_touch_right();
+    //void set_builtin_led(const bool value);
+    //void set_illuminator(const bool value);
+    //void set_leds();  
+    //void get_wheels_position(float & left, float & right);
+    //void set_wheels_position(const float left, const float right);
+    //void get_drive_speed(float & linear, float & angular);
+    //void drive(const float linear, const float angular);
+    //void get_pose(float & x, float & y, float & theta);
+    //void reset_pose(const float x = 0.0, const float y = 0.0, const float theta = 0.0);
+    //void get_wheels_speed(float & left, float & right);
+
 
   protected:
     friend AlvikBatterySensor;
+
+    //-------------------------------------ACTION_PERFORM_COMMAND_LIST; ACTION_COLLECT_COMMAND_LIST
+    float forward_move_distance_;
+    float turn_degree_;
+
+    //-------------------------------------ACTION_CONSTANT_DIRECTION
+    bool direction_control_start_;
+    float constant_direction_target_angle_;
+    float constant_direction_tolerance_angle_;
+    float constant_direction_gain_;
+
+    //-------------------------------------ACTION_FOLLOW
+    bool follow_start_;
+    float centoid_filt;
+    float follow_target_;
+    float follow_Kp_;
+    float follow_K_horizontal_;
+    float follow_tolerance_;
+    float centoid_tolerance_;
+
+
+
+    //-------------------------------------general variables
+    //cycle counter
     int cycle_;
 
     uint8_t alvik_state_;
     uint8_t alvik_action_;
-
-    float forward_move_distance_;
-    float turn_degree_;
 
     GPIOPin *stm32_pin_{nullptr};
     GPIOPin *nano_pin_{nullptr};
@@ -312,12 +326,6 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     int last_command_received_time_;
     int sensor_group_;
     int received_messages_count_;
-
-    //ucPack * packeter;
-    //uint8_t msg_size;
-
-    //uint8_t last_ack;
-    //uint8_t waiting_ack;
 
     std::array<uint8_t, 3> fw_version;
     std::array<uint8_t, 3> lib_version;
@@ -352,11 +360,6 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     float compass_y_offset;
     float compass_z_offset;
 
-    bool direction_control_start_;
-    float constant_direction_target_angle_;
-    float constant_direction_tolerance_angle_;
-    float constant_direction_gain_;
-
     //[L, CL, C, CR, R, T, B] [mm]
     int16_t distances[7];
     bool distances_updated;
@@ -365,15 +368,6 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
 
     float joints_velocity[2];
     float wheel_speeds[2];
-
-    bool follow_start_;
-    float centoid_filt;
-    float follow_target_;
-    float follow_Kp_;
-    float follow_K_horizontal_;
-    float follow_tolerance_;
-    float centoid_tolerance_;
-
 
     //[Left, Right] degree
     float joints_position[2];
@@ -384,7 +378,8 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
 
     uint8_t battery_;
 
-    //sensor::Sensor *battery_sensor_;
+
+    //-------------------------------------Exposed to Home assistant
     AlvikBatterySensor *battery_sensor_;
     AlvikCompassSensor *compass_sensor_;
     sensor::Sensor *compass_x_;
@@ -439,8 +434,6 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     text_sensor::TextSensor *command_list_sensor_;
  
     switch_::Switch *enable_alvik_switch_;
-
-    static void update_task_(void *param);
 
 };
 
