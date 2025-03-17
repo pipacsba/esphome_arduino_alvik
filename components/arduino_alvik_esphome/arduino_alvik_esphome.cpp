@@ -104,14 +104,15 @@ namespace alvik {
         this->blue_led_pin_->pin_mode(gpio::FLAG_OUTPUT);
 
         //----------------Maze solver
-        maze_solver_start_        = false;
-        left_hand_rule_           = true;
-        line_detection_threshold_ = 300;
-        maze_solution_            = "";
-        maze_crawling_speed_      = 30; //RPM
-        intersection_dir_         = INTERSECTION_NONE;
-        maze_crawling_state_      = CRAWLING_STRAIGHT;
-        maze_saved_cycle_counter_ = 0;
+        maze_solver_start_         = false;
+        left_hand_rule_            = true;
+        line_detection_threshold_  = 300;
+        maze_solution_             = "";
+        maze_crawling_speed_       = 30; //RPM
+        intersection_dir_          = INTERSECTION_NONE;
+        maze_crawling_state_       = CRAWLING_STRAIGHT;
+        maze_saved_cycle_counter_  = 0;
+        maze_intersection_counter_ = 0;
 
         //----------------ACTION_CONSTANT_DIRECTION
         direction_control_start_ = false;
@@ -1048,6 +1049,7 @@ namespace alvik {
                 break;
             case ACTION_MAZE_SOLVER:
                 this->maze_solver_start_ = true;
+                this->maze_intersection_counter_ = 0;
                 break;
             default:
                 break;
