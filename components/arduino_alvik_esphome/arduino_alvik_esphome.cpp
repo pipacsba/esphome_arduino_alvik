@@ -23,6 +23,7 @@ namespace alvik {
         this->set_cycle(0);
         this->orientation_correction_enabled = false;
 
+        //----------------Alvik HW variables
         last_ack = NO_ACK;
         waiting_ack = NO_ACK;
         
@@ -81,7 +82,6 @@ namespace alvik {
        
         robot_velocity[0] = 0.0;
         robot_velocity[1] = 0.0;
-
         
         robot_pose[0] = 0.0;
         robot_pose[1] = 0.0;
@@ -90,29 +90,6 @@ namespace alvik {
         battery = 0.0;
         battery_soc = 0.0;
         battery_is_charging = false;
-
-        direction_control_start_ = false;
-        constant_direction_tolerance_angle_ = 5;
-        constant_direction_gain_ = 3;
-        constant_direction_target_angle_ = 0;
-        this->constant_direction_gain_number_->publish_state(constant_direction_gain_);
-        this->constant_direction_target_number_->publish_state(constant_direction_target_angle_);
-
-        this->forward_distance_->publish_state(150);
-        this->set_forward_move_distance(150);
-        this->turn_degree_number_->publish_state(90);
-        this->set_turn_degree(90);
-
-        follow_start_ = false;
-        follow_target_       = 150;
-        follow_tolerance_    =  20;
-        follow_Kp_           =   1;
-        follow_K_horizontal_ =   5;
-        centoid_tolerance_   = 0.5;
-        this->follow_distance_number_->publish_state(follow_target_);
-        this->follow_tolerance_number_->publish_state(follow_tolerance_);
-        this->follow_gain_horizontal_number_->publish_state(follow_K_horizontal_);
-        this->follow_gain_front_number_->publish_state(follow_Kp_);
 
         this->set_stm32_fw_compatible(false);
         //this->stm_pin_->pin_mode(FLAG_PULLDOWN);
@@ -126,6 +103,39 @@ namespace alvik {
         this->green_led_pin_->pin_mode(gpio::FLAG_OUTPUT);
         this->blue_led_pin_->pin_mode(gpio::FLAG_OUTPUT);
 
+        //----------------Maze solver
+        maze_solver_start_= false;
+        
+
+        //----------------ACTION_CONSTANT_DIRECTION
+        direction_control_start_ = false;
+        constant_direction_tolerance_angle_ = 5;
+        constant_direction_gain_ = 3;
+        constant_direction_target_angle_ = 0;
+        this->constant_direction_gain_number_->publish_state(constant_direction_gain_);
+        this->constant_direction_target_number_->publish_state(constant_direction_target_angle_);
+
+
+        //----------------ACTION_PERFORM_COMMAND_LIST; ACTION_COLLECT_COMMAND_LIST
+        this->forward_distance_->publish_state(150);
+        this->set_forward_move_distance(150);
+        this->turn_degree_number_->publish_state(90);
+        this->set_turn_degree(90);
+
+
+        //----------------ACTION_FOLLOW
+        follow_start_ = false;
+        follow_target_       = 150;
+        follow_tolerance_    =  20;
+        follow_Kp_           =   1;
+        follow_K_horizontal_ =   5;
+        centoid_tolerance_   = 0.5;
+        this->follow_distance_number_->publish_state(follow_target_);
+        this->follow_tolerance_number_->publish_state(follow_tolerance_);
+        this->follow_gain_horizontal_number_->publish_state(follow_K_horizontal_);
+        this->follow_gain_front_number_->publish_state(follow_Kp_);
+
+        //--------------Set up Alvik
         this->nano_pin_->digital_write(false);
         this->red_led_pin_->digital_write(true);
         this->green_led_pin_->digital_write(true);
@@ -136,20 +146,20 @@ namespace alvik {
             this->read();
         }
 
-
         this->reset_pin_->digital_write(false);
         
         this->alvik_state_ = ALVIK_STARTUP;
-
+        this->alvik_action_= ACTION_NOT_SET;
+        
         this->last_command_time_ = 0;
         this->last_sensor_time_  = 0;
         this->sensor_group_ = 0;
         this->received_messages_count_ = 0;
         this->last_command_received_time_ = 0;
         this->alvik_command_list_.clear();
-        this->alvik_action_= ACTION_NOT_SET;
 
-       if (this->compass_sensor_  != nullptr)
+        //--------------LSM303DLHC (magnetic compass) measurement
+        if (this->compass_sensor_  != nullptr)
        {
             this->compass_sensor_->write_byte(M_REG_M, 0x00);
             this->compass_sensor_->write_byte(CRA_REG_M, 0x0C);  //0x08 3Hz; 0x0C 7.5Hz
@@ -318,6 +328,10 @@ namespace alvik {
                                 }
                                 case ACTION_MAZE_SOLVER:
                                 {
+                                    if (this->maze_solver_start_)
+                                    {
+                                        alvik_maze_solver();
+                                    }
                                     break;
                                 }
 
