@@ -201,7 +201,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_direction_control_start_sensor(sensor::Sensor *sensor1) { direction_control_start_sensor_ = sensor1; }
     void set_maze_solver_start_sensor(sensor::Sensor *sensor1) { maze_solver_start_sensor_ = sensor1; }
     void set_received_messages_counter_sensor(sensor::Sensor *sensor1) { received_messages_counter_sensor_ = sensor1; }
-    void set_maze_descriptor_sensor(sensor::Sensor *sensor1) { maze_crawling_state_sensor_ = sensor1; }
+    void set_maze_crawling_state_sensor(sensor::Sensor *sensor1) { maze_crawling_state_sensor_ = sensor1; }
     void set_line_sensor_left(sensor::Sensor *sensor1) { line_sensor_left_ = sensor1; }
     void set_line_sensor_center(sensor::Sensor *sensor1) { line_sensor_center_ = sensor1; }
     void set_line_sensor_right(sensor::Sensor *sensor1) { line_sensor_right_ = sensor1; }
