@@ -125,6 +125,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void external_supply_measurement(bool ison);
     void alvik_follow_control();
     void alvik_constant_direction_control();
+    void alvik_maze_solver();
 
     void set_cycle(int a_cycle) { cycle_ = a_cycle; };
 
@@ -157,7 +158,6 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_constant_direction_target(float an_angle) {constant_direction_target_angle_ = an_angle;}
 
     void set_alvik_state(int a_state) { alvik_state_ = a_state; };
-
 
     // SENSORS
     void set_compass_sensor(AlvikCompassSensor *sensor1) { compass_sensor_ = sensor1; }
@@ -222,7 +222,6 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_forward_button(button::Button *bttn) { forwards_button_ = bttn; }
     void set_hw_reset_button(button::Button *bttn) { hw_reset_button_ = bttn; }
     void set_reset_pose_button(button::Button *bttn) { reset_pose_button_ = bttn; }
-
 
 
     //-------------------------------------ALVIK CARRIER INTERFACES
@@ -295,6 +294,10 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     float follow_K_horizontal_;
     float follow_tolerance_;
     float centoid_tolerance_;
+
+
+    //-------------------------------------MAZE_SOLVER
+    bool maze_solver_start_;
 
 
     //-------------------------------------general variables
