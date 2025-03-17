@@ -1,1 +1,8 @@
+Maze solution substitutions for shortest path:
 
+LBR = B
+LBS = R
+RBL = B
+SBL = R
+SBS = B
+LBL = S
