@@ -66,6 +66,7 @@ CONF_MAZE_SOLVER_START = "maze_solver_start"
 CONF_LINE_SENSOR_LEFT = "line_sensor_left"
 CONF_LINE_SENSOR_CENTER = "line_sensor_center"
 CONF_LINE_SENSOR_RIGHT = "line_sensor_right"
+CONF_MAZE_CRAWLING_STATE = "maze_crawling_state"
 
 
 AlvikBatterySensor = alvik_ns.class_("AlvikBatterySensor", sensor.Sensor, cg.Component, i2c.I2CDevice)
@@ -197,12 +198,18 @@ CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
         cv.Optional(CONF_LINE_SENSOR_RIGHT): sensor.sensor_schema(
             state_class=STATE_CLASS_MEASUREMENT,
         ),
+        cv.Optional(CONF_MAZE_CRAWLING_STATE): sensor.sensor_schema(
+        ),
+        
     }
 )
 
 async def to_code(config):
     alvik_id = await cg.get_variable(config[CONF_ALVIK_ID])
 
+    if maze_crawling_state_config := config.get(CONF_MAZE_CRAWLING_STATE):
+        sens = await sensor.new_sensor(maze_crawling_state_config)
+        cg.add(alvik_id.set_maze_crawling_state_sensor(sens))
     if line_sensor_config := config.get(CONF_LINE_SENSOR_LEFT):
         sens = await sensor.new_sensor(line_sensor_config)
         cg.add(alvik_id.set_line_sensor_left(sens))
