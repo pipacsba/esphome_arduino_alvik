@@ -318,6 +318,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     int intersection_dir_;
     int maze_crawling_state_;
     int maze_saved_cycle_counter_;
+    int maze_intersection_counter_;
 
     //-------------------------------------general variables
     //cycle counter
