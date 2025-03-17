@@ -108,7 +108,7 @@ namespace alvik {
         left_hand_rule_            = true;
         line_detection_threshold_  = 300;
         maze_solution_             = "";
-        maze_crawling_speed_       = 30; //RPM
+        maze_crawling_speed_       = 10; //RPM
         intersection_dir_          = INTERSECTION_NONE;
         maze_crawling_state_       = CRAWLING_STRAIGHT;
         maze_saved_cycle_counter_  = 0;
@@ -478,8 +478,48 @@ namespace alvik {
     void AlvikComponent::alvik_maze_solver()
     {
         float sum_weight, sum_values, centoid;
+        float diff_speed;
 
-        
+        switch (this->maze_crawling_state_)
+        {
+            case CRAWLING_STRAIGHT:
+            {
+                //we are mostly line
+                if (this->line_sensors[1] > this->line_detection_threshold_)
+                {
+                    //control line following
+                    if ((this->line_sensors[0] < this->line_detection_threshold_) &
+                        (this->line_sensors[2] < this->line_detection_threshold_))
+                    {
+                        //calculate axial (difference) wheel speeds
+                        sum_weight = this->line_sensors[0] + this->line_sensors[1] + this->line_sensors[1];
+                        sum_values = this->line_sensors[0] + 2 * this->line_sensors[1] + 3 * this->line_sensors[2];
+                        if (sum_weight != 0) { centoid = sum_values / sum_weight - 2.0; }
+                        else { centoid = 0.0; }
+                        diff_speed = centoid * 3;
+                        set_wheels_speed(maze_crawling_speed_ + diff_speed, maze_crawling_speed_ - diff_speed);
+                    }
+                    //intersection detection
+                    else if ((this->line_sensors[0] > this->line_detection_threshold_) |
+                             (this->line_sensors[2] > this->line_detection_threshold_))
+                    {
+                        
+
+                    }
+                    
+                }
+                break;
+            }
+            case CRAWLING_INTERSECTION:
+            {
+                break;
+            }
+            case CRAWLING_TURNING:
+            {
+                break;
+            }
+        }
+
     }
 
 
