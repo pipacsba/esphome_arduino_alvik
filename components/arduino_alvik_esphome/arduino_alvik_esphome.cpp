@@ -396,7 +396,8 @@ namespace alvik {
                                             this->yaw_sensor_->publish_state(this->orientation[2]);
                                         if (this->yaw_est_sensor_ != nullptr)
                                             this->yaw_est_sensor_->publish_state(this->yaw_est);
-
+                                        if (this->maze_solver_start_sensor_ != nullptr)
+                                            this->maze_solver_start_sensor_->publish_state(this->maze_solver_start_);
                                         this->sensor_group_ = this->sensor_group_ + 1;
                                         break;
                                     }
@@ -472,6 +473,8 @@ namespace alvik {
 
     void AlvikComponent::alvik_maze_solver()
     {
+        float sum_weight, sum_values, centoid;
+
         
     }
 
@@ -999,9 +1002,17 @@ namespace alvik {
                 break;
             case ACTION_CONSTANT_DIRECTION:
                 this->direction_control_start_ = false;
+                this->alvik_action_= ACTION_MAZE_SOLVER;
+                this->change_alvik_left_right_leds(0xff, false);
+                this->change_alvik_left_right_leds(LEFT_BLUE + LEFT_RED + LEFT_GREEN + RIGHT_BLUE + RIGHT_RED + RIGHT_GREEN, true);
+                break;
+            case ACTION_MAZE_SOLVER:
+                this->maze_solver_start_ = false;
                 this->alvik_action_= ACTION_PERFORM_COMMAND_LIST;
                 this->change_alvik_left_right_leds(0xff, false);
                 break;
+
+            
             default:
                 this->alvik_action_= ACTION_PERFORM_COMMAND_LIST;
                 this->change_alvik_left_right_leds(0xff, false);
@@ -1031,6 +1042,9 @@ namespace alvik {
                 break;
             case ACTION_CONSTANT_DIRECTION:
                 this->direction_control_start_ = true;
+                break;
+            case ACTION_MAZE_SOLVER:
+                this->maze_solver_start_ = true;
                 break;
             default:
                 break;
