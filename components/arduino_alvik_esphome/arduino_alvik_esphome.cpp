@@ -438,7 +438,10 @@ namespace alvik {
                                             this->compass_y_->publish_state(this->compass_measurements[1]);
                                         if (this->compass_z_ != nullptr)
                                             this->compass_z_->publish_state(this->compass_measurements[2]);
-
+                                        if (this->maze_crawling_state_sensor_ != nullptr)
+                                            this->maze_crawling_state_sensor_->publish_state(this->maze_crawling_state_);
+                                        if (this->maze_descriptor_sensor_ != nullptr)
+                                            this->maze_descriptor_sensor_->publish_state(this->maze_solution_);
                                         this->sensor_group_ = this->sensor_group_ + 1;
                                         break;
                                     }
