@@ -463,6 +463,13 @@ namespace alvik {
 
     }
 
+
+    void AlvikComponent::alvik_maze_solver()
+    {
+        
+    }
+
+
     void AlvikComponent::alvik_constant_direction_control()
     {
         float angle_error;
