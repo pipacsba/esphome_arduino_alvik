@@ -79,6 +79,17 @@ const uint8_t RIGHT_RED    = 32;
 const uint8_t RIGHT_GREEN  = 64;
 const uint8_t RIGHT_BLUE   = 128;
 
+//MAZE INTERSECTION
+const uint8_t INTERSECTION_NONE  = 0;
+const uint8_t INTERSECTION_LEFT  = 1;
+const uint8_t INTERSECTION_RIGHT = 2;
+const uint8_t INTERSECTION_BOTH  = INTERSECTION_LEFT + INTERSECTION_RIGHT;
+
+//MAZE CRWALING STATE (maze_crawling_state_)
+const uint8_t CRAWLING_STRAIGHT     = 0;
+const uint8_t CRAWLING_TURNING      = 1;
+const uint8_t CRAWLING_INTERSECTION = 2;
+
 //class AlvikBatterySensor : public sensor::Sensor, public i2c::I2CDevice, public Parented<AlvikComponent>
 class AlvikBatterySensor : public sensor::Sensor, public i2c::I2CDevice
 {
@@ -298,7 +309,13 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
 
     //-------------------------------------MAZE_SOLVER
     bool maze_solver_start_;
-
+    bool left_hand_rule_;
+    float line_detection_threshold_;
+    std::string maze_solution_;
+    float maze_crawling_speed_;
+    int intersection_dir_;
+    int maze_crawling_state_;
+    int maze_saved_cycle_counter_;
 
     //-------------------------------------general variables
     //cycle counter
