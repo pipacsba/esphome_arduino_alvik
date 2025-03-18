@@ -331,6 +331,8 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     float line_follower_p_;
     float line_follower_i_;
     float line_follower_d_;
+    float line_follower_centoid_previous_;
+    float line_follower_centoid_integral_;
 
     //-------------------------------------general variables
     //cycle counter
