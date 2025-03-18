@@ -92,7 +92,6 @@ namespace alvik {
         battery_is_charging = false;
 
         this->set_stm32_fw_compatible(false);
-        //this->stm_pin_->pin_mode(FLAG_PULLDOWN);
         this->stm32_pin_->pin_mode(gpio::FLAG_INPUT | gpio::FLAG_PULLDOWN);
         this->i2c_switch1_pin_->pin_mode(gpio::FLAG_INPUT);
         this->i2c_switch2_pin_->pin_mode(gpio::FLAG_INPUT);
@@ -120,8 +119,8 @@ namespace alvik {
         this->linefollower_p_number_->publish_state(line_follower_p_);
         this->linefollower_i_number_->publish_state(line_follower_i_);
         this->linefollower_d_number_->publish_state(line_follower_d_);
-        line_follower_centoid_previous_ = 0;
-        line_follower_centoid_integral_ = 0;
+        line_follower_centoid_previous_ = 0.0;
+        line_follower_centoid_integral_ = 0.0;
 
         //----------------ACTION_CONSTANT_DIRECTION
         direction_control_start_ = false;
@@ -211,7 +210,6 @@ namespace alvik {
                     if (this->cycle_ == 0)
                     {    
                         this->reset_pin_->digital_write(false);
-                        //this->nano_pin_->digital_write(true);
                         this->flush();
                         while (this->available()){
                             this->read();
@@ -223,7 +221,6 @@ namespace alvik {
                     if (this->cycle_ == 500)
                     {
                         this->reset_pin_->digital_write(true);
-                        //this->nano_pin_->digital_write(false);
                         this->alvik_state_ = ALVIK_HW_RESET;
                         this->cycle_ = 0;
                         if (this->alvik_alive_sensor_ != nullptr)
@@ -305,10 +302,6 @@ namespace alvik {
                                     this->received_messages_count_ = this->received_messages_count_ + 1;
                                 }
                             }
-                            //if (read_message())
-                            //{
-                            //    parse_message();
-                            //}
                             break;
                         case TASK_PERFORM_ACTION:
                             switch (this->alvik_action_)
@@ -495,14 +488,20 @@ namespace alvik {
         if (sum_weight != 0) { centoid = 2 - (sum_values / sum_weight); }
         else { centoid = 0.0; }
 
-        centoid_difference = centoid - this->line_follower_centoid_previous_;
+        if (this->line_follower_centoid_previous_ != 0.0)
+        {
+            centoid_difference = centoid - this->line_follower_centoid_previous_;
+        }
+        else
+        {
+            centoid_difference = 0.0;
+        }
         this->line_follower_centoid_integral_ += centoid;
 
         diff_speed_p = centoid * this->line_follower_p_;
         diff_speed_i = this->line_follower_centoid_integral_ * this->line_follower_i_;
         diff_speed_d = centoid_difference * this->line_follower_d_;
         diff_speed = diff_speed_p + diff_speed_i + diff_speed_d;
-
         
         set_wheels_speed(maze_crawling_speed_ - diff_speed, maze_crawling_speed_ + diff_speed);
 
@@ -537,7 +536,6 @@ namespace alvik {
                         this->move(30);
                         this->maze_saved_cycle_counter_ = this->cycle_;
                     }
-                    //MISSING END OF LINE DETECTED
                 }
                 else //end-of-line, or way out of line
                 {
@@ -612,7 +610,6 @@ namespace alvik {
                 break;
             }
         }
-
     }
 
 
@@ -815,8 +812,6 @@ namespace alvik {
             this->cycle_ = 0;
             this->alvik_state_ = ALVIK_STARTUP;
         }
-        //this->battery_sensor_->bus_->sda_pin_;
-        //this->battery_sensor_->bus_->recover_();
     }
 
 
@@ -829,7 +824,6 @@ namespace alvik {
         {
             if (this->orientation_correction_enabled & (abs(this->compass_angle - this->angle_at_offset) < 20 ) )
             {
-                //this_yaw = this->robot_pose[2];
                 this_yaw = this->compass_angle; //this->orientation[2];
                 while (this_yaw < 0) { this_yaw += 360; }
                 while (this_yaw > 360) { this_yaw -= 360; }
@@ -1123,11 +1117,13 @@ namespace alvik {
                 this->alvik_action_= ACTION_COLLECT_COMMAND_LIST;
                 this->change_alvik_left_right_leds(0xff, false);
                 this->change_alvik_left_right_leds(LEFT_GREEN + RIGHT_GREEN, true);
+                this->brake();
                 break;
             case ACTION_COLLECT_COMMAND_LIST:
                 this->alvik_action_= ACTION_FOLLOW;
                 this->change_alvik_left_right_leds(0xff, false);
                 this->change_alvik_left_right_leds(LEFT_GREEN + LEFT_RED + RIGHT_GREEN + RIGHT_RED, true);
+                this->brake();
                 break;
             case ACTION_FOLLOW:
                 this->alvik_action_= ACTION_CONSTANT_DIRECTION;
@@ -1136,23 +1132,26 @@ namespace alvik {
                 this->constant_direction_target_angle_ = this->compass_angle;
                 this->constant_direction_target_number_->publish_state(constant_direction_target_angle_);
                 this->change_alvik_left_right_leds(LEFT_BLUE + LEFT_RED + RIGHT_BLUE + RIGHT_RED, true);
+                this->brake();
                 break;
             case ACTION_CONSTANT_DIRECTION:
                 this->direction_control_start_ = false;
                 this->alvik_action_= ACTION_MAZE_SOLVER;
                 this->change_alvik_left_right_leds(0xff, false);
                 this->change_alvik_left_right_leds(LEFT_BLUE + LEFT_RED + LEFT_GREEN + RIGHT_BLUE + RIGHT_RED + RIGHT_GREEN, true);
+                this->brake();
                 break;
             case ACTION_MAZE_SOLVER:
                 this->maze_solver_start_ = false;
                 this->alvik_action_= ACTION_PERFORM_COMMAND_LIST;
                 this->change_alvik_left_right_leds(0xff, false);
+                this->brake();
                 break;
-
             
             default:
                 this->alvik_action_= ACTION_PERFORM_COMMAND_LIST;
                 this->change_alvik_left_right_leds(0xff, false);
+                this->brake();
                 break;
         }
     }
