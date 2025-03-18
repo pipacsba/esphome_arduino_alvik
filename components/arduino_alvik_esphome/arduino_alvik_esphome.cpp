@@ -103,7 +103,7 @@ namespace alvik {
         this->green_led_pin_->pin_mode(gpio::FLAG_OUTPUT);
         this->blue_led_pin_->pin_mode(gpio::FLAG_OUTPUT);
 
-        //----------------Maze solver
+        //----------------ACTION_MAZE_SOLVER
         maze_solver_start_         = false;
         left_hand_rule_            = true;
         line_detection_threshold_  = 300;
