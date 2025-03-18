@@ -114,6 +114,13 @@ namespace alvik {
         maze_saved_cycle_counter_  = 0;
         maze_intersection_counter_ = 0;
 
+        line_follower_p_  = 3;
+        line_follower_d_  = 1;
+        line_follower_i_  = 1;
+        this->linefollower_p_number_->publish_state(line_follower_p_);
+        this->linefollower_i_number_->publish_state(line_follower_i_);
+        this->linefollower_d_number_->publish_state(line_follower_d_);
+
         //----------------ACTION_CONSTANT_DIRECTION
         direction_control_start_ = false;
         constant_direction_tolerance_angle_ = 5;
@@ -1317,6 +1324,9 @@ namespace alvik {
     void AlvikFollowGainFront::control(float a_gain) { this->parent_->set_follow_Kp(a_gain); }
     void AlvikConstantDirectionGain::control(float a_gain) { this->parent_->set_constant_direction_gain(a_gain); }
     void AlvikConstantDirectionTarget::control(float an_angle) { this->parent_->set_constant_direction_target(an_angle); }
+    void AlvikLineFollowerP::control(float a_gain) { this->parent_->set_line_follower_p(a_gain); }
+    void AlvikLineFollowerI::control(float a_gain) { this->parent_->set_line_follower_i(a_gain); }
+    void AlvikLineFollowerD::control(float a_gain) { this->parent_->set_line_follower_d(a_gain); }
 
 }  // namespace alvik
 }  // namespace esphome
