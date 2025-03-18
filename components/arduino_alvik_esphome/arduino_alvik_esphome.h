@@ -317,6 +317,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     float follow_K_horizontal_;
     float follow_tolerance_;
     float centoid_tolerance_;
+    float wheel_speeds[2];
 
 
     //-------------------------------------MAZE_SOLVER
@@ -410,7 +411,6 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     uint8_t touch, touch_bits;
 
     float joints_velocity[2];
-    float wheel_speeds[2];
 
     //[Left, Right] degree
     float joints_position[2];
