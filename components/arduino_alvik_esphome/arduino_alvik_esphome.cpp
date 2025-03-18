@@ -558,7 +558,7 @@ namespace alvik {
             case CRAWLING_INTERSECTION:
             {
                 //check if intersection is "under" the robot
-                if ((this->cycle_ - this->maze_saved_cycle_counter_ > 10) & (this->wheel_speeds[0] == 0))
+                if ((this->cycle_ - this->maze_saved_cycle_counter_ > 60) & (this->wheel_speeds[0] == 0))
                 {
                     //if the line continues
                     if (this->line_sensors[1] > this->line_detection_threshold_)
@@ -602,7 +602,7 @@ namespace alvik {
             }
             case CRAWLING_TURNING:
             {
-                if ((this->cycle_ - this->maze_saved_cycle_counter_ > 10) & (this->wheel_speeds[0] == 0))
+                if ((this->cycle_ - this->maze_saved_cycle_counter_ > 60) & (this->wheel_speeds[0] == 0))
                 {
                     this->line_follower_centoid_integral_ = 0;
                     this->maze_crawling_state_ = CRAWLING_STRAIGHT;
