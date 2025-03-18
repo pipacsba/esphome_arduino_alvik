@@ -115,11 +115,13 @@ namespace alvik {
         maze_intersection_counter_ = 0;
 
         line_follower_p_  = 3;
-        line_follower_d_  = 1;
-        line_follower_i_  = 1;
+        line_follower_d_  = 10;
+        line_follower_i_  = 0;
         this->linefollower_p_number_->publish_state(line_follower_p_);
         this->linefollower_i_number_->publish_state(line_follower_i_);
         this->linefollower_d_number_->publish_state(line_follower_d_);
+        line_follower_centoid_previous_ = 0;
+        line_follower_centoid_integral_ = 0;
 
         //----------------ACTION_CONSTANT_DIRECTION
         direction_control_start_ = false;
@@ -481,11 +483,31 @@ namespace alvik {
 
     }
 
-
-    void AlvikComponent::alvik_maze_solver()
+    void AlvikComponent::alvik_line_follower()
     {
         float sum_weight, sum_values, centoid;
         float diff_speed;
+        float centoid_difference;
+
+        //calculate axial (difference) wheel speeds
+        sum_weight = this->line_sensors[0] + this->line_sensors[1] + this->line_sensors[1];
+        sum_values = this->line_sensors[0] + 2 * this->line_sensors[1] + 3 * this->line_sensors[2];
+        if (sum_weight != 0) { centoid = 2 - (sum_values / sum_weight); }
+        else { centoid = 0.0; }
+
+        centoid_difference = centoid - this->line_follower_centoid_previous_;
+        this->line_follower_centoid_integral_ += centoid;
+
+        diff_speed = centoid * this->line_follower_p_ + centoid_difference * this->line_follower_d_ + this->line_follower_centoid_integral_ * this->line_follower_i_;
+        
+        set_wheels_speed(maze_crawling_speed_ - diff_speed, maze_crawling_speed_ + diff_speed);
+
+        this->line_follower_centoid_previous_ = centoid;
+    }
+
+
+    void AlvikComponent::alvik_maze_solver()
+    {
 
         switch (this->maze_crawling_state_)
         {
@@ -498,13 +520,7 @@ namespace alvik {
                     if ((this->line_sensors[0] < this->line_detection_threshold_) &
                         (this->line_sensors[2] < this->line_detection_threshold_))
                     {
-                        //calculate axial (difference) wheel speeds
-                        sum_weight = this->line_sensors[0] + this->line_sensors[1] + this->line_sensors[1];
-                        sum_values = this->line_sensors[0] + 2 * this->line_sensors[1] + 3 * this->line_sensors[2];
-                        if (sum_weight != 0) { centoid = sum_values / sum_weight - 2.0; }
-                        else { centoid = 0.0; }
-                        diff_speed = centoid * 3;
-                        set_wheels_speed(maze_crawling_speed_ + diff_speed, maze_crawling_speed_ - diff_speed);
+                        this->alvik_line_follower();
                     }
                     //intersection detection
                     else if ((this->line_sensors[0] > this->line_detection_threshold_) |
@@ -525,13 +541,7 @@ namespace alvik {
                     if ((this->line_sensors[0] > this->line_detection_threshold_) |  
                         (this->line_sensors[2] > this->line_detection_threshold_))
                     {
-                        //calculate axial (difference) wheel speeds
-                        sum_weight = this->line_sensors[0] + this->line_sensors[1] + this->line_sensors[1];
-                        sum_values = this->line_sensors[0] + 2 * this->line_sensors[1] + 3 * this->line_sensors[2];
-                        if (sum_weight != 0) { centoid = sum_values / sum_weight - 2.0; }
-                        else { centoid = 0.0; }
-                        diff_speed = centoid * 6;
-                        set_wheels_speed(maze_crawling_speed_ + diff_speed, maze_crawling_speed_ - diff_speed);
+                        this->alvik_line_follower();
                     }
                     else //turn back
                     {
@@ -546,7 +556,7 @@ namespace alvik {
             case CRAWLING_INTERSECTION:
             {
                 //check if intersection is "under" the robot
-                if ((this->cycle_ - this->maze_saved_cycle_counter_ > 6) & (this->wheel_speeds[0] == 0))
+                if ((this->cycle_ - this->maze_saved_cycle_counter_ > 10) & (this->wheel_speeds[0] == 0))
                 {
                     //if the line continues
                     if (this->line_sensors[1] > this->line_detection_threshold_)
@@ -590,8 +600,9 @@ namespace alvik {
             }
             case CRAWLING_TURNING:
             {
-                if ((this->cycle_ - this->maze_saved_cycle_counter_ > 6) & (this->wheel_speeds[0] == 0))
+                if ((this->cycle_ - this->maze_saved_cycle_counter_ > 10) & (this->wheel_speeds[0] == 0))
                 {
+                    this->line_follower_centoid_integral_ = 0;
                     this->maze_crawling_state_ = CRAWLING_STRAIGHT;
                 }
                 break;
