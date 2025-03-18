@@ -113,7 +113,7 @@ namespace alvik {
         maze_saved_cycle_counter_  = 0;
         maze_intersection_counter_ = 0;
 
-        line_follower_p_  = 3;
+        line_follower_p_  = 50;
         line_follower_d_  = 10;
         line_follower_i_  = 0;
         this->linefollower_p_number_->publish_state(line_follower_p_);
