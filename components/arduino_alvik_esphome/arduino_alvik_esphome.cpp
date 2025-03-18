@@ -1160,6 +1160,7 @@ namespace alvik {
     {
         //alvik_command_list_.push_back('x'); // x: Cancel
         this->alvik_command_list_.clear();
+        this->maze_solution_.clear();
         this->change_alvik_left_right_leds(LEFT_RED + RIGHT_RED, true);
     }
     void AlvikComponent::ok_button_action()
