@@ -35,6 +35,9 @@ AlvikFollowGainHorizontal = alvik_ns.class_("AlvikFollowGainHorizontal", number.
 AlvikFollowGainFront = alvik_ns.class_("AlvikFollowGainFront", number.Number)
 AlvikConstantDirectionGain = alvik_ns.class_("AlvikConstantDirectionGain", number.Number)
 AlvikConstantDirectionTarget = alvik_ns.class_("AlvikConstantDirectionTarget", number.Number)
+AlvikLineFollowerP = alvik_ns.class_("AlvikLineFollowerP", number.Number)
+AlvikLineFollowerI = alvik_ns.class_("AlvikLineFollowerI", number.Number)
+AlvikLineFollowerD = alvik_ns.class_("AlvikLineFollowerD", number.Number)
 
 CONF_FORWARD_DISTANCE = "move_forward_distance"
 CONF_TURN_DEGREE = "turn_degree"
@@ -44,6 +47,9 @@ CONF_FOLLOW_GAIN_HORIZONTAL = "follow_gain_horizontal"
 CONF_FOLLOW_GAIN_FRONT = "follow_gain_front"
 CONF_CONSTANT_DIRECTION_GAIN = "constant_direction_gain"
 CONF_CONSTANT_DIRECTION_TARGET = "constant_direction_target"
+CONF_LINEFOLLOWER_P = "line_follower_p"
+CONF_LINEFOLLOWER_I = "line_follower_i"
+CONF_LINEFOLLOWER_D = "line_follower_d"
 
 
 
@@ -91,12 +97,51 @@ CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
             icon="mdi:angle-acute",
             unit_of_measurement="°",
         ),
+        cv.Optional(CONF_LINEFOLLOWER_P): number.number_schema(
+            AlvikFollowGainFront,
+            entity_category=ENTITY_CATEGORY_CONFIG,
+        ),
+        cv.Optional(CONF_LINEFOLLOWER_I): number.number_schema(
+            AlvikFollowGainFront,
+            entity_category=ENTITY_CATEGORY_CONFIG,
+        ),
+        cv.Optional(CONF_LINEFOLLOWER_D): number.number_schema(
+            AlvikFollowGainFront,
+            entity_category=ENTITY_CATEGORY_CONFIG,
+        ),
     }
 )
 
 async def to_code(config):
     alvik_id = await cg.get_variable(config[CONF_ALVIK_ID])
 
+    if linefollower_pid_config := config.get(CONF_LINEFOLLOWER_D):
+        n = await number.new_number(
+            linefollower_pid_config,
+            min_value=0,
+            max_value=20,
+            step=0.5,
+        )
+        await cg.register_parented(n, alvik_id)
+        cg.add(alvik_id.set_linefollower_d_config(n))
+    if linefollower_pid_config := config.get(CONF_LINEFOLLOWER_I):
+        n = await number.new_number(
+            linefollower_pid_config,
+            min_value=0,
+            max_value=20,
+            step=0.5,
+        )
+        await cg.register_parented(n, alvik_id)
+        cg.add(alvik_id.set_linefollower_i_config(n))
+    if linefollower_pid_config := config.get(CONF_LINEFOLLOWER_P):
+        n = await number.new_number(
+            linefollower_pid_config,
+            min_value=0,
+            max_value=20,
+            step=0.5,
+        )
+        await cg.register_parented(n, alvik_id)
+        cg.add(alvik_id.set_linefollower_p_config(n))
     if constant_dir_target_config := config.get(CONF_CONSTANT_DIRECTION_TARGET):
         n = await number.new_number(
             constant_dir_target_config,
@@ -106,7 +151,6 @@ async def to_code(config):
         )
         await cg.register_parented(n, alvik_id)
         cg.add(alvik_id.set_constant_direction_target_config(n))
-    
     if constant_dir_gain_config := config.get(CONF_CONSTANT_DIRECTION_GAIN):
         n = await number.new_number(
             constant_dir_gain_config,
