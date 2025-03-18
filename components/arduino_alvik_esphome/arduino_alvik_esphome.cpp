@@ -105,7 +105,7 @@ namespace alvik {
         //----------------ACTION_MAZE_SOLVER
         maze_solver_start_         = false;
         left_hand_rule_            = true;
-        line_detection_threshold_  = 200;
+        line_detection_threshold_  = 400;
         maze_solution_             = "";
         maze_crawling_speed_       = 10; //RPM
         intersection_dir_          = INTERSECTION_NONE;
