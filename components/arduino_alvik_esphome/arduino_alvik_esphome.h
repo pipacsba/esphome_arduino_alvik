@@ -149,8 +149,10 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void right_button_action();
 
     void push_alvik_command(char a) {alvik_command_list_.push_back(a);}
+    void set_alvik_state(int a_state) { alvik_state_ = a_state; };
 
     //-------------------------------------Exposed to Home Assistant
+    // pin config
     void set_check_stm32_pin(GPIOPin *pin) { stm32_pin_ = pin; };
     void set_check_nano_pin(GPIOPin *pin) { nano_pin_ = pin; };
     void set_reset_stm32_pin(GPIOPin *pin) { reset_pin_ = pin; };
@@ -159,6 +161,8 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_blue_led_pin(GPIOPin *pin) { blue_led_pin_ = pin; };
     void set_i2c_switch1_pin(GPIOPin *pin) { i2c_switch1_pin_ = pin; };
     void set_i2c_switch2_pin(GPIOPin *pin) { i2c_switch2_pin_ = pin; };
+
+    //set NUMBER values
     void set_forward_move_distance(float a_distance) { forward_move_distance_ = a_distance; }
     void set_turn_degree(float an_angle) { turn_degree_ = an_angle; }
     void set_follow_target(float a_distance) {follow_target_ = a_distance;}
@@ -167,8 +171,9 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_follow_K_horizontal(float a_gain) {follow_K_horizontal_ = a_gain;}
     void set_constant_direction_gain(float a_gain) {constant_direction_gain_ = a_gain;}
     void set_constant_direction_target(float an_angle) {constant_direction_target_angle_ = an_angle;}
-
-    void set_alvik_state(int a_state) { alvik_state_ = a_state; };
+    void set_line_follower_p(float a_gain) {line_follower_p_ = a_gain;}
+    void set_line_follower_i(float a_gain) {line_follower_i_ = a_gain;}
+    void set_line_follower_d(float a_gain) {line_follower_d_ = a_gain;}
 
     // SENSORS
     void set_compass_sensor(AlvikCompassSensor *sensor1) { compass_sensor_ = sensor1; }
@@ -215,6 +220,9 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_follow_gain_f_config(number::Number *a_number) { follow_gain_front_number_ = a_number; }
     void set_constant_direction_gain_config(number::Number *a_number) { constant_direction_gain_number_ = a_number; }
     void set_constant_direction_target_config(number::Number *a_number) { constant_direction_target_number_ = a_number; }
+    void set_linefollower_d_config(number::Number *a_number) { linefollower_d_number_ = a_number; }
+    void set_linefollower_i_config(number::Number *a_number) { linefollower_i_number_ = a_number; }
+    void set_linefollower_p_config(number::Number *a_number) { linefollower_p_number_ = a_number; }
 
     //TEXT SENSORS
     void set_fw_sensor(text_sensor::TextSensor *sensor1) { fw_version_sensor_ = sensor1; }
@@ -319,6 +327,10 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     int maze_crawling_state_;
     int maze_saved_cycle_counter_;
     int maze_intersection_counter_;
+
+    float line_follower_p_;
+    float line_follower_i_;
+    float line_follower_d_;
 
     //-------------------------------------general variables
     //cycle counter
@@ -452,6 +464,9 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     number::Number *follow_gain_front_number_;
     number::Number *constant_direction_gain_number_;
     number::Number *constant_direction_target_number_;
+    number::Number *linefollower_d_number_;
+    number::Number *linefollower_i_number_;
+    number::Number *linefollower_p_number_;
 
     //BUTTON
     button::Button *center_button_;
@@ -614,6 +629,31 @@ class AlvikConstantDirectionGain : public number::Number, public Parented<AlvikC
 class AlvikConstantDirectionTarget : public number::Number, public Parented<AlvikComponent> {
  public:
   AlvikConstantDirectionTarget() = default;
+
+ protected:
+  void control(float value) override;
+};
+
+
+class AlvikLineFollowerP : public number::Number, public Parented<AlvikComponent> {
+ public:
+  AlvikLineFollowerP() = default;
+
+ protected:
+  void control(float value) override;
+};
+
+class AlvikLineFollowerI : public number::Number, public Parented<AlvikComponent> {
+ public:
+  AlvikLineFollowerI() = default;
+
+ protected:
+  void control(float value) override;
+};
+
+class AlvikLineFollowerD : public number::Number, public Parented<AlvikComponent> {
+ public:
+  AlvikLineFollowerD() = default;
 
  protected:
   void control(float value) override;
