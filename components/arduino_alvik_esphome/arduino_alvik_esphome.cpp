@@ -554,9 +554,6 @@ namespace alvik {
             {
                 if (line_sum > 700) //more than one line is present
                 {
-                    //this->maze_crawling_state_ = CRAWLING_STRAIGHT; //DEBUG
-                    //this->maze_crawling_state_ = CRAWLING_INTERSECTION;
-                    //this->intersection_dir_ = INTERSECTION_NONE;
                     if (this->line_sensors[0] > this->line_detection_threshold_ * 2 ) 
                     {
                         this->maze_left_turn_confidence += 0.2;
@@ -577,13 +574,14 @@ namespace alvik {
                     if (this->maze_left_turn_confidence < 0) {this->maze_left_turn_confidence = 0;}
                     if (this->maze_right_turn_confidence < 0) {this->maze_right_turn_confidence = 0;}
                     if (this->maze_dead_end_confidence < 0) {this->maze_dead_end_confidence = 0;}
+                    this->alvik_line_follower();
                 }
                 else
                 {
                     this->maze_dead_end_confidence += 0.25;
                     this->maze_solution_.push_back('r');
                 }
-                this->alvik_line_follower();
+                //this->alvik_line_follower();
                 break;
             }
             case CRAWLING_TURNING:
