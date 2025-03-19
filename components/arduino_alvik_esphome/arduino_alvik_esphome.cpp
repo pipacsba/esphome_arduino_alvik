@@ -108,6 +108,7 @@ namespace alvik {
         line_detection_threshold_  = 300;
         maze_solution_             = "";
         maze_crawling_speed_       = 100; //RPM
+        this->maze_crawling_speed_number_->publish_state(maze_crawling_speed_);
         intersection_dir_          = INTERSECTION_NONE;
         maze_crawling_state_       = CRAWLING_STRAIGHT;
         maze_saved_cycle_counter_  = 0;
@@ -1342,6 +1343,7 @@ namespace alvik {
     void AlvikLineFollowerP::control(float a_gain) { this->parent_->set_line_follower_p(a_gain); }
     void AlvikLineFollowerI::control(float a_gain) { this->parent_->set_line_follower_i(a_gain); }
     void AlvikLineFollowerD::control(float a_gain) { this->parent_->set_line_follower_d(a_gain); }
+    void AlvikMazeCrawlingSpeed::control(float an_rpm) { this->parent_->set_maze_crawling_speed(an_rpm); }
 
 }  // namespace alvik
 }  // namespace esphome
