@@ -582,6 +582,7 @@ namespace alvik {
                     this->maze_solution_.push_back('r');
                 }
                 //this->alvik_line_follower();
+                set_wheels_speed(maze_crawling_speed_, maze_crawling_speed_);
                 break;
             }
             case CRAWLING_TURNING:
