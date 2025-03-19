@@ -285,7 +285,7 @@ namespace alvik {
                         this->reset_pose(0, 0, this->compass_angle);
                         this->angle_at_offset = this->compass_angle;
                         this->last_command_time_ = now;
-                        this->alvik_action_= ACTION_PERFORM_COMMAND_LIST;
+                        this->alvik_action_= ACTION_MAZE_SOLVER;
                     }
                     break;
                 }
@@ -512,13 +512,11 @@ namespace alvik {
 
     void AlvikComponent::alvik_maze_solver()
     {
-        //maze_crawling_state_= 10; //DEBUG
-        //this->alvik_line_follower(); //DEBUG
+        float line_sum;
+        line_sum = this->line_sensors[0] + this->line_sensors[1] + this->line_sensors[2];
+        
         switch (this->maze_crawling_state_)
         {
-            float line_sum;
-            line_sum = this->line_sensors[0] + this->line_sensors[1] + this->line_sensors[2];
-            
             case CRAWLING_STRAIGHT:
             {
                 if (line_sum > 700) //more than one line is present
