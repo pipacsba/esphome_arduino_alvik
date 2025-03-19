@@ -113,6 +113,9 @@ namespace alvik {
         maze_crawling_state_       = CRAWLING_STRAIGHT;
         maze_saved_cycle_counter_  = 0;
         maze_intersection_counter_ = 0;
+        maze_left_turn_confidence  = 0;
+        maze_right_turn_confidence = 0;
+        maze_dead_end_confidence   = 0;
 
         line_follower_p_  = 20;
         line_follower_d_  = -20;
@@ -514,7 +517,37 @@ namespace alvik {
     {
         float line_sum;
         line_sum = this->line_sensors[0] + this->line_sensors[1] + this->line_sensors[2];
-        
+        if (maze_left_turn_confidence  >= 1)
+        {
+            this->rotate(90);
+            this->maze_saved_cycle_counter_ = this->cycle_;
+            this->maze_crawling_state_ = CRAWLING_TURNING;
+            this->maze_solution_.push_back('L');
+            this->maze_left_turn_confidence = 0;
+            this->maze_right_turn_confidence = 0;
+            this->maze_dead_end_confidence   = 0;
+        }
+        else if ((maze_right_turn_confidence >= 1) & (maze_dead_end_confidence >= 1))
+        {
+            this->rotate(-90);
+            this->maze_saved_cycle_counter_ = this->cycle_;
+            this->maze_crawling_state_ = CRAWLING_TURNING;
+            this->maze_solution_.push_back('R');
+            this->maze_left_turn_confidence = 0;
+            this->maze_right_turn_confidence = 0;
+            this->maze_dead_end_confidence   = 0;
+        }
+        else if (maze_dead_end_confidence >= 1)
+        {
+            this->rotate(180);
+            this->maze_saved_cycle_counter_ = this->cycle_;
+            this->maze_crawling_state_ = CRAWLING_TURNING;
+            this->maze_solution_.push_back('B');
+            this->maze_left_turn_confidence = 0;
+            this->maze_right_turn_confidence = 0;
+            this->maze_dead_end_confidence   = 0;
+        }
+
         switch (this->maze_crawling_state_)
         {
             case CRAWLING_STRAIGHT:
@@ -522,81 +555,35 @@ namespace alvik {
                 if (line_sum > 700) //more than one line is present
                 {
                     //this->maze_crawling_state_ = CRAWLING_STRAIGHT; //DEBUG
-                    this->maze_crawling_state_ = CRAWLING_INTERSECTION;
-                    this->intersection_dir_ = INTERSECTION_NONE;
+                    //this->maze_crawling_state_ = CRAWLING_INTERSECTION;
+                    //this->intersection_dir_ = INTERSECTION_NONE;
                     if (this->line_sensors[0] > this->line_detection_threshold_ * 2 ) 
                     {
-                        this->intersection_dir_ +=INTERSECTION_LEFT;
+                        this->maze_left_turn_confidence += 0.25;
                         this->maze_solution_.push_back('l');
                     }
                     if (this->line_sensors[2] > this->line_detection_threshold_ * 2 ) 
                     {
-                        this->intersection_dir_ +=INTERSECTION_RIGHT;
+                        this->maze_right_turn_confidence += 0.25;
                         this->maze_solution_.push_back('r');
                     }
-                    this->move(30);
-                    //this->brake(); //DEBUG
-                    this->maze_saved_cycle_counter_ = this->cycle_;
                 }
                 //control line following
                 else if (line_sum > this->line_detection_threshold_)
                 {
-                    this->alvik_line_follower();
+                    this->maze_left_turn_confidence -= 0.1;
+                    this->maze_right_turn_confidence -= 0.1;
+                    this->maze_dead_end_confidence   -= 0.1;
+                    if (this->maze_left_turn_confidence < 0) {this->maze_left_turn_confidence = 0;}
+                    if (this->maze_right_turn_confidence < 0) {this->maze_right_turn_confidence = 0;}
+                    if (this->maze_dead_end_confidence < 0) {this->maze_dead_end_confidence = 0;}
                 }
                 else
                 {
-                    //this->maze_crawling_state_ = CRAWLING_STRAIGHT; //DEBUG
-                    this->maze_crawling_state_ = CRAWLING_TURNING;
-                    //this->brake(); //DEBUG
-                    this->rotate(180);
-                    this->maze_saved_cycle_counter_ = this->cycle_;
-                    this->maze_solution_.push_back('B');
+                    this->maze_dead_end_confidence += 0.25;
+                    this->maze_solution_.push_back('r');
                 }
-                break;
-            }
-            case CRAWLING_INTERSECTION:
-            {
-                //check if intersection is "under" the robot
-                if ((this->cycle_ - this->maze_saved_cycle_counter_ > 10) & (this->joints_velocity[0] == 0))
-                {
-                    //if the line continues
-                    if (line_sum > this->line_detection_threshold_)
-                    {
-                        //continue if there were no left intersection detected - continue straight as most left
-                        if ((this->intersection_dir_ != INTERSECTION_LEFT) | (this->intersection_dir_ != INTERSECTION_BOTH))
-                        {
-                            this->maze_crawling_state_ = CRAWLING_STRAIGHT;
-                            this->intersection_dir_ = INTERSECTION_NONE;
-                            this->maze_solution_.push_back('S');
-                        }
-                        else // turn left
-                        {
-                            this->rotate(90);
-                            this->maze_saved_cycle_counter_ = this->cycle_;
-                            this->maze_crawling_state_ = CRAWLING_TURNING;
-                            this->maze_solution_.push_back('L');
-                        }
-                    }
-                    else
-                    {
-                        //continue if there were no left intersection detected - turn right as most left
-                        if ((this->intersection_dir_ != INTERSECTION_LEFT) | (this->intersection_dir_ != INTERSECTION_BOTH))
-                        {
-                            this->rotate(-90);
-                            this->maze_saved_cycle_counter_ = this->cycle_;
-                            this->maze_crawling_state_ = CRAWLING_TURNING;
-                            this->maze_solution_.push_back('R');
-                        }
-                        else // turn left
-                        {
-                            this->rotate(90);
-                            this->maze_saved_cycle_counter_ = this->cycle_;
-                            this->maze_crawling_state_ = CRAWLING_TURNING;
-                            this->maze_solution_.push_back('L');
-                        }
-                    }
-
-                }
+                //this->alvik_line_follower();
                 break;
             }
             case CRAWLING_TURNING:
