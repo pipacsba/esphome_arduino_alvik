@@ -333,6 +333,9 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     int maze_crawling_state_;
     int maze_saved_cycle_counter_;
     int maze_intersection_counter_;
+    float maze_left_turn_confidence;
+    float maze_right_turn_confidence;
+    float maze_dead_end_confidence;
 
     float line_follower_p_;
     float line_follower_i_;
