@@ -559,12 +559,12 @@ namespace alvik {
                     //this->intersection_dir_ = INTERSECTION_NONE;
                     if (this->line_sensors[0] > this->line_detection_threshold_ * 2 ) 
                     {
-                        this->maze_left_turn_confidence += 0.25;
+                        this->maze_left_turn_confidence += 0.2;
                         this->maze_solution_.push_back('l');
                     }
                     if (this->line_sensors[2] > this->line_detection_threshold_ * 2 ) 
                     {
-                        this->maze_right_turn_confidence += 0.25;
+                        this->maze_right_turn_confidence += 0.2;
                         this->maze_solution_.push_back('r');
                     }
                 }
