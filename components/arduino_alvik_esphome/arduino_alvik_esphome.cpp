@@ -521,8 +521,8 @@ namespace alvik {
             {
                 if (line_sum > 700) //more than one line is present
                 {
-                    this->maze_crawling_state_ = CRAWLING_STRAIGHT; //DEBUG
-                    //this->maze_crawling_state_ = CRAWLING_INTERSECTION;
+                    //this->maze_crawling_state_ = CRAWLING_STRAIGHT; //DEBUG
+                    this->maze_crawling_state_ = CRAWLING_INTERSECTION;
                     this->intersection_dir_ = INTERSECTION_NONE;
                     if (this->line_sensors[0] > this->line_detection_threshold_ * 2 ) 
                     {
@@ -534,21 +534,21 @@ namespace alvik {
                         this->intersection_dir_ +=INTERSECTION_RIGHT;
                         this->maze_solution_.push_back('r');
                     }
-                    //this->move(30);
+                    this->move(30);
                     //this->brake(); //DEBUG
                     this->maze_saved_cycle_counter_ = this->cycle_;
                 }
                 //control line following
-                else if (line_sum > line_detection_threshold_)
+                else if (line_sum > this->line_detection_threshold_)
                 {
                     this->alvik_line_follower();
                 }
                 else
                 {
-                    this->maze_crawling_state_ = CRAWLING_STRAIGHT; //DEBUG
-                    //this->maze_crawling_state_ = CRAWLING_TURNING;
+                    //this->maze_crawling_state_ = CRAWLING_STRAIGHT; //DEBUG
+                    this->maze_crawling_state_ = CRAWLING_TURNING;
                     //this->brake(); //DEBUG
-                    //this->rotate(180);
+                    this->rotate(180);
                     this->maze_saved_cycle_counter_ = this->cycle_;
                     this->maze_solution_.push_back('B');
                 }
@@ -560,7 +560,7 @@ namespace alvik {
                 if ((this->cycle_ - this->maze_saved_cycle_counter_ > 10) & (this->joints_velocity[0] == 0))
                 {
                     //if the line continues
-                    if (this->line_sensors[1] > this->line_detection_threshold_)
+                    if (line_sum > this->line_detection_threshold_)
                     {
                         //continue if there were no left intersection detected - continue straight as most left
                         if ((this->intersection_dir_ != INTERSECTION_LEFT) | (this->intersection_dir_ != INTERSECTION_BOTH))
