@@ -512,52 +512,47 @@ namespace alvik {
 
     void AlvikComponent::alvik_maze_solver()
     {
-        maze_crawling_state_= 10; //DEBUG
-        this->alvik_line_follower(); //DEBUG
+        //maze_crawling_state_= 10; //DEBUG
+        //this->alvik_line_follower(); //DEBUG
         switch (this->maze_crawling_state_)
         {
+            float line_sum;
+            line_sum = this->line_sensors[0] + this->line_sensors[1] + this->line_sensors[2];
+            
             case CRAWLING_STRAIGHT:
             {
-                //we are mostly on line
-                if (this->line_sensors[1] > this->line_detection_threshold_)
+                if (line_sum > 700) //more than one line is present
                 {
-                    //control line following
-                    if ((this->line_sensors[0] < this->line_detection_threshold_) &
-                        (this->line_sensors[2] < this->line_detection_threshold_))
+                    this->maze_crawling_state_ = CRAWLING_STRAIGHT; //DEBUG
+                    //this->maze_crawling_state_ = CRAWLING_INTERSECTION;
+                    this->intersection_dir_ = INTERSECTION_NONE;
+                    if (this->line_sensors[0] > this->line_detection_threshold_ * 2 ) 
                     {
-                        this->alvik_line_follower();
+                        this->intersection_dir_ +=INTERSECTION_LEFT;
+                        this->maze_solution_.push_back('l');
                     }
-                    //intersection detection
-                    else if ((this->line_sensors[0] > this->line_detection_threshold_) |
-                             (this->line_sensors[2] > this->line_detection_threshold_))
+                    if (this->line_sensors[2] > this->line_detection_threshold_ * 2 ) 
                     {
-                        this->maze_crawling_state_ = CRAWLING_STRAIGHT; //DEBUG
-                        //this->maze_crawling_state_ = CRAWLING_INTERSECTION;
-                        this->intersection_dir_ = INTERSECTION_NONE;
-                        if (this->line_sensors[0] > this->line_detection_threshold_) {this->intersection_dir_ +=INTERSECTION_LEFT;}
-                        if (this->line_sensors[2] > this->line_detection_threshold_) {this->intersection_dir_ +=INTERSECTION_RIGHT;}
-                        //this->move(30);
-                        this->brake(); //DEBUG
-                        this->maze_saved_cycle_counter_ = this->cycle_;
+                        this->intersection_dir_ +=INTERSECTION_RIGHT;
+                        this->maze_solution_.push_back('r');
                     }
+                    //this->move(30);
+                    //this->brake(); //DEBUG
+                    this->maze_saved_cycle_counter_ = this->cycle_;
                 }
-                else //end-of-line, or way out of line
+                //control line following
+                else if (line_sum > line_detection_threshold_)
                 {
-                    //way out of center
-                    if ((this->line_sensors[0] > this->line_detection_threshold_) |  
-                        (this->line_sensors[2] > this->line_detection_threshold_))
-                    {
-                        this->alvik_line_follower();
-                    }
-                    else //turn back
-                    {
-                        this->maze_crawling_state_ = CRAWLING_STRAIGHT; //DEBUG
-                        //this->maze_crawling_state_ = CRAWLING_TURNING;
-                        this->brake(); //DEBUG
-                        //this->rotate(180);
-                        this->maze_saved_cycle_counter_ = this->cycle_;
-                        this->maze_solution_.push_back('B');
-                    }
+                    this->alvik_line_follower();
+                }
+                else
+                {
+                    this->maze_crawling_state_ = CRAWLING_STRAIGHT; //DEBUG
+                    //this->maze_crawling_state_ = CRAWLING_TURNING;
+                    //this->brake(); //DEBUG
+                    //this->rotate(180);
+                    this->maze_saved_cycle_counter_ = this->cycle_;
+                    this->maze_solution_.push_back('B');
                 }
                 break;
             }
