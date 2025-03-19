@@ -114,8 +114,8 @@ namespace alvik {
         maze_saved_cycle_counter_  = 0;
         maze_intersection_counter_ = 0;
 
-        line_follower_p_  = 50;
-        line_follower_d_  = 0;
+        line_follower_p_  = 3;
+        line_follower_d_  = 30;
         line_follower_i_  = 0;
         this->linefollower_p_number_->publish_state(line_follower_p_);
         this->linefollower_i_number_->publish_state(line_follower_i_);
@@ -1170,6 +1170,7 @@ namespace alvik {
         this->alvik_command_list_.clear();
         this->maze_solution_.clear();
         this->change_alvik_left_right_leds(LEFT_RED + RIGHT_RED, true);
+        this->line_follower_centoid_integral_ = 0;
     }
     void AlvikComponent::ok_button_action()
     {
