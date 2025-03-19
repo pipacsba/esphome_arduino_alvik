@@ -19,6 +19,7 @@ from esphome.const import (
     DEVICE_CLASS_SWITCH,
     DEVICE_CLASS_BUTTON,
     CONF_MODE,
+    UNIT_REVOLUTIONS_PER_MINUTE,
 )
 
 from .. import (
@@ -38,6 +39,7 @@ AlvikConstantDirectionTarget = alvik_ns.class_("AlvikConstantDirectionTarget", n
 AlvikLineFollowerP = alvik_ns.class_("AlvikLineFollowerP", number.Number)
 AlvikLineFollowerI = alvik_ns.class_("AlvikLineFollowerI", number.Number)
 AlvikLineFollowerD = alvik_ns.class_("AlvikLineFollowerD", number.Number)
+AlvikMazeCrawlingSpeed = alvik_ns.class_("AlvikMazeCrawlingSpeed", number.Number)
 
 CONF_FORWARD_DISTANCE = "move_forward_distance"
 CONF_TURN_DEGREE = "turn_degree"
@@ -50,8 +52,7 @@ CONF_CONSTANT_DIRECTION_TARGET = "constant_direction_target"
 CONF_LINEFOLLOWER_P = "line_follower_p"
 CONF_LINEFOLLOWER_I = "line_follower_i"
 CONF_LINEFOLLOWER_D = "line_follower_d"
-
-
+CONF_MAZE_CRAWLING_SPEED = "maze_crawling_speed"
 
 CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
     {
@@ -98,15 +99,20 @@ CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
             unit_of_measurement="°",
         ),
         cv.Optional(CONF_LINEFOLLOWER_P): number.number_schema(
-            AlvikFollowGainFront,
+            AlvikLineFollowerP,
             entity_category=ENTITY_CATEGORY_CONFIG,
         ),
         cv.Optional(CONF_LINEFOLLOWER_I): number.number_schema(
-            AlvikFollowGainFront,
+            AlvikLineFollowerI,
             entity_category=ENTITY_CATEGORY_CONFIG,
         ),
         cv.Optional(CONF_LINEFOLLOWER_D): number.number_schema(
-            AlvikFollowGainFront,
+            AlvikLineFollowerD,
+            entity_category=ENTITY_CATEGORY_CONFIG,
+        ),
+        cv.Optional(CONF_MAZE_CRAWLING_SPEED): number.number_schema(
+            AlvikMazeCrawlingSpeed,
+            unit_of_measurement=UNIT_REVOLUTIONS_PER_MINUTE 
             entity_category=ENTITY_CATEGORY_CONFIG,
         ),
     }
@@ -115,6 +121,15 @@ CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
 async def to_code(config):
     alvik_id = await cg.get_variable(config[CONF_ALVIK_ID])
 
+    if mazecrawlingspeed_config := config.get(CONF_MAZE_CRAWLING_SPEED):
+        n = await number.new_number(
+            mazecrawlingspeed_config,
+            min_value=0,
+            max_value=100,
+            step=1,
+        )
+        await cg.register_parented(n, alvik_id)
+        cg.add(alvik_id.set_maze_crawling_speed_config(n))
     if linefollower_pid_config := config.get(CONF_LINEFOLLOWER_D):
         n = await number.new_number(
             linefollower_pid_config,
