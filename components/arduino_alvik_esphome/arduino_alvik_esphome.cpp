@@ -583,7 +583,7 @@ namespace alvik {
                     this->maze_dead_end_confidence += 0.25;
                     this->maze_solution_.push_back('r');
                 }
-                //this->alvik_line_follower();
+                this->alvik_line_follower();
                 break;
             }
             case CRAWLING_TURNING:
