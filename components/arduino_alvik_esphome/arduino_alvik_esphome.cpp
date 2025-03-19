@@ -579,7 +579,7 @@ namespace alvik {
                 else
                 {
                     this->maze_dead_end_confidence += 0.25;
-                    this->maze_solution_.push_back('r');
+                    this->maze_solution_.push_back('b');
                 }
                 //this->alvik_line_follower();
                 set_wheels_speed(maze_crawling_speed_, maze_crawling_speed_);
