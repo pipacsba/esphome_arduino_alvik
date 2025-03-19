@@ -112,7 +112,7 @@ CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
         ),
         cv.Optional(CONF_MAZE_CRAWLING_SPEED): number.number_schema(
             AlvikMazeCrawlingSpeed,
-            unit_of_measurement=UNIT_REVOLUTIONS_PER_MINUTE 
+            unit_of_measurement=UNIT_REVOLUTIONS_PER_MINUTE, 
             entity_category=ENTITY_CATEGORY_CONFIG,
         ),
     }
