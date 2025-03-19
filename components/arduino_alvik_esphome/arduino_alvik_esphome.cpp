@@ -512,7 +512,8 @@ namespace alvik {
 
     void AlvikComponent::alvik_maze_solver()
     {
-
+        maze_crawling_state_= 10; //DEBUG
+        this->alvik_line_follower(); //DEBUG
         switch (this->maze_crawling_state_)
         {
             case CRAWLING_STRAIGHT:
