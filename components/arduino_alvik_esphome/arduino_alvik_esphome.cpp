@@ -530,11 +530,13 @@ namespace alvik {
                     else if ((this->line_sensors[0] > this->line_detection_threshold_) |
                              (this->line_sensors[2] > this->line_detection_threshold_))
                     {
-                        this->maze_crawling_state_ = CRAWLING_INTERSECTION;
+                        this->maze_crawling_state_ = CRAWLING_STRAIGHT; //DEBUG
+                        //this->maze_crawling_state_ = CRAWLING_INTERSECTION;
                         this->intersection_dir_ = INTERSECTION_NONE;
                         if (this->line_sensors[0] > this->line_detection_threshold_) {this->intersection_dir_ +=INTERSECTION_LEFT;}
                         if (this->line_sensors[2] > this->line_detection_threshold_) {this->intersection_dir_ +=INTERSECTION_RIGHT;}
-                        this->move(30);
+                        //this->move(30);
+                        this->brake(); //DEBUG
                         this->maze_saved_cycle_counter_ = this->cycle_;
                     }
                 }
@@ -548,9 +550,11 @@ namespace alvik {
                     }
                     else //turn back
                     {
-                        this->rotate(180);
+                        this->maze_crawling_state_ = CRAWLING_STRAIGHT; //DEBUG
+                        //this->maze_crawling_state_ = CRAWLING_TURNING;
+                        this->brake(); //DEBUG
+                        //this->rotate(180);
                         this->maze_saved_cycle_counter_ = this->cycle_;
-                        this->maze_crawling_state_ = CRAWLING_TURNING;
                         this->maze_solution_.push_back('B');
                     }
                 }
