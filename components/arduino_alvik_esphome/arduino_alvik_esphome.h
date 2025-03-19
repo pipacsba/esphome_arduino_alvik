@@ -175,6 +175,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_line_follower_p(float a_gain) {line_follower_p_ = a_gain;}
     void set_line_follower_i(float a_gain) {line_follower_i_ = a_gain;}
     void set_line_follower_d(float a_gain) {line_follower_d_ = a_gain;}
+    void set_maze_crawling_speed(float an_rpm) {maze_crawling_speed_ = an_rpm;}
 
     // SENSORS
     void set_compass_sensor(AlvikCompassSensor *sensor1) { compass_sensor_ = sensor1; }
@@ -224,6 +225,8 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_linefollower_d_config(number::Number *a_number) { linefollower_d_number_ = a_number; }
     void set_linefollower_i_config(number::Number *a_number) { linefollower_i_number_ = a_number; }
     void set_linefollower_p_config(number::Number *a_number) { linefollower_p_number_ = a_number; }
+    void set_maze_crawling_speed_config(number::Number *a_number) { maze_crawling_speed_number_ = a_number; }
+
 
     //TEXT SENSORS
     void set_fw_sensor(text_sensor::TextSensor *sensor1) { fw_version_sensor_ = sensor1; }
@@ -471,6 +474,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     number::Number *linefollower_d_number_;
     number::Number *linefollower_i_number_;
     number::Number *linefollower_p_number_;
+    number::Number *maze_crawling_speed_number_;
 
     //BUTTON
     button::Button *center_button_;
@@ -658,6 +662,14 @@ class AlvikLineFollowerI : public number::Number, public Parented<AlvikComponent
 class AlvikLineFollowerD : public number::Number, public Parented<AlvikComponent> {
  public:
   AlvikLineFollowerD() = default;
+
+ protected:
+  void control(float value) override;
+};
+
+class AlvikMazeCrawlingSpeed : public number::Number, public Parented<AlvikComponent> {
+ public:
+  AlvikMazeCrawlingSpeed() = default;
 
  protected:
   void control(float value) override;
