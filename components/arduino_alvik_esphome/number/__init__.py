@@ -133,7 +133,7 @@ async def to_code(config):
     if linefollower_pid_config := config.get(CONF_LINEFOLLOWER_D):
         n = await number.new_number(
             linefollower_pid_config,
-            min_value=0,
+            min_value=-100,
             max_value=100,
             step=0.5,
         )
