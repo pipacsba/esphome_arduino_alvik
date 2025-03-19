@@ -142,9 +142,9 @@ async def to_code(config):
     if linefollower_pid_config := config.get(CONF_LINEFOLLOWER_I):
         n = await number.new_number(
             linefollower_pid_config,
-            min_value=0,
+            min_value=-20,
             max_value=20,
-            step=0.5,
+            step=0.1,
         )
         await cg.register_parented(n, alvik_id)
         cg.add(alvik_id.set_linefollower_i_config(n))
