@@ -107,14 +107,14 @@ namespace alvik {
         left_hand_rule_            = true;
         line_detection_threshold_  = 300;
         maze_solution_             = "";
-        maze_crawling_speed_       = 10; //RPM
+        maze_crawling_speed_       = 100; //RPM
         intersection_dir_          = INTERSECTION_NONE;
         maze_crawling_state_       = CRAWLING_STRAIGHT;
         maze_saved_cycle_counter_  = 0;
         maze_intersection_counter_ = 0;
 
         line_follower_p_  = 50;
-        line_follower_d_  = 10;
+        line_follower_d_  = 0;
         line_follower_i_  = 0;
         this->linefollower_p_number_->publish_state(line_follower_p_);
         this->linefollower_i_number_->publish_state(line_follower_i_);
