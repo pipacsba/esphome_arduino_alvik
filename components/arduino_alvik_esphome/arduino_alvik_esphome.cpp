@@ -615,6 +615,8 @@ namespace alvik {
                 }
                 break;
             }
+            default:
+                break;
         }
     }
 
