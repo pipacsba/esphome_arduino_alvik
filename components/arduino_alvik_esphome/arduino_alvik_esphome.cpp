@@ -562,12 +562,14 @@ namespace alvik {
                     if (this->line_sensors[0] > this->line_detection_threshold_ * 2 ) 
                     {
                         this->maze_left_turn_confidence += 0.2;
-                        this->maze_solution_.push_back('l');
+                        ESP_LOGD(TAG, "Possible left turn detected");
+                        //this->maze_solution_.push_back('l');
                     }
                     if (this->line_sensors[2] > this->line_detection_threshold_ * 2 ) 
                     {
                         this->maze_right_turn_confidence += 0.2;
-                        this->maze_solution_.push_back('r');
+                        ESP_LOGD(TAG, "Possible right turn detected");
+                        //this->maze_solution_.push_back('r');
                     }
                     //as the control is highly compromized by the intersection, going straight ahead is the best chance to detect if line continues afterwards
                     set_wheels_speed(maze_crawling_speed_, maze_crawling_speed_);
@@ -587,7 +589,8 @@ namespace alvik {
                 {
                     //as the probably dead-end, no line in sight, nothing to control for, 
                     this->maze_dead_end_confidence += 0.25;
-                    this->maze_solution_.push_back('b');
+                    ESP_LOGD(TAG, "Possible dead-end detected");
+                    //this->maze_solution_.push_back('b');
                     set_wheels_speed(maze_crawling_speed_, maze_crawling_speed_);
                 }
                 //this->alvik_line_follower();
