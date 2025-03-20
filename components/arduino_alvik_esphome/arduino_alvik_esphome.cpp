@@ -519,9 +519,11 @@ namespace alvik {
         line_sum = this->line_sensors[0] + this->line_sensors[1] + this->line_sensors[2];
         if (maze_left_turn_confidence  >= 1)
         {
-            this->rotate(90);
+            // turn left - immediate, smooth turn enough
+            //this->rotate(90);
+            set_wheels_speed(0, maze_crawling_speed_);
             this->maze_saved_cycle_counter_ = this->cycle_;
-            this->maze_crawling_state_ = CRAWLING_TURNING;
+            this->maze_crawling_state_ = CRAWLING_INTERSECTION ;
             this->maze_solution_.push_back('L');
             this->maze_left_turn_confidence = 0;
             this->maze_right_turn_confidence = 0;
@@ -529,9 +531,10 @@ namespace alvik {
         }
         else if ((maze_right_turn_confidence >= 1) & (maze_dead_end_confidence >= 1))
         {
-            this->rotate(-90);
+            //turn right - we checked if line continues straight, so we neeed sharp turn as the intersection is below the robot
+            set_wheels_speed(maze_crawling_speed_ / 2, -maze_crawling_speed_ / 2);
             this->maze_saved_cycle_counter_ = this->cycle_;
-            this->maze_crawling_state_ = CRAWLING_TURNING;
+            this->maze_crawling_state_ = CRAWLING_INTERSECTION ;
             this->maze_solution_.push_back('R');
             this->maze_left_turn_confidence = 0;
             this->maze_right_turn_confidence = 0;
@@ -539,9 +542,11 @@ namespace alvik {
         }
         else if (maze_dead_end_confidence >= 1)
         {
-            this->rotate(180);
+            //turn back - sharp, keeping the center unmoved
+            //this->rotate(180);
+            set_wheels_speed(maze_crawling_speed_ / 2, -maze_crawling_speed_ / 2);
             this->maze_saved_cycle_counter_ = this->cycle_;
-            this->maze_crawling_state_ = CRAWLING_TURNING;
+            this->maze_crawling_state_ = CRAWLING_INTERSECTION ;
             this->maze_solution_.push_back('B');
             this->maze_left_turn_confidence = 0;
             this->maze_right_turn_confidence = 0;
@@ -564,6 +569,8 @@ namespace alvik {
                         this->maze_right_turn_confidence += 0.2;
                         this->maze_solution_.push_back('r');
                     }
+                    //as the control is highly compromized by the intersection, going straight ahead is the best chance to detect if line continues afterwards
+                    set_wheels_speed(maze_crawling_speed_, maze_crawling_speed_);
                 }
                 //control line following
                 else if (line_sum > this->line_detection_threshold_)
@@ -578,17 +585,28 @@ namespace alvik {
                 }
                 else
                 {
+                    //as the probably dead-end, no line in sight, nothing to control for, 
                     this->maze_dead_end_confidence += 0.25;
                     this->maze_solution_.push_back('b');
+                    set_wheels_speed(maze_crawling_speed_, maze_crawling_speed_);
                 }
                 //this->alvik_line_follower();
-                set_wheels_speed(maze_crawling_speed_, maze_crawling_speed_);
                 break;
+            }
+            case CRAWLING_INTERSECTION:
+            {
+                //check if the currently detected line disappeared from sight going straight ahead is the best chance to detect if this is only a glitch in the measurement
+                if (line_sum <  this->line_detection_threshold_)
+                {
+                    this->maze_crawling_state_ = CRAWLING_TURNING;
+                }
             }
             case CRAWLING_TURNING:
             {
-                if ((this->cycle_ - this->maze_saved_cycle_counter_ > 10) & (this->joints_velocity[0] == 0))
+                //check if the turnng brings the line to the center
+                if (this->line_sensors[1] >  this->line_detection_threshold_ * 2)
                 {
+                    this->brake();
                     this->line_follower_centoid_integral_ = 0;
                     this->maze_crawling_state_ = CRAWLING_STRAIGHT;
                 }
