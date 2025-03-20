@@ -116,6 +116,7 @@ namespace alvik {
         maze_left_turn_confidence  = 0;
         maze_right_turn_confidence = 0;
         maze_dead_end_confidence   = 0;
+        maze_turn_started_confidence = 0;
 
         line_follower_p_  = 20;
         line_follower_d_  = -20;
@@ -601,8 +602,13 @@ namespace alvik {
                 //check if the currently detected line disappeared from sight going straight ahead is the best chance to detect if this is only a glitch in the measurement
                 if (line_sum <  this->line_detection_threshold_)
                 {
-                    this->maze_crawling_state_ = CRAWLING_TURNING;
-                    ESP_LOGD(TAG, "Intersection left");
+                    this->maze_turn_started_confidence += 0.2;
+                    if (this->maze_turn_started_confidence > 1)
+                    {
+                        this->maze_crawling_state_ = CRAWLING_TURNING;
+                        ESP_LOGD(TAG, "Turning");
+                        this->maze_turn_started_confidence = 0;
+                    }
                 }
             }
             case CRAWLING_TURNING:
