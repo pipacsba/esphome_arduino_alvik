@@ -610,6 +610,7 @@ namespace alvik {
                         this->maze_turn_started_confidence = 0;
                     }
                 }
+                break;
             }
             case CRAWLING_TURNING:
             {
