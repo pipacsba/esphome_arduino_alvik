@@ -602,12 +602,13 @@ namespace alvik {
                 if (line_sum <  this->line_detection_threshold_)
                 {
                     this->maze_crawling_state_ = CRAWLING_TURNING;
+                    ESP_LOGD(TAG, "Intersection left");
                 }
             }
             case CRAWLING_TURNING:
             {
                 //check if the turnng brings the line to the center
-                if (this->line_sensors[1] >  this->line_detection_threshold_ * 2)
+                if (this->line_sensors[1] > this->line_detection_threshold_ * 1.5)
                 {
                     this->brake();
                     this->line_follower_centoid_integral_ = 0;
