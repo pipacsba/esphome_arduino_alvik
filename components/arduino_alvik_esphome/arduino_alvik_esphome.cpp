@@ -522,7 +522,7 @@ namespace alvik {
         {
             // turn left - immediate, smooth turn enough
             //this->rotate(90);
-            set_wheels_speed(0, maze_crawling_speed_);
+            set_wheels_speed(-maze_crawling_speed_ / 4 , maze_crawling_speed_ / 2);
             this->maze_saved_cycle_counter_ = this->cycle_;
             this->maze_crawling_state_ = CRAWLING_INTERSECTION ;
             this->maze_solution_.push_back('L');
