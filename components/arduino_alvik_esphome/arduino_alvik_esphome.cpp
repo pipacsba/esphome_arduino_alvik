@@ -610,7 +610,7 @@ namespace alvik {
                         this->maze_turn_started_confidence = 0;
                         if (this->joints_velocity[0] == 0) // Left turn
                         {
-                            set_wheels_speed(maze_crawling_speed_ / 2, -maze_crawling_speed_ / 2);
+                            set_wheels_speed(- maze_crawling_speed_ / 2, maze_crawling_speed_ / 2);
                         }
                     }
                 }
