@@ -583,7 +583,7 @@ namespace alvik {
                 //control line following
                 else if (line_sum > this->line_detection_threshold_)
                 {
-                    if ((maze_right_turn_confidence >= 1) // right turn confirmaed, but we go straight 
+                    if (maze_right_turn_confidence >= 1) // right turn confirmaed, but we go straight 
                     {
                         this->maze_solution_.push_back('S');
                     }
