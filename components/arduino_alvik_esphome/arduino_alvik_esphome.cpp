@@ -608,6 +608,10 @@ namespace alvik {
                         this->maze_crawling_state_ = CRAWLING_TURNING;
                         ESP_LOGD(TAG, "Turning");
                         this->maze_turn_started_confidence = 0;
+                        if (this->joints_velocity[0] == 0) // Left turn
+                        {
+                            set_wheels_speed(maze_crawling_speed_ / 2, -maze_crawling_speed_ / 2);
+                        }
                     }
                 }
                 break;
@@ -615,14 +619,10 @@ namespace alvik {
             case CRAWLING_TURNING:
             {
                 //check if the turnng brings the line to the center
-                if (this->line_sensors[1] > this->line_detection_threshold_ * 1)
+                if (this->line_sensors[1] > this->line_detection_threshold_ * 1.5)
                 {
                     this->brake();
                     this->line_follower_centoid_integral_ = 0;
-                    if (this->joints_velocity[0] == 0) // Left turn
-                    {
-                        set_wheels_speed(maze_crawling_speed_ / 2, -maze_crawling_speed_ / 2);
-                    }
                     this->maze_crawling_state_ = CRAWLING_STRAIGHT;
                 }
                 break;
