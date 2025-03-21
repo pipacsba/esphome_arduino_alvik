@@ -486,7 +486,10 @@ namespace alvik {
         float sum_weight, sum_values, centoid;
         float diff_speed, diff_speed_p, diff_speed_i, diff_speed_d;
         float centoid_difference;
+        float common_speed;
 
+        common_speed = this->maze_crawling_speed_;
+        
         //calculate axial (difference) wheel speeds
         sum_weight = this->line_sensors[0] + this->line_sensors[1] + this->line_sensors[1];
         sum_values = this->line_sensors[0] + 2 * this->line_sensors[1] + 3 * this->line_sensors[2];
@@ -502,13 +505,15 @@ namespace alvik {
             centoid_difference = 0.0;
         }
         this->line_follower_centoid_integral_ += centoid;
-
+        
+        common_speed = common_speed / (abs(centoid) + 1);
+        
         diff_speed_p = centoid * this->line_follower_p_;
         diff_speed_i = this->line_follower_centoid_integral_ * this->line_follower_i_;
         diff_speed_d = centoid_difference * this->line_follower_d_;
         diff_speed = diff_speed_p + diff_speed_i + diff_speed_d;
         
-        set_wheels_speed(maze_crawling_speed_ - diff_speed, maze_crawling_speed_ + diff_speed);
+        set_wheels_speed(common_speed - diff_speed, common_speed + diff_speed);
 
         this->line_follower_centoid_previous_ = centoid;
     }
