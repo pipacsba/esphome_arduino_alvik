@@ -619,7 +619,7 @@ namespace alvik {
                 {
                     this->brake();
                     this->line_follower_centoid_integral_ = 0;
-                    if ( this->maze_solution_.back() == "L")
+                    if (this->joints_velocity[0] == 0) // Left turn
                     {
                         set_wheels_speed(maze_crawling_speed_ / 2, -maze_crawling_speed_ / 2);
                     }
