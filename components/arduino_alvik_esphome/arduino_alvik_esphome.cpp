@@ -522,7 +522,7 @@ namespace alvik {
         {
             // turn left - immediate, smooth turn enough
             //this->rotate(90);
-            set_wheels_speed(-maze_crawling_speed_ / 4 , maze_crawling_speed_ / 2);
+            set_wheels_speed(0 , maze_crawling_speed_);
             this->maze_saved_cycle_counter_ = this->cycle_;
             this->maze_crawling_state_ = CRAWLING_INTERSECTION ;
             this->maze_solution_.push_back('L');
@@ -619,6 +619,10 @@ namespace alvik {
                 {
                     this->brake();
                     this->line_follower_centoid_integral_ = 0;
+                    if ( this->maze_solution_.back() == "L")
+                    {
+                        set_wheels_speed(maze_crawling_speed_ / 2, -maze_crawling_speed_ / 2);
+                    }
                     this->maze_crawling_state_ = CRAWLING_STRAIGHT;
                 }
                 break;
