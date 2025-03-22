@@ -518,12 +518,9 @@ namespace alvik {
         this->line_follower_centoid_previous_ = centoid;
     }
 
-
-    void AlvikComponent::alvik_maze_solver()
+    void AlvikComponent::maze_are_we_there_yet()
     {
-        float line_sum;
-        line_sum = this->line_sensors[0] + this->line_sensors[1] + this->line_sensors[2];
-        if (maze_left_turn_confidence  >= 1)
+        if (maze_left_turn_confidence >= 1)
         {
             // turn left - immediate, smooth turn enough
             //this->rotate(90);
@@ -534,6 +531,7 @@ namespace alvik {
             this->maze_left_turn_confidence = 0;
             this->maze_right_turn_confidence = 0;
             this->maze_dead_end_confidence   = 0;
+            ESP_LOGD(TAG, "Left turn with confidence: %d", maze_left_turn_confidence);
         }
         else if ((maze_right_turn_confidence >= 1) & (maze_dead_end_confidence >= 1))
         {
@@ -545,6 +543,7 @@ namespace alvik {
             this->maze_left_turn_confidence = 0;
             this->maze_right_turn_confidence = 0;
             this->maze_dead_end_confidence   = 0;
+            ESP_LOGD(TAG, "Right turn with right confidence: %d;  dead-end confidence: %d", maze_right_turn_confidence, maze_dead_end_confidence);
         }
         else if (maze_dead_end_confidence >= 1)
         {
@@ -557,7 +556,23 @@ namespace alvik {
             this->maze_left_turn_confidence = 0;
             this->maze_right_turn_confidence = 0;
             this->maze_dead_end_confidence   = 0;
+            ESP_LOGD(TAG, "U turn with confidence: %d", maze_dead_end_confidence);
         }
+        else if (maze_right_turn_confidence >= 1) // right turn confirmaed, but we go straight 
+        {
+            this->maze_solution_.push_back('S');
+            this->maze_left_turn_confidence = 0;
+            this->maze_right_turn_confidence = 0;
+            this->maze_dead_end_confidence   = 0;
+            ESP_LOGD(TAG, "Keep straight with right turn confidence: %d", maze_right_turn_confidence);
+        }
+    }
+
+
+    void AlvikComponent::alvik_maze_solver()
+    {
+        float line_sum;
+        line_sum = this->line_sensors[0] + this->line_sensors[1] + this->line_sensors[2];
 
         switch (this->maze_crawling_state_)
         {
@@ -583,10 +598,8 @@ namespace alvik {
                 //control line following
                 else if (line_sum > this->line_detection_threshold_)
                 {
-                    if (maze_right_turn_confidence >= 1) // right turn confirmaed, but we go straight 
-                    {
-                        this->maze_solution_.push_back('S');
-                    }
+                    this->maze_are_we_there_yet();
+                    
                     this->maze_left_turn_confidence -= 0.1;
                     this->maze_right_turn_confidence -= 0.1;
                     this->maze_dead_end_confidence   -= 0.1;
