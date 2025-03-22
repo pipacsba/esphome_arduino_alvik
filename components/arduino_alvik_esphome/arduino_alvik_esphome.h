@@ -326,7 +326,6 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
 
     //-------------------------------------MAZE_SOLVER
     bool maze_solver_start_;
-    bool left_hand_rule_;
     float line_detection_threshold_;
     std::string maze_solution_;
     float maze_crawling_speed_;
