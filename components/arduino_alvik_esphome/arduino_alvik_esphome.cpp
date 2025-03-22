@@ -614,7 +614,10 @@ namespace alvik {
                     //if (this->maze_left_turn_confidence < 0) {this->maze_left_turn_confidence = 0;}
                     //if (this->maze_right_turn_confidence < 0) {this->maze_right_turn_confidence = 0;}
                     //if (this->maze_dead_end_confidence < 0) {this->maze_dead_end_confidence = 0;}
-                    this->alvik_line_follower();
+                    if (this->maze_crawling_state_ == CRAWLING_STRAIGHT)
+                    {
+                        this->alvik_line_follower();
+                    }
                 }
                 else
                 {
