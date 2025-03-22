@@ -104,7 +104,6 @@ namespace alvik {
 
         //----------------ACTION_MAZE_SOLVER
         maze_solver_start_         = false;
-        left_hand_rule_            = true;
         line_detection_threshold_  = 300;
         maze_solution_             = "";
         maze_crawling_speed_       = 30; //RPM
@@ -1205,6 +1204,7 @@ namespace alvik {
         this->maze_solution_.clear();
         this->change_alvik_left_right_leds(LEFT_RED + RIGHT_RED, true);
         this->line_follower_centoid_integral_ = 0;
+        this->maze_solver_start_ = false;
     }
     void AlvikComponent::ok_button_action()
     {
