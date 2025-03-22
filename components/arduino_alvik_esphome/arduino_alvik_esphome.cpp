@@ -616,9 +616,10 @@ namespace alvik {
                 {
                     //as the probably dead-end, no line in sight, nothing to control for, 
                     this->maze_dead_end_confidence += 0.25;
-                    ESP_LOGD(TAG, "Possible dead-end detected");
+                    this->maze_are_we_there_yet();
+                    //ESP_LOGD(TAG, "Possible dead-end detected");
                     //this->maze_solution_.push_back('b');
-                    set_wheels_speed(this->maze_crawling_speed_, this->maze_crawling_speed_);
+                    //set_wheels_speed(this->maze_crawling_speed_, this->maze_crawling_speed_);
                 }
                 //this->alvik_line_follower();
                 break;
