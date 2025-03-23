@@ -510,6 +510,10 @@ namespace alvik {
         this->line_follower_centoid_integral_ += centoid;
         
         common_speed = common_speed / (abs(centoid) + 1);
+        if (abs(centoid) > 0.5)
+        {
+            common_speed = 0;
+        }
         
         diff_speed_p = centoid * this->line_follower_p_;
         diff_speed_i = this->line_follower_centoid_integral_ * this->line_follower_i_;
