@@ -535,7 +535,7 @@ namespace alvik {
             this->maze_saved_cycle_counter_ = this->cycle_;
             this->maze_crawling_state_ = CRAWLING_INTERSECTION ;
             this->maze_solution_.push_back('L');
-            ESP_LOGD(TAG, "Left turn with confidence: %d", left_turn_conf);
+            ESP_LOGD(TAG, "Left turn with confidence: %.2f", left_turn_conf);
             this->maze_left_turn_confidence = 0;
             this->maze_right_turn_confidence = 0;
             this->maze_dead_end_confidence   = 0;
@@ -547,7 +547,7 @@ namespace alvik {
             this->maze_saved_cycle_counter_ = this->cycle_;
             this->maze_crawling_state_ = CRAWLING_INTERSECTION ;
             this->maze_solution_.push_back('R');
-            ESP_LOGD(TAG, "Right turn with right confidence: %d;  dead-end confidence: %d", right_turn_conf, dead_end_conf);
+            ESP_LOGD(TAG, "Right turn with right confidence: %.2f;  dead-end confidence: %.2f", right_turn_conf, dead_end_conf);
             this->maze_left_turn_confidence = 0;
             this->maze_right_turn_confidence = 0;
             this->maze_dead_end_confidence   = 0;
@@ -560,7 +560,7 @@ namespace alvik {
             this->maze_saved_cycle_counter_ = this->cycle_;
             this->maze_crawling_state_ = CRAWLING_INTERSECTION ;
             this->maze_solution_.push_back('B');
-            ESP_LOGD(TAG, "U turn with confidence: %d", dead_end_conf);
+            ESP_LOGD(TAG, "U turn with confidence: %.2f", dead_end_conf);
             this->maze_left_turn_confidence = 0;
             this->maze_right_turn_confidence = 0;
             this->maze_dead_end_confidence   = 0;
@@ -568,7 +568,7 @@ namespace alvik {
         else if (right_turn_conf >= 1) // right turn confirmaed, but we go straight 
         {
             this->maze_solution_.push_back('S');
-            ESP_LOGD(TAG, "Keep straight with right turn confidence: %d", right_turn_conf);
+            ESP_LOGD(TAG, "Keep straight with right turn confidence: %.2f", right_turn_conf);
             this->maze_left_turn_confidence = 0;
             this->maze_right_turn_confidence = 0;
             this->maze_dead_end_confidence   = 0;
@@ -634,7 +634,7 @@ namespace alvik {
             case CRAWLING_INTERSECTION:
             {
                 //check if the currently detected line disappeared from sight going straight ahead is the best chance to detect if this is only a glitch in the measurement
-                if (line_sum <  this->line_detection_threshold_)
+                if (this->line_sensors[1] <  (this->line_detection_threshold_ / 2))
                 {
                     this->maze_turn_started_confidence += 0.2;
                     if (this->maze_turn_started_confidence > 1)
