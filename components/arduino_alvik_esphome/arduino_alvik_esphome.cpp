@@ -596,7 +596,7 @@ namespace alvik {
         {
             case CRAWLING_STRAIGHT:
             {
-                if (line_sum > 700) //more than one line is present
+                if (line_sum > 800) //more than one line is present
                 {
                     if (this->line_sensors[0] > this->line_detection_threshold_ * 2 ) 
                     {
