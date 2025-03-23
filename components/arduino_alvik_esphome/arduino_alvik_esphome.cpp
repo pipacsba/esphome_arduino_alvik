@@ -665,7 +665,7 @@ namespace alvik {
             case CRAWLING_TURNING:
             {
                 //check if the turnng brings the line to the center
-                if (this->line_sensors[1] > this->line_detection_threshold_ * 1.5)
+                if (this->line_sensors[1] > this->line_detection_threshold_ * 1.75)
                 {
                     this->brake();
                     this->line_follower_centoid_integral_ = 0;
