@@ -345,6 +345,10 @@ namespace alvik {
                                     {
                                         alvik_maze_solver();
                                     }
+                                    else
+                                    {
+                                        this->brake();
+                                    }
                                     break;
                                 }
 
@@ -608,12 +612,12 @@ namespace alvik {
                     //check if this is an intersection
                     this->maze_are_we_there_yet();
                     
-                    //this->maze_left_turn_confidence -= 0.1;
-                    //this->maze_right_turn_confidence -= 0.1;
-                    //this->maze_dead_end_confidence   -= 0.1;
-                    //if (this->maze_left_turn_confidence < 0) {this->maze_left_turn_confidence = 0;}
-                    //if (this->maze_right_turn_confidence < 0) {this->maze_right_turn_confidence = 0;}
-                    //if (this->maze_dead_end_confidence < 0) {this->maze_dead_end_confidence = 0;}
+                    this->maze_left_turn_confidence -= 0.1;
+                    this->maze_right_turn_confidence -= 0.1;
+                    this->maze_dead_end_confidence   -= 0.1;
+                    if (this->maze_left_turn_confidence < 0) {this->maze_left_turn_confidence = 0;}
+                    if (this->maze_right_turn_confidence < 0) {this->maze_right_turn_confidence = 0;}
+                    if (this->maze_dead_end_confidence < 0) {this->maze_dead_end_confidence = 0;}
                     if (this->maze_crawling_state_ == CRAWLING_STRAIGHT)
                     {
                         this->alvik_line_follower();
