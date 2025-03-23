@@ -1140,9 +1140,9 @@ namespace alvik {
 
             if (learn_happened)
             {
-                ESP_LOGD(TAG, "Compass x min, max %.2f, %.2f", this->compass_x_min, this->compass_x_max);
-                ESP_LOGD(TAG, "Compass y min, max %.2f, %.2f", this->compass_y_min, this->compass_y_max);
-                ESP_LOGD(TAG, "Compass z min, max %.2f, %.2f", this->compass_z_min, this->compass_z_max);
+                ESP_LOGV(TAG, "Compass x min, max %.2f, %.2f", this->compass_x_min, this->compass_x_max);
+                ESP_LOGV(TAG, "Compass y min, max %.2f, %.2f", this->compass_y_min, this->compass_y_max);
+                ESP_LOGV(TAG, "Compass z min, max %.2f, %.2f", this->compass_z_min, this->compass_z_max);
             }
 
             this->compass_x_offset = (this->compass_x_max + this->compass_x_min) / 2;
