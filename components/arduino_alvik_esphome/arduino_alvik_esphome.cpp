@@ -734,7 +734,7 @@ namespace alvik {
             case CRAWLING_SOLVED;
             {
                 this->brake();
-                if (this_cycle_ % 50 == 0)
+                if (this->cycle_ % 50 == 0)
                 {
                     this->change_alvik_left_right_leds(0xff, false);
                 }
