@@ -83,7 +83,8 @@ const uint8_t RIGHT_BLUE   = 128;
 const uint8_t INTERSECTION_NONE  = 0;
 const uint8_t INTERSECTION_LEFT  = 1;
 const uint8_t INTERSECTION_RIGHT = 2;
-const uint8_t INTERSECTION_BOTH  = INTERSECTION_LEFT + INTERSECTION_RIGHT;
+const uint8_t INTERSECTION_DEAD_END = 3;
+const uint8_t INTERSECTION_STRAIGHT = 4;
 
 //MAZE CRWALING STATE (maze_crawling_state_)
 const uint8_t CRAWLING_STRAIGHT     = 0;
