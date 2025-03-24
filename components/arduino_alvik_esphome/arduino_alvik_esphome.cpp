@@ -587,7 +587,7 @@ namespace alvik {
         }
         else if  (right_turn_conf >= 1) // right turn confirmed, but we go straight 
         {
-            this->maze_straight_continue_confidence_inverze_ -= 0.2;
+            this->maze_straight_continue_confidence_inverze_ -= 0.1;
             if (this->maze_straight_continue_confidence_inverze_ <=0)
             {
                 this->maze_solution_.push_back('S');
