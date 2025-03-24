@@ -644,6 +644,7 @@ namespace alvik {
                             }
                             //ESP_LOGD(TAG, "Possible right turn detected");
                             //this->maze_solution_.push_back('r');
+                            this->maze_straight_continue_confidence_inverze_ = 2;
                         }
                         //as the control is highly compromized by the intersection, going straight ahead is the best chance to detect if line continues afterwards
                         set_wheels_speed(this->maze_crawling_speed_ / 2, this->maze_crawling_speed_ / 2);
