@@ -731,14 +731,14 @@ namespace alvik {
                 }
                 break;
             }
-            case CRAWLING_SOLVED;
+            case CRAWLING_SOLVED:
             {
                 this->brake();
                 if (this->cycle_ % 50 == 0)
                 {
                     this->change_alvik_left_right_leds(0xff, false);
                 }
-                if (this_cycle_ % 50 == 25)
+                if (this->cycle_ % 50 == 25)
                 {
                     this->change_alvik_left_right_leds(LEFT_GREEN + RIGHT_GREEN, true);
                 }
