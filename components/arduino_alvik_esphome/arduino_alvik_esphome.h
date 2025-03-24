@@ -343,6 +343,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     float maze_straight_continue_confidence_inverze_;
     float maze_turn_started_confidence;
     float maze_turn_start_yaw_;
+    bool maze_solved_;
 
     float line_follower_p_;
     float line_follower_i_;
