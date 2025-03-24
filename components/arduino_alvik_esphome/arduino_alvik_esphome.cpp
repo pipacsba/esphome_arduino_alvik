@@ -538,7 +538,7 @@ namespace alvik {
         {
             //exit found
         }
-        else if (left_turn_conf >= 1)
+        else if ((left_turn_conf >= 1) & this->maze_left_turn_confidence_decreasing_)
         {
             // turn left - immediate, smooth turn enough
             //this->rotate(90);
@@ -612,7 +612,7 @@ namespace alvik {
             {
                 if (this->maze_crawling_speed_max_ > this->maze_crawling_speed_)
                 {
-                    this->maze_crawling_speed_ += 0.25;
+                    this->maze_crawling_speed_ += 0.5;
                     this->alvik_line_follower();
                 }
                 else
@@ -631,6 +631,7 @@ namespace alvik {
                             }
                             //ESP_LOGD(TAG, "Possible left turn detected");
                             //this->maze_solution_.push_back('l');
+                            this->maze_left_turn_confidence_decreasing_ = false;
                         }
                         if (this->line_sensors[2] > this->line_detection_threshold_ * 2 ) 
                         {
@@ -653,6 +654,7 @@ namespace alvik {
                     else if (line_sum > this->line_detection_threshold_)
                     {
                         //check if this is an intersection
+                        this->maze_left_turn_confidence_decreasing_ = true;
                         this->maze_are_we_there_yet();
                         
                         this->maze_left_turn_confidence -= 0.1;
@@ -670,6 +672,10 @@ namespace alvik {
                     {
                         //as the probably dead-end, no line in sight, nothing to control for, 
                         this->maze_dead_end_confidence += 0.25;
+                        this->maze_left_turn_confidence -= 0.1;
+                        this->maze_left_turn_confidence_decreasing_ = true;
+                        this->maze_right_turn_confidence -= 0.1;
+                        
                         this->maze_are_we_there_yet();
                         //ESP_LOGD(TAG, "Possible dead-end detected");
                         //this->maze_solution_.push_back('b');
