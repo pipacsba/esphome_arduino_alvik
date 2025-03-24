@@ -547,6 +547,7 @@ namespace alvik {
             else {set_wheels_speed(- (this->maze_crawling_speed_ / 4), this->maze_crawling_speed_ / 2);}
             this->maze_saved_cycle_counter_ = this->cycle_;
             this->maze_crawling_state_ = CRAWLING_INTERSECTION ;
+            this->intersection_dir_ = INTERSECTION_LEFT;
             this->maze_solution_.push_back('L');
             ESP_LOGD(TAG, "Left turn with confidence: %.2f", left_turn_conf);
             this->maze_left_turn_confidence = 0;
@@ -562,6 +563,7 @@ namespace alvik {
             set_wheels_speed(this->maze_crawling_speed_ / 4, - (this->maze_crawling_speed_ / 2));
             this->maze_saved_cycle_counter_ = this->cycle_;
             this->maze_crawling_state_ = CRAWLING_INTERSECTION ;
+            this->intersection_dir_ = INTERSECTION_RIGHT;
             this->maze_solution_.push_back('R');
             ESP_LOGD(TAG, "Right turn with right confidence: %.2f;  dead-end confidence: %.2f", right_turn_conf, dead_end_conf);
             this->maze_left_turn_confidence = 0;
@@ -577,6 +579,7 @@ namespace alvik {
             set_wheels_speed(this->maze_crawling_speed_ / 2, -(this->maze_crawling_speed_ / 2) * 0.7);
             this->maze_saved_cycle_counter_ = this->cycle_;
             this->maze_crawling_state_ = CRAWLING_INTERSECTION ;
+            this->intersection_dir_ = INTERSECTION_DEAD_END;
             this->maze_solution_.push_back('B');
             ESP_LOGD(TAG, "U turn with confidence: %.2f", dead_end_conf);
             this->maze_left_turn_confidence = 0;
@@ -712,7 +715,14 @@ namespace alvik {
             case CRAWLING_TURNING:
             {
                 //check if the turnng brings the line to the center
-                if (this->line_sensors[1] > this->line_detection_threshold_ * 1.5)
+                float intersection_angle;
+                intersection_angle = 90; //left or right
+                if (this->intersection_dir_ == INTERSECTION_DEAD_END)
+                {
+                    intersection_angle = 180;
+                }
+                
+                if ((this->line_sensors[1] > this->line_detection_threshold_ * 1.5)| (abs(this->maze_turn_start_yaw_ - this->robot_pose[2]) > intersection_angle)
                 {
                     this->brake();
                     this->line_follower_centoid_integral_ = 0;
