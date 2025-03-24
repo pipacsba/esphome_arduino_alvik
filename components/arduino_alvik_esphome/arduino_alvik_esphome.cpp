@@ -534,9 +534,19 @@ namespace alvik {
         float right_turn_conf = this->maze_right_turn_confidence;
         float dead_end_conf = this->maze_dead_end_confidence;
         
-        if ((right_turn_conf>= 1000) & (left_turn_conf >= 1000))
+        if ((right_turn_conf>= 20) & (left_turn_conf >= 20))
         {
-            //exit found
+            this->brake()
+            if (this_cycle_ % 50 == 0)
+            {
+                this->change_alvik_left_right_leds(0xff, false);
+            }
+            if (this_cycle_ % 50 == 25)
+            {
+                this->change_alvik_left_right_leds(LEFT_GREEN + RIGHT_GREEN, true);
+            }
+
+            
         }
         else if ((left_turn_conf >= 1) & this->maze_left_turn_confidence_decreasing_)
         {
