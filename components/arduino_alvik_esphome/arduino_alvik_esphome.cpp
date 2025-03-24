@@ -117,6 +117,7 @@ namespace alvik {
         maze_right_turn_confidence = 0;
         maze_dead_end_confidence   = 0;
         maze_turn_started_confidence = 0;
+        maze_turn_start_yaw_ = 0;
 
         line_follower_p_  = 20;
         line_follower_d_  = -20;
@@ -550,6 +551,7 @@ namespace alvik {
             this->maze_left_turn_confidence = 0;
             this->maze_right_turn_confidence = 0;
             this->maze_dead_end_confidence   = 0;
+            this->maze_turn_start_yaw_ = this->robot_pose[2];
         }
         else if ((right_turn_conf >= 1) & (dead_end_conf >= 1))
         {
@@ -563,6 +565,7 @@ namespace alvik {
             this->maze_left_turn_confidence = 0;
             this->maze_right_turn_confidence = 0;
             this->maze_dead_end_confidence   = 0;
+            this->maze_turn_start_yaw_ = this->robot_pose[2];
         }
         else if (dead_end_conf >= 1)
         {
@@ -576,8 +579,9 @@ namespace alvik {
             this->maze_left_turn_confidence = 0;
             this->maze_right_turn_confidence = 0;
             this->maze_dead_end_confidence   = 0;
+            this->maze_turn_start_yaw_ = this->robot_pose[2];
         }
-        else if (right_turn_conf >= 1) // right turn confirmaed, but we go straight 
+        else if (right_turn_conf >= 1) // right turn confirmed, but we go straight 
         {
             this->maze_solution_.push_back('S');
             ESP_LOGD(TAG, "Keep straight with right turn confidence: %.2f", right_turn_conf);
@@ -668,7 +672,7 @@ namespace alvik {
             case CRAWLING_INTERSECTION:
             {
                 //check if the currently detected line disappeared from sight going straight ahead is the best chance to detect if this is only a glitch in the measurement
-                if (this->line_sensors[1] <  (this->line_detection_threshold_ / 1.5))
+                if ((this->line_sensors[1] <  (this->line_detection_threshold_ / 1.5)) | (abs(this->maze_turn_start_yaw_ - this->robot_pose[2]) > 45))
                 {
                     this->maze_turn_started_confidence += 0.2;
                     if (this->maze_turn_started_confidence > 1)
