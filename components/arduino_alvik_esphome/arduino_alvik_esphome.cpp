@@ -542,7 +542,7 @@ namespace alvik {
             //this->rotate(90);
             //set_wheels_speed(0, this->maze_crawling_speed_ / 2);
             if (dead_end_conf < 1){  set_wheels_speed(- (this->maze_crawling_speed_ / 4), this->maze_crawling_speed_ / 2);}
-            else {set_wheels_speed(- (this->maze_crawling_speed_ / 2), this->maze_crawling_speed_ / 2);}
+            else {set_wheels_speed(- (this->maze_crawling_speed_ / 4), this->maze_crawling_speed_ / 2);}
             this->maze_saved_cycle_counter_ = this->cycle_;
             this->maze_crawling_state_ = CRAWLING_INTERSECTION ;
             this->maze_solution_.push_back('L');
@@ -555,7 +555,7 @@ namespace alvik {
         {
             //turn right - we checked if line continues straight, so we neeed sharp turn as the intersection is below the robot
             //set_wheels_speed(this->maze_crawling_speed_ / 2, 0);
-            set_wheels_speed(this->maze_crawling_speed_ / 2, - (this->maze_crawling_speed_ / 2));
+            set_wheels_speed(this->maze_crawling_speed_ / 4, - (this->maze_crawling_speed_ / 2));
             this->maze_saved_cycle_counter_ = this->cycle_;
             this->maze_crawling_state_ = CRAWLING_INTERSECTION ;
             this->maze_solution_.push_back('R');
