@@ -329,6 +329,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     float line_detection_threshold_;
     std::string maze_solution_;
     float maze_crawling_speed_;
+    float maze_crawling_speed_max_;
     int intersection_dir_;
     int maze_crawling_state_;
     int maze_saved_cycle_counter_;
