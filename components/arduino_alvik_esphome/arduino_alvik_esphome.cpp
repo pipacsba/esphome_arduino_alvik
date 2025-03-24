@@ -748,6 +748,10 @@ namespace alvik {
                 this->maze_solved_ = true;
                 this->maze_solver_start_ = false;
                 this->maze_crawling_state_ = CRAWLING_STRAIGHT;
+                this->maze_left_turn_confidence = 0;
+                this->maze_right_turn_confidence = 0;
+                this->maze_dead_end_confidence   = 0;
+                this->maze_straight_continue_confidence_inverze_ = 1;                
                 break;
             }
             default:
