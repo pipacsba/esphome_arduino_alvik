@@ -104,6 +104,7 @@ namespace alvik {
 
         //----------------ACTION_MAZE_SOLVER
         maze_solver_start_         = false;
+        maze_solved_               = false;
         line_detection_threshold_  = 300;
         maze_solution_             = "";
         maze_crawling_speed_       = 0; //RPM
@@ -350,13 +351,16 @@ namespace alvik {
                                     }
                                     else
                                     {
-                                        if (this->cycle_ % 50 == 0)
+                                        if (this->maze_solved_)
                                         {
-                                            this->change_alvik_left_right_leds(0xff, false);
-                                        }
-                                        if (this->cycle_ % 50 == 25)
-                                        {
-                                            this->change_alvik_left_right_leds(LEFT_GREEN + RIGHT_GREEN, true);
+                                            if (this->cycle_ % 50 == 0)
+                                            {
+                                                this->change_alvik_left_right_leds(0xff, false);
+                                            }
+                                            if (this->cycle_ % 50 == 25)
+                                            {
+                                                this->change_alvik_left_right_leds(LEFT_GREEN + RIGHT_GREEN, true);
+                                            }
                                         }
                                         this->brake();
                                     }
@@ -741,7 +745,9 @@ namespace alvik {
             }
             case CRAWLING_SOLVED:
             {
+                this->maze_solved_ = true;
                 this->maze_solver_start_ = false;
+                this->maze_crawling_state_ = CRAWLING_STRAIGHT;
                 break;
             }
             default:
