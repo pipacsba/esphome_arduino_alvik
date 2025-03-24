@@ -568,7 +568,7 @@ namespace alvik {
         {
             //turn back - sharp, keeping the center unmoved
             //this->rotate(180);
-            set_wheels_speed(this->maze_crawling_speed_ / 2, -(this->maze_crawling_speed_ / 2) * 0.8);
+            set_wheels_speed(this->maze_crawling_speed_ / 2, -(this->maze_crawling_speed_ / 2) * 0.5);
             this->maze_saved_cycle_counter_ = this->cycle_;
             this->maze_crawling_state_ = CRAWLING_INTERSECTION ;
             this->maze_solution_.push_back('B');
