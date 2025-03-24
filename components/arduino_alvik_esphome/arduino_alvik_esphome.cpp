@@ -606,15 +606,29 @@ namespace alvik {
                 {
                     if (line_sum > 700) //more than one line is present
                     {
-                        if (this->line_sensors[0] > this->line_detection_threshold_ * 3 ) 
+                        if (this->line_sensors[0] > this->line_detection_threshold_ * 2 ) 
                         {
-                            this->maze_left_turn_confidence += 0.25;
+                            if (this->line_sensors[1] > this->line_detection_threshold_ * 2 ) 
+                            {
+                                this->maze_left_turn_confidence += 0.5;
+                            }
+                            else
+                            {
+                                this->maze_left_turn_confidence += 0.25;
+                            }
                             //ESP_LOGD(TAG, "Possible left turn detected");
                             //this->maze_solution_.push_back('l');
                         }
-                        if (this->line_sensors[2] > this->line_detection_threshold_ * 3 ) 
+                        if (this->line_sensors[2] > this->line_detection_threshold_ * 2 ) 
                         {
-                            this->maze_right_turn_confidence += 0.25;
+                            if (this->line_sensors[1] > this->line_detection_threshold_ * 2 ) 
+                            {
+                                this->maze_right_turn_confidence += 0.5;
+                            }
+                            else
+                            {
+                                this->maze_right_turn_confidence += 0.25;
+                            }
                             //ESP_LOGD(TAG, "Possible right turn detected");
                             //this->maze_solution_.push_back('r');
                         }
