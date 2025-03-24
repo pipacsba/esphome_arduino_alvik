@@ -591,7 +591,7 @@ namespace alvik {
             if (this->maze_straight_continue_confidence_inverze_ <=0)
             {
                 this->maze_solution_.push_back('S');
-                ESP_LOGD(TAG, "Keep straight with right turn confidence: %.2f", right_turn_conf);
+                ESP_LOGD(TAG, "Keep straight with straight confidence: %.2f, and right turn confidence: %.2f", maze_straight_continue_confidence_inverze_, right_turn_conf);
                 this->maze_left_turn_confidence = 0;
                 this->maze_right_turn_confidence = 0;
                 this->maze_dead_end_confidence   = 0;
