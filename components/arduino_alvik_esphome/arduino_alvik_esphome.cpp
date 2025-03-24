@@ -722,7 +722,7 @@ namespace alvik {
                     intersection_angle = 180;
                 }
                 
-                if ((this->line_sensors[1] > this->line_detection_threshold_ * 1.5)| (abs(this->maze_turn_start_yaw_ - this->robot_pose[2]) > intersection_angle)
+                if ((this->line_sensors[1] > this->line_detection_threshold_ * 1.5) | (abs(this->maze_turn_start_yaw_ - this->robot_pose[2]) > intersection_angle))
                 {
                     this->brake();
                     this->line_follower_centoid_integral_ = 0;
