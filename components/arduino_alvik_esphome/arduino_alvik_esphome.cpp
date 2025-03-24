@@ -106,7 +106,8 @@ namespace alvik {
         maze_solver_start_         = false;
         line_detection_threshold_  = 300;
         maze_solution_             = "";
-        maze_crawling_speed_       = 30; //RPM
+        maze_crawling_speed_       = 0; //RPM
+        maze_crawling_speed_max_   = 30;
         this->maze_crawling_speed_number_->publish_state(maze_crawling_speed_);
         intersection_dir_          = INTERSECTION_NONE;
         maze_crawling_state_       = CRAWLING_STRAIGHT;
@@ -596,50 +597,58 @@ namespace alvik {
         {
             case CRAWLING_STRAIGHT:
             {
-                if (line_sum > 800) //more than one line is present
+                if (this->maze_crawling_speed_max_ > this->maze_crawling_speed_)
                 {
-                    if (this->line_sensors[0] > this->line_detection_threshold_ * 2 ) 
-                    {
-                        this->maze_left_turn_confidence += 0.25;
-                        //ESP_LOGD(TAG, "Possible left turn detected");
-                        //this->maze_solution_.push_back('l');
-                    }
-                    if (this->line_sensors[2] > this->line_detection_threshold_ * 2 ) 
-                    {
-                        this->maze_right_turn_confidence += 0.25;
-                        //ESP_LOGD(TAG, "Possible right turn detected");
-                        //this->maze_solution_.push_back('r');
-                    }
-                    //as the control is highly compromized by the intersection, going straight ahead is the best chance to detect if line continues afterwards
-                    set_wheels_speed(maze_crawling_speed_, maze_crawling_speed_);
-                }
-                //control line following
-                else if (line_sum > this->line_detection_threshold_)
-                {
-                    //check if this is an intersection
-                    this->maze_are_we_there_yet();
-                    
-                    this->maze_left_turn_confidence -= 0.1;
-                    this->maze_right_turn_confidence -= 0.1;
-                    this->maze_dead_end_confidence   -= 0.1;
-                    if (this->maze_left_turn_confidence < 0) {this->maze_left_turn_confidence = 0;}
-                    if (this->maze_right_turn_confidence < 0) {this->maze_right_turn_confidence = 0;}
-                    if (this->maze_dead_end_confidence < 0) {this->maze_dead_end_confidence = 0;}
-                    if (this->maze_crawling_state_ == CRAWLING_STRAIGHT)
-                    {
-                        this->alvik_line_follower();
-                    }
+                    this->maze_crawling_speed_ += 0.25;
+                    this->alvik_line_follower();
                 }
                 else
                 {
-                    //as the probably dead-end, no line in sight, nothing to control for, 
-                    this->maze_dead_end_confidence += 0.25;
-                    this->maze_are_we_there_yet();
-                    //ESP_LOGD(TAG, "Possible dead-end detected");
-                    //this->maze_solution_.push_back('b');
-                    //set_wheels_speed(this->maze_crawling_speed_, this->maze_crawling_speed_);
-                }
+                    if (line_sum > 800) //more than one line is present
+                    {
+                        if (this->line_sensors[0] > this->line_detection_threshold_ * 2 ) 
+                        {
+                            this->maze_left_turn_confidence += 0.25;
+                            //ESP_LOGD(TAG, "Possible left turn detected");
+                            //this->maze_solution_.push_back('l');
+                        }
+                        if (this->line_sensors[2] > this->line_detection_threshold_ * 2 ) 
+                        {
+                            this->maze_right_turn_confidence += 0.25;
+                            //ESP_LOGD(TAG, "Possible right turn detected");
+                            //this->maze_solution_.push_back('r');
+                        }
+                        //as the control is highly compromized by the intersection, going straight ahead is the best chance to detect if line continues afterwards
+                        set_wheels_speed(maze_crawling_speed_, maze_crawling_speed_);
+                    }
+                    //control line following
+                    else if (line_sum > this->line_detection_threshold_)
+                    {
+                        //check if this is an intersection
+                        this->maze_are_we_there_yet();
+                        
+                        this->maze_left_turn_confidence -= 0.1;
+                        this->maze_right_turn_confidence -= 0.1;
+                        this->maze_dead_end_confidence   -= 0.1;
+                        if (this->maze_left_turn_confidence < 0) {this->maze_left_turn_confidence = 0;}
+                        if (this->maze_right_turn_confidence < 0) {this->maze_right_turn_confidence = 0;}
+                        if (this->maze_dead_end_confidence < 0) {this->maze_dead_end_confidence = 0;}
+                        if (this->maze_crawling_state_ == CRAWLING_STRAIGHT)
+                        {
+                            this->alvik_line_follower();
+                        }
+                    }
+                    else
+                    {
+                        //as the probably dead-end, no line in sight, nothing to control for, 
+                        this->maze_dead_end_confidence += 0.25;
+                        this->maze_are_we_there_yet();
+                        //ESP_LOGD(TAG, "Possible dead-end detected");
+                        //this->maze_solution_.push_back('b');
+                        //set_wheels_speed(this->maze_crawling_speed_, this->maze_crawling_speed_);
+                    }
                 //this->alvik_line_follower();
+                }
                 break;
             }
             case CRAWLING_INTERSECTION:
@@ -674,6 +683,7 @@ namespace alvik {
                     this->brake();
                     this->line_follower_centoid_integral_ = 0;
                     this->maze_crawling_state_ = CRAWLING_STRAIGHT;
+                    this->maze_crawling_speed_ = 0;
                 }
                 break;
             }
@@ -1254,6 +1264,7 @@ namespace alvik {
                 break;
             case ACTION_MAZE_SOLVER:
                 this->maze_solver_start_ = true;
+                this->maze_crawling_speed_  = 0;
                 this->maze_intersection_counter_ = 0;
                 break;
             default:
