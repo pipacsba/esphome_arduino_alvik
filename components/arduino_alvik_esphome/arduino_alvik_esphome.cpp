@@ -1401,7 +1401,7 @@ namespace alvik {
         }
         if (a_led_state != this->led_state)
         {
-            ESP_LOGD(TAG, "LEDs requested to %x, %x -> %x, onoff: %d", a_led_state, change_led_state, this->led_state, onoff);
+            ESP_LOGV(TAG, "LEDs requested to %x, %x -> %x, onoff: %d", a_led_state, change_led_state, this->led_state, onoff);
             this->led_state = a_led_state;
             this->msg_size = this->packeter->packetC1B('L', this->led_state);
             this->write_array(this->packeter->msg, this->msg_size);
