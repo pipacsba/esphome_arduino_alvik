@@ -511,10 +511,10 @@ namespace alvik {
         this->line_follower_centoid_integral_ += centoid;
         
         common_speed = common_speed / (abs(centoid) + 1);
-        if (abs(centoid) > 0.5)
-        {
-            common_speed = 0;
-        }
+        //if (abs(centoid) > 0.5)
+        //{
+        //    common_speed = 0;
+        //}
         
         diff_speed_p = centoid * this->line_follower_p_;
         diff_speed_i = this->line_follower_centoid_integral_ * this->line_follower_i_;
@@ -536,7 +536,7 @@ namespace alvik {
         {
             //exit found
         }
-        else if (left_turn_conf >= 1.2)
+        else if (left_turn_conf >= 1)
         {
             // turn left - immediate, smooth turn enough
             //this->rotate(90);
@@ -551,7 +551,7 @@ namespace alvik {
             this->maze_right_turn_confidence = 0;
             this->maze_dead_end_confidence   = 0;
         }
-        else if ((right_turn_conf >= 1.2) & (dead_end_conf >= 1.2))
+        else if ((right_turn_conf >= 1) & (dead_end_conf >= 1))
         {
             //turn right - we checked if line continues straight, so we neeed sharp turn as the intersection is below the robot
             //set_wheels_speed(this->maze_crawling_speed_ / 2, 0);
@@ -564,7 +564,7 @@ namespace alvik {
             this->maze_right_turn_confidence = 0;
             this->maze_dead_end_confidence   = 0;
         }
-        else if (dead_end_conf >= 2)
+        else if (dead_end_conf >= 1)
         {
             //turn back - sharp, keeping the center unmoved
             //this->rotate(180);
@@ -577,7 +577,7 @@ namespace alvik {
             this->maze_right_turn_confidence = 0;
             this->maze_dead_end_confidence   = 0;
         }
-        else if (right_turn_conf >= 1.2) // right turn confirmaed, but we go straight 
+        else if (right_turn_conf >= 1) // right turn confirmaed, but we go straight 
         {
             this->maze_solution_.push_back('S');
             ESP_LOGD(TAG, "Keep straight with right turn confidence: %.2f", right_turn_conf);
@@ -619,7 +619,7 @@ namespace alvik {
                             //this->maze_solution_.push_back('r');
                         }
                         //as the control is highly compromized by the intersection, going straight ahead is the best chance to detect if line continues afterwards
-                        set_wheels_speed(maze_crawling_speed_, maze_crawling_speed_);
+                        set_wheels_speed(this->maze_crawling_speed_ / 2, this->maze_crawling_speed_ / 2);
                     }
                     //control line following
                     else if (line_sum > this->line_detection_threshold_)
