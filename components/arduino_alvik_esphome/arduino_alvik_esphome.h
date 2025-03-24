@@ -90,6 +90,7 @@ const uint8_t INTERSECTION_STRAIGHT = 4;
 const uint8_t CRAWLING_STRAIGHT     = 0;
 const uint8_t CRAWLING_TURNING      = 1;
 const uint8_t CRAWLING_INTERSECTION = 2;
+const uint8_t CRAWLING_SOLVED = 3;
 
 //class AlvikBatterySensor : public sensor::Sensor, public i2c::I2CDevice, public Parented<AlvikComponent>
 class AlvikBatterySensor : public sensor::Sensor, public i2c::I2CDevice
