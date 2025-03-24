@@ -350,6 +350,14 @@ namespace alvik {
                                     }
                                     else
                                     {
+                                        if (this->cycle_ % 50 == 0)
+                                        {
+                                            this->change_alvik_left_right_leds(0xff, false);
+                                        }
+                                        if (this->cycle_ % 50 == 25)
+                                        {
+                                            this->change_alvik_left_right_leds(LEFT_GREEN + RIGHT_GREEN, true);
+                                        }
                                         this->brake();
                                     }
                                     break;
@@ -733,15 +741,7 @@ namespace alvik {
             }
             case CRAWLING_SOLVED:
             {
-                this->brake();
-                if (this->cycle_ % 50 == 0)
-                {
-                    this->change_alvik_left_right_leds(0xff, false);
-                }
-                if (this->cycle_ % 50 == 25)
-                {
-                    this->change_alvik_left_right_leds(LEFT_GREEN + RIGHT_GREEN, true);
-                }
+                this->maze_solver_start_ = false;
                 break;
             }
             default:
