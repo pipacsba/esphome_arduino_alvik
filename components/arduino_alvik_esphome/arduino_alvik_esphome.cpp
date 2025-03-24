@@ -668,7 +668,7 @@ namespace alvik {
             case CRAWLING_INTERSECTION:
             {
                 //check if the currently detected line disappeared from sight going straight ahead is the best chance to detect if this is only a glitch in the measurement
-                if (this->line_sensors[1] <  (this->line_detection_threshold_ / 2))
+                if (this->line_sensors[1] <  (this->line_detection_threshold_ / 1.5))
                 {
                     this->maze_turn_started_confidence += 0.2;
                     if (this->maze_turn_started_confidence > 1)
