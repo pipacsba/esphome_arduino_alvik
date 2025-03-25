@@ -782,7 +782,7 @@ namespace alvik {
                     backturn_position = maze_solution_copy.find('B'); // found
                     if (backturn_position != 0) //not the first nor the last action is a backturn - but this is also not expected
                     {
-                        maze_optimized_solution = maze_solution_copy.substr(0, backturn_position - 2 );
+                        maze_optimized_solution = maze_solution_copy.substr(0, backturn_position - 1 );
                         replaceable_substring =  maze_solution_copy.substr(backturn_position - 1, 3);
                         if (replaceable_substring == "LBR") {maze_optimized_solution.push_back('B');}
                         if (replaceable_substring == "LBS") {maze_optimized_solution.push_back('R');}
