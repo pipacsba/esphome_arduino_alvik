@@ -171,8 +171,8 @@ namespace alvik {
 
         this->reset_pin_->digital_write(false);
         
-        this->alvik_state_ = ALVIK_STARTUP;
-        this->alvik_action_= ACTION_NOT_SET;
+        this->set_alvik_state(ALVIK_STARTUP);
+        this->set_alvik_action(ACTION_NOT_SET);
         
         this->last_command_time_ = 0;
         this->last_sensor_time_  = 0;
@@ -208,7 +208,7 @@ namespace alvik {
         bool ison = this->stm32_pin_->digital_read();
         if ((!ison) & (this->alvik_state_ > ALVIK_HW_RESET) & (this->alvik_state_ != ALVIK_EXTERNAL_SUPPLY))
         {
-            this->alvik_state_ = ALVIK_STARTUP;
+            this->set_alvik_state(ALVIK_STARTUP);
             this->cycle_ = 0;
         }
         switch(this->alvik_state_)
@@ -229,7 +229,7 @@ namespace alvik {
                     if (this->cycle_ == 500)
                     {
                         this->reset_pin_->digital_write(true);
-                        this->alvik_state_ = ALVIK_HW_RESET;
+                        this->set_alvik_state(ALVIK_HW_RESET);
                         this->cycle_ = 0;
                         if (this->alvik_alive_sensor_ != nullptr)
                             this->alvik_alive_sensor_->publish_state(this->alvik_state_);
@@ -244,7 +244,7 @@ namespace alvik {
                         ESP_LOGD(TAG, "STM32 is up again");
                         this->cycle_ = 0;
                         this->waiting_ack = 0x00;
-                        this->alvik_state_ = ALVIK_STM32_UP;
+                        this->set_alvik_state(ALVIK_STM32_UP);
                         if (this->alvik_alive_sensor_ != nullptr)
                             this->alvik_alive_sensor_->publish_state(this->alvik_state_);
                     }
@@ -252,7 +252,7 @@ namespace alvik {
                     if (this->cycle_ > 100)
                     {
                         //USB supply, battery charging as the STM32 is not ON
-                        this->alvik_state_ = ALVIK_EXTERNAL_SUPPLY;
+                        this->set_alvik_state(ALVIK_EXTERNAL_SUPPLY);
                         this->cycle_ = 0;
                         this->nano_pin_->digital_write(true);
                         if (this->alvik_alive_sensor_ != nullptr)
@@ -268,7 +268,7 @@ namespace alvik {
                     }
                     if (this->last_ack == this->waiting_ack)
                     {
-                        this->alvik_state_ = ALVIK_FIRST_ACK;
+                        this->set_alvik_state(ALVIK_FIRST_ACK);
                         ESP_LOGD(TAG, "Wait_for_Ack completed!");
                         if (this->alvik_alive_sensor_ != nullptr)
                             this->alvik_alive_sensor_->publish_state(this->alvik_state_);
@@ -284,7 +284,7 @@ namespace alvik {
                     }
                     if (this->stm32_fw_compatible_)
                     {
-                        this->alvik_state_ = ALVIK_FW_COMPATIBLE;
+                        this->set_alvik_state(ALVIK_FW_COMPATIBLE);
                         this->set_behaviour(BEHAVIOUR_ILLUMINATOR_RISE);
                         this->set_behaviour(BEHAVIOUR_BATTERY_ALERT);
                         this->set_servo_positions(0,0);
@@ -292,7 +292,7 @@ namespace alvik {
                         this->reset_pose(0, 0, this->compass_angle);
                         this->angle_at_offset = this->compass_angle;
                         this->last_command_time_ = now;
-                        this->alvik_action_= ACTION_MAZE_SOLVER;
+                        this->set_alvik_action(ACTION_MAZE_SOLVER);
                     }
                     break;
                 }
@@ -957,7 +957,7 @@ namespace alvik {
             this->red_led_pin_->digital_write(true);
             this->nano_pin_->digital_write(false);
             this->cycle_ = 0;
-            this->alvik_state_ = ALVIK_STARTUP;
+            this->set_alvik_state(ALVIK_STARTUP);
         }
     }
 
@@ -1261,44 +1261,23 @@ namespace alvik {
         switch(this->alvik_action_)
         {
             case ACTION_PERFORM_COMMAND_LIST:
-                this->alvik_action_= ACTION_COLLECT_COMMAND_LIST;
-                this->change_alvik_left_right_leds(0xff, false);
-                this->change_alvik_left_right_leds(LEFT_GREEN + RIGHT_GREEN, true);
-                this->brake();
+                this->set_alvik_action(ACTION_COLLECT_COMMAND_LIST);
                 break;
             case ACTION_COLLECT_COMMAND_LIST:
-                this->alvik_action_= ACTION_FOLLOW;
-                this->change_alvik_left_right_leds(0xff, false);
-                this->change_alvik_left_right_leds(LEFT_GREEN + LEFT_RED + RIGHT_GREEN + RIGHT_RED, true);
-                this->brake();
+                this->set_alvik_action(ACTION_FOLLOW);
                 break;
             case ACTION_FOLLOW:
-                this->alvik_action_= ACTION_CONSTANT_DIRECTION;
-                this->follow_start_ = false;
-                this->change_alvik_left_right_leds(0xff, false);
-                this->constant_direction_target_angle_ = this->compass_angle;
-                this->constant_direction_target_number_->publish_state(constant_direction_target_angle_);
-                this->change_alvik_left_right_leds(LEFT_BLUE + LEFT_RED + RIGHT_BLUE + RIGHT_RED, true);
-                this->brake();
+                this->set_alvik_action(ACTION_CONSTANT_DIRECTION);
                 break;
             case ACTION_CONSTANT_DIRECTION:
-                this->direction_control_start_ = false;
-                this->alvik_action_= ACTION_MAZE_SOLVER;
-                this->change_alvik_left_right_leds(0xff, false);
-                this->change_alvik_left_right_leds(LEFT_BLUE + LEFT_RED + LEFT_GREEN + RIGHT_BLUE + RIGHT_RED + RIGHT_GREEN, true);
-                this->brake();
+                this->set_alvik_action(ACTION_MAZE_SOLVER);
                 break;
             case ACTION_MAZE_SOLVER:
-                this->maze_solver_start_ = false;
-                this->alvik_action_= ACTION_PERFORM_COMMAND_LIST;
-                this->change_alvik_left_right_leds(0xff, false);
-                this->brake();
+                this->set_alvik_action(ACTION_PERFORM_COMMAND_LIST);
                 break;
             
             default:
-                this->alvik_action_= ACTION_PERFORM_COMMAND_LIST;
-                this->change_alvik_left_right_leds(0xff, false);
-                this->brake();
+                this->set_alvik_action(ACTION_PERFORM_COMMAND_LIST);
                 break;
         }
     }
@@ -1318,7 +1297,7 @@ namespace alvik {
         {
             case ACTION_COLLECT_COMMAND_LIST:
         //alvik_command_list_.push_back('o'); // o: OK
-                this->alvik_action_= ACTION_PERFORM_COMMAND_LIST;
+                this->set_alvik_action(ACTION_PERFORM_COMMAND_LIST);
                 this->led_state= 0;
                 this->yaw_est = this->orientation[2];
                 this->change_alvik_left_right_leds(LEFT_BLUE + RIGHT_BLUE, true);
@@ -1417,6 +1396,54 @@ namespace alvik {
             this->write_array(this->packeter->msg, this->msg_size);
         }
     }
+
+    void AlvikComponent::set_alvik_action(int an_action)
+    {
+        switch(an_action)
+        {
+            case ACTION_COLLECT_COMMAND_LIST:
+                this->change_alvik_left_right_leds(0xff, false);
+                this->change_alvik_left_right_leds(LEFT_GREEN + RIGHT_GREEN, true);
+                this->brake();
+                break;
+            case ACTION_FOLLOW:
+                this->follow_start_ = false;
+                this->centoid_filt = 0;
+                this->change_alvik_left_right_leds(0xff, false);
+                this->change_alvik_left_right_leds(LEFT_GREEN + LEFT_RED + RIGHT_GREEN + RIGHT_RED, true);
+                this->brake();
+                break;
+            case ACTION_CONSTANT_DIRECTION:
+                this->direction_control_start_ = false;
+                this->constant_direction_target_angle_ = this->compass_angle;
+                this->constant_direction_target_number_->publish_state(constant_direction_target_angle_);
+                this->change_alvik_left_right_leds(0xff, false);
+                this->change_alvik_left_right_leds(LEFT_BLUE + LEFT_RED + RIGHT_BLUE + RIGHT_RED, true);
+                this->brake();
+                break;
+            case ACTION_MAZE_SOLVER:
+                this->maze_solver_start_ = false;
+                this->maze_solution_.clear();
+                this->maze_solved_ = false;
+                this->change_alvik_left_right_leds(0xff, false);
+                this->change_alvik_left_right_leds(LEFT_BLUE + LEFT_RED + LEFT_GREEN + RIGHT_BLUE + RIGHT_RED + RIGHT_GREEN, true);
+                this->line_follower_centoid_integral_ = 0;
+                this->line_follower_centoid_previous_ = 0;
+                this->brake();
+                break;
+            case ACTION_PERFORM_COMMAND_LIST:
+                this->change_alvik_left_right_leds(0xff, false);
+                this->brake();
+                break;
+            default:
+                this->alvik_action_= ACTION_PERFORM_COMMAND_LIST;
+                this->change_alvik_left_right_leds(0xff, false);
+                this->brake();
+                break;
+        }
+        this->alvik_action_ = an_action;
+    }
+
 
     void AlvikComponent::dump_config() {
         ESP_LOGCONFIG(TAG, "AlvikComponent  :");
