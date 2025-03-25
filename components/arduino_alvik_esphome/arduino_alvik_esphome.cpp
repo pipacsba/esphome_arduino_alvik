@@ -797,7 +797,7 @@ namespace alvik {
                         replaceable_substring.clear();
                         if (maze_solution_copy.length() == 0)
                         {
-                            maze_optimized_solution.push(c);
+                            maze_optimized_solution.push_back(c);
                         }
                         else
                         {
