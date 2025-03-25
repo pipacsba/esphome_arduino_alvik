@@ -829,9 +829,9 @@ namespace alvik {
                             if (replaceable_substring == "SBL") {maze_optimized_solution.push_back('R');}
                             if (replaceable_substring == "SBS") {maze_optimized_solution.push_back('B');}
                             if (replaceable_substring == "LBL") {maze_optimized_solution.push_back('S');}
-                            ESP_LOGD(TAG, "Optimized solution: %s", maze_optimized_solution);
                         }
                     }
+                    ESP_LOGD(TAG, "Optimized solution: %s", maze_optimized_solution);
                 }
                 maze_solution_copy = maze_optimized_solution;
                 this->maze_solution_ = maze_optimized_solution;
