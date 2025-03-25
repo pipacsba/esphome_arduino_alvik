@@ -768,6 +768,7 @@ namespace alvik {
         std::string replaceable_substring;
         bool solution_optimimized;
         char c;
+        int backturn_position;
 
         solution_optimimized = false;
         maze_solution_copy = this->maze_solution_;
@@ -776,68 +777,25 @@ namespace alvik {
         {
             while (solution_optimimized | maze_optimized_solution.empty())
             {
-                while (maze_solution_copy.length() > 0)
-                {
-                    c = maze_solution_copy[0];
-                    if (c != 'B')
+                if (maze_solution_copy.find('B') != std::string::npos)
+                    backturn_position = maze_solution_copy.find('B'); // found
+                    if (backturn_position != 0) //not the first nor the last action is a backturn - but this is also not expected
                     {
-                        maze_optimized_solution.push_back(c);
-                        if (maze_solution_copy.length() > 1)
-                        {
-                        	maze_solution_copy = maze_solution_copy.substr(1);
-                        }
-                        else
-                        {
-                        	maze_solution_copy.clear();
-                        }
-                        maze_solution_copy = maze_solution_copy.substr(1);
+                        maze_optimized_solution = maze_solution_copy.substr(0, backturn_position - 2 );
+                        replaceable_substring =  maze_solution_copy.substr(backturn_position - 1, 3);
+                        if (replaceable_substring == "LBR") {maze_optimized_solution.push_back('B');}
+                        if (replaceable_substring == "LBS") {maze_optimized_solution.push_back('R');}
+                        if (replaceable_substring == "RBL") {maze_optimized_solution.push_back('B');}
+                        if (replaceable_substring == "SBL") {maze_optimized_solution.push_back('R');}
+                        if (replaceable_substring == "SBS") {maze_optimized_solution.push_back('B');}
+                        if (replaceable_substring == "LBL") {maze_optimized_solution.push_back('S');}
+                        maze_optimized_solution.append( maze_solution_copy.substr(backturn_position + 2 ));
+                        ESP_LOGD(TAG, "Optimized solution: %s", maze_optimized_solution.c_str());
                     }
                     else
-                    {
-                        replaceable_substring.clear();
-                        if (maze_solution_copy.length() == 0)
-                        {
-                            maze_optimized_solution.push_back(c);
-                        }
-                        else
-                        {
-                            c = maze_optimized_solution[-1];
-                            maze_optimized_solution.pop_back();
-                            replaceable_substring.push_back(c);
-                            replaceable_substring.push_back('B');
-                            c = maze_solution_copy[0];
-                            replaceable_substring.push_back(c);
-                            if (maze_solution_copy.length() > 1)
-                            {
-                                maze_solution_copy = maze_solution_copy.substr(1);
-                            }
-                            else
-                            {
-                                maze_solution_copy.clear();
-                            }
-
-                            
-                            //LBR = B
-                            //LBS = R
-                            //RBL = B
-                            //SBL = R
-                            //SBS = B
-                            //LBL = S
-                            if (replaceable_substring == "LBR") {maze_optimized_solution.push_back('B');}
-                            if (replaceable_substring == "LBS") {maze_optimized_solution.push_back('R');}
-                            if (replaceable_substring == "RBL") {maze_optimized_solution.push_back('B');}
-                            if (replaceable_substring == "SBL") {maze_optimized_solution.push_back('R');}
-                            if (replaceable_substring == "SBS") {maze_optimized_solution.push_back('B');}
-                            if (replaceable_substring == "LBL") {maze_optimized_solution.push_back('S');}
-                        }
-                    }
-                    ESP_LOGD(TAG, "Optimized solution: %s", maze_optimized_solution.c_str());
-                    ESP_LOGD(TAG, "Remaining input : %s", maze_solution_copy.c_str());
-                    
-                    
-                }
-                maze_solution_copy = maze_optimized_solution;
-                this->maze_solution_ = maze_optimized_solution;
+                       solution_optimimized = false;                        
+                else
+                   solution_optimimized = false; // not found
             }
         }
     }
