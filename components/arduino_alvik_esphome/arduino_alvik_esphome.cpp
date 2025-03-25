@@ -751,7 +751,8 @@ namespace alvik {
                 this->maze_left_turn_confidence = 0;
                 this->maze_right_turn_confidence = 0;
                 this->maze_dead_end_confidence   = 0;
-                this->maze_straight_continue_confidence_inverze_ = 1;                
+                this->maze_straight_continue_confidence_inverze_ = 1;     
+                this->maze_optimize_solution();
                 break;
             }
             default:
@@ -764,7 +765,9 @@ namespace alvik {
     {
         std::string maze_optimized_solution;
         std::string maze_solution_copy;
+        std::string replaceable_substring;
         bool solution_optimimized;
+        char c;
 
         solution_optimimized = false;
         maze_solution_copy = this->maze_solution_;
@@ -773,7 +776,81 @@ namespace alvik {
         {
             while (solution_optimimized | maze_optimized_solution.empty())
             {
-                
+                while (maze_solution_copy.length() > 0)
+                {
+                    c = maze_solution_copy[0];
+                    if (c != 'B')
+                    {
+                        maze_optimized_solution.push(c);
+                        if (maze_solution_copy.length() > 1)
+                        {
+                        	maze_solution_copy = maze_solution_copy.substr(1);
+                        }
+                        else
+                        {
+                        	maze_solution_copy.clear();
+                        }
+                        maze_solution_copy = maze_solution_copy.substr(1);
+                    }
+                    else
+                    {
+                        replaceable_substring.clear();
+                        if (maze_solution_copy.length() == 0)
+                        {
+                            maze_optimized_solution.push(c);
+                        }
+                        else
+                        {
+                            c = maze_optimized_solution[-1];
+                            maze_optimized_solution.pop_back();
+                            replaceable_substring.push_back(c);
+                            replaceable_substring.push_back('B');
+                            c = maze_solution_copy[0];
+                            replaceable_substring.push(c);
+                            if (maze_solution_copy.length() > 1)
+                            {
+                                maze_solution_copy = maze_solution_copy.substr(1);
+                            }
+                            else
+                            {
+                                maze_solution_copy.clear();
+                            }
+
+                            
+                            //LBR = B
+                            //LBS = R
+                            //RBL = B
+                            //SBL = R
+                            //SBS = B
+                            //LBL = S
+                            switch (replaceable_substring)
+                            {
+                                case "LBR":
+                                    maze_optimized_solution.push("B");
+                                    break;
+                                case "LBS":
+                                    maze_optimized_solution.push("R");
+                                    break;
+                                case "RBL":
+                                    maze_optimized_solution.push("B");
+                                    break;
+                                case "SBL":
+                                    maze_optimized_solution.push("R");
+                                    break;
+                                case "SBS":
+                                    maze_optimized_solution.push("B");
+                                    break;
+                                case "LBL":
+                                    maze_optimized_solution.push("S");
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                }
+                maze_solution_copy = maze_optimized_solution;
+                this->maze_solution_ = maze_optimized_solution;
             }
         }
     }
