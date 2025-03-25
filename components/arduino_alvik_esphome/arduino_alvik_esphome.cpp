@@ -826,22 +826,22 @@ namespace alvik {
                             switch (replaceable_substring)
                             {
                                 case "LBR":
-                                    maze_optimized_solution.push_back("B");
+                                    maze_optimized_solution.push_back('B');
                                     break;
                                 case "LBS":
-                                    maze_optimized_solution.push_back("R");
+                                    maze_optimized_solution.push_back('R');
                                     break;
                                 case "RBL":
-                                    maze_optimized_solution.push_back("B");
+                                    maze_optimized_solution.push_back('B');
                                     break;
                                 case "SBL":
-                                    maze_optimized_solution.push_back("R");
+                                    maze_optimized_solution.push_back('R');
                                     break;
                                 case "SBS":
-                                    maze_optimized_solution.push_back("B");
+                                    maze_optimized_solution.push_back('B');
                                     break;
                                 case "LBL":
-                                    maze_optimized_solution.push_back("S");
+                                    maze_optimized_solution.push_back('S');
                                     break;
                                 default:
                                     break;
