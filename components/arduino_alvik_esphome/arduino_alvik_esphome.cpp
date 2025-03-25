@@ -781,7 +781,7 @@ namespace alvik {
                     c = maze_solution_copy[0];
                     if (c != 'B')
                     {
-                        maze_optimized_solution.push(c);
+                        maze_optimized_solution.push_back(c);
                         if (maze_solution_copy.length() > 1)
                         {
                         	maze_solution_copy = maze_solution_copy.substr(1);
