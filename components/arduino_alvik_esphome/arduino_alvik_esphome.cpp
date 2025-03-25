@@ -778,6 +778,7 @@ namespace alvik {
             while (solution_optimimized | maze_optimized_solution.empty())
             {
                 if (maze_solution_copy.find('B') != std::string::npos)
+                {
                     backturn_position = maze_solution_copy.find('B'); // found
                     if (backturn_position != 0) //not the first nor the last action is a backturn - but this is also not expected
                     {
@@ -794,6 +795,7 @@ namespace alvik {
                     }
                     else
                        solution_optimimized = false;                        
+                }
                 else
                    solution_optimimized = false; // not found
             }
