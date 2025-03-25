@@ -760,6 +760,24 @@ namespace alvik {
     }
 
 
+    void AlvikComponent::maze_optimize_solution()
+    {
+        std::string maze_optimized_solution;
+        std::string maze_solution_copy;
+        bool solution_optimimized;
+
+        solution_optimimized = false;
+        maze_solution_copy = this->maze_solution_;
+        
+        if (this->maze_solved_)
+        {
+            while (solution_optimimized | maze_optimized_solution.empty())
+            {
+                
+            }
+        }
+    }
+
     void AlvikComponent::alvik_constant_direction_control()
     {
         float angle_error;
