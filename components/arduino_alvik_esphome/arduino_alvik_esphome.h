@@ -152,8 +152,10 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void left_button_action();
     void right_button_action();
 
+    void set_alvik_state(int a_state)
     void push_alvik_command(char a) {alvik_command_list_.push_back(a);}
-    void set_alvik_state(int a_state) { alvik_state_ = a_state; };
+    //void set_alvik_state(int a_state) { alvik_state_ = a_state; };
+
 
     //-------------------------------------Exposed to Home Assistant
     // pin config
