@@ -140,6 +140,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void alvik_constant_direction_control();
     void alvik_maze_solver();
     void maze_are_we_there_yet();
+    void maze_optimize_solution();
     void alvik_line_follower();
 
     void set_cycle(int a_cycle) { cycle_ = a_cycle; };
