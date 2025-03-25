@@ -832,6 +832,9 @@ namespace alvik {
                         }
                     }
                     ESP_LOGD(TAG, "Optimized solution: %s", maze_optimized_solution.c_str());
+                    ESP_LOGD(TAG, "Remaining input : %s", maze_solution_copy.c_str());
+                    
+                    
                 }
                 maze_solution_copy = maze_optimized_solution;
                 this->maze_solution_ = maze_optimized_solution;
