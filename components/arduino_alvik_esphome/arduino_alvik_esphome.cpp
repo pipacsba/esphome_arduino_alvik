@@ -831,7 +831,7 @@ namespace alvik {
                             if (replaceable_substring == "LBL") {maze_optimized_solution.push_back('S');}
                         }
                     }
-                    ESP_LOGD(TAG, "Optimized solution: %s", maze_optimized_solution);
+                    ESP_LOGD(TAG, "Optimized solution: %s", maze_optimized_solution.c_str());
                 }
                 maze_solution_copy = maze_optimized_solution;
                 this->maze_solution_ = maze_optimized_solution;
