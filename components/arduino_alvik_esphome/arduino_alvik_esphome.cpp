@@ -806,7 +806,7 @@ namespace alvik {
                             replaceable_substring.push_back(c);
                             replaceable_substring.push_back('B');
                             c = maze_solution_copy[0];
-                            replaceable_substring.push(c);
+                            replaceable_substring.push_back(c);
                             if (maze_solution_copy.length() > 1)
                             {
                                 maze_solution_copy = maze_solution_copy.substr(1);
@@ -823,29 +823,13 @@ namespace alvik {
                             //SBL = R
                             //SBS = B
                             //LBL = S
-                            switch (replaceable_substring)
-                            {
-                                case "LBR":
-                                    maze_optimized_solution.push_back('B');
-                                    break;
-                                case "LBS":
-                                    maze_optimized_solution.push_back('R');
-                                    break;
-                                case "RBL":
-                                    maze_optimized_solution.push_back('B');
-                                    break;
-                                case "SBL":
-                                    maze_optimized_solution.push_back('R');
-                                    break;
-                                case "SBS":
-                                    maze_optimized_solution.push_back('B');
-                                    break;
-                                case "LBL":
-                                    maze_optimized_solution.push_back('S');
-                                    break;
-                                default:
-                                    break;
-                            }
+                            if (replaceable_substring == "LBR") {maze_optimized_solution.push_back('B');}
+                            if (replaceable_substring == "LBS") {maze_optimized_solution.push_back('R');}
+                            if (replaceable_substring == "RBL") {maze_optimized_solution.push_back('B');}
+                            if (replaceable_substring == "SBL") {maze_optimized_solution.push_back('R');}
+                            if (replaceable_substring == "SBS") {maze_optimized_solution.push_back('B');}
+                            if (replaceable_substring == "LBL") {maze_optimized_solution.push_back('S');}
+
                         }
                     }
                 }
