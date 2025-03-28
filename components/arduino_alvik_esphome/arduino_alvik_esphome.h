@@ -347,6 +347,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     float maze_turn_started_confidence;
     float maze_turn_start_yaw_;
     bool maze_solved_;
+    std::string maze_solution_saved_;
 
     float line_follower_p_;
     float line_follower_i_;
