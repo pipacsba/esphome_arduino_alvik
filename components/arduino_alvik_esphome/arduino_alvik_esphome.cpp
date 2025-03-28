@@ -797,11 +797,16 @@ namespace alvik {
                         solution_optimimized = true;
                     }
                     else
-                       solution_optimimized = false;                        
+                    {
+                       solution_optimimized = false;   
+                       maze_optimized_solution = maze_solution_copy;
+                    }
                 }
                 else
+                {
                     solution_optimimized = false; // not found
-
+                    maze_optimized_solution = maze_solution_copy;
+                }
                 maze_solution_copy = maze_optimized_solution;
                 this->maze_solution_ = maze_optimized_solution;
                 ESP_LOGD(TAG, "Optimized solution: %s", maze_optimized_solution.c_str());
