@@ -746,6 +746,7 @@ namespace alvik {
             }
             case CRAWLING_SOLVED:
             {
+                this->brake();
                 this->maze_solved_ = true;
                 this->maze_solver_start_ = false;
                 this->maze_crawling_state_ = CRAWLING_STRAIGHT;
