@@ -753,8 +753,11 @@ namespace alvik {
                 this->maze_left_turn_confidence = 0;
                 this->maze_right_turn_confidence = 0;
                 this->maze_dead_end_confidence   = 0;
-                this->maze_straight_continue_confidence_inverze_ = 1;     
-                this->maze_optimize_solution();
+                this->maze_straight_continue_confidence_inverze_ = 1;
+                if (this->maze_solution_.length() > 0)
+                {
+                    this->maze_optimize_solution();
+                }
                 this->maze_solution_saved_ = this->maze_solution_;
                 break;
             }
