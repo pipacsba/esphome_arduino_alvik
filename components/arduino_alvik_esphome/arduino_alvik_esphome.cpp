@@ -107,6 +107,7 @@ namespace alvik {
         maze_solved_               = false;
         line_detection_threshold_  = 300;
         maze_solution_             = "";
+        maze_solution_saved_       = "";
         maze_crawling_speed_       = 0; //RPM
         maze_crawling_speed_max_   = 30;
         this->maze_crawling_speed_number_->publish_state(maze_crawling_speed_);
@@ -753,6 +754,7 @@ namespace alvik {
                 this->maze_dead_end_confidence   = 0;
                 this->maze_straight_continue_confidence_inverze_ = 1;     
                 this->maze_optimize_solution();
+                this->maze_solution_saved_ = this->maze_solution_;
                 break;
             }
             default:
