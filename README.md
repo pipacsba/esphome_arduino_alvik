@@ -4,3 +4,4 @@ Working functions:
 - ACTION_COLLECT_COMMAND_LIST - collect movement command,s and only perform after "ok" button
 - ACTION_FOLLOW - hand follow (even turning)
 - ACTION_CONSTANT_DIRECTION - keep Alvik heading in case moving ground (using external magnetic compass - LSM303DLHC)
+- ACTION_MAZE_SOLVER - line follower based maze solver, "left-hand-on-the-wall"
