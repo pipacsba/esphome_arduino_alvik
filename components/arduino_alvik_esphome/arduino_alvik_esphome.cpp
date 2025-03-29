@@ -123,8 +123,8 @@ namespace alvik {
         maze_turn_start_yaw_ = 0;
 
         line_follower_p_  = 20;
-        line_follower_d_  = 0;
-        line_follower_i_  = 0;
+        line_follower_d_  = 2;
+        line_follower_i_  = 0.1;
         this->linefollower_p_number_->publish_state(line_follower_p_);
         this->linefollower_i_number_->publish_state(line_follower_i_);
         this->linefollower_d_number_->publish_state(line_follower_d_);
