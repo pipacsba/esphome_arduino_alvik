@@ -544,8 +544,8 @@ namespace alvik {
             if (this->line_sensors[1] < 600)
             {
                 line_sensor_error = 600 - this->line_sensors[1];
-                line_sensor_error = - line_sensor_error * centoid;
-                diff_speed = line_sensor_error / this->line_follower_p_ ;
+                line_sensor_error = line_sensor_error * centoid;
+                diff_speed = line_sensor_error / this->line_follower_p_ * 2 ;
             }
             else
             {
