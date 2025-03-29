@@ -545,77 +545,115 @@ namespace alvik {
         this->line_follower_centoid_previous_ = centoid;
     }
 
+    void void AlvikComponent::maze_turn_right()
+    {
+        //turn right - we checked if line continues straight, so we neeed sharp turn as the intersection is below the robot
+        //set_wheels_speed(this->maze_crawling_speed_ / 2, 0);
+        set_wheels_speed(this->maze_crawling_speed_ / 4, - (this->maze_crawling_speed_ / 2));
+        this->maze_saved_cycle_counter_ = this->cycle_;
+        this->maze_crawling_state_ = CRAWLING_INTERSECTION ;
+        this->intersection_dir_ = INTERSECTION_RIGHT;
+        this->maze_solution_.push_back('R');
+        ESP_LOGD(TAG, "Right turn with right confidence: %.2f;  dead-end confidence: %.2f", right_turn_conf, dead_end_conf);
+        this->maze_left_turn_confidence = 0;
+        this->maze_right_turn_confidence = 0;
+        this->maze_dead_end_confidence   = 0;
+        this->maze_straight_continue_confidence_inverze_ = 1;
+        this->maze_turn_start_yaw_ = this->robot_pose[2];
+    }
+
+    void AlvikComponent::maze_turn_left()
+    {
+        // turn left - immediate, smooth turn enough
+        //this->rotate(90);
+        //set_wheels_speed(0, this->maze_crawling_speed_ / 2);
+        if (dead_end_conf < 1){  set_wheels_speed(- (this->maze_crawling_speed_ / 4), this->maze_crawling_speed_ / 2);}
+        else {set_wheels_speed(- (this->maze_crawling_speed_ / 4), this->maze_crawling_speed_ / 2);}
+        this->maze_saved_cycle_counter_ = this->cycle_;
+        this->maze_crawling_state_ = CRAWLING_INTERSECTION ;
+        this->intersection_dir_ = INTERSECTION_LEFT;
+        this->maze_solution_.push_back('L');
+        ESP_LOGD(TAG, "Left turn with confidence: %.2f", left_turn_conf);
+        this->maze_left_turn_confidence = 0;
+        this->maze_right_turn_confidence = 0;
+        this->maze_dead_end_confidence   = 0;
+        this->maze_straight_continue_confidence_inverze_ = 1;
+        this->maze_turn_start_yaw_ = this->robot_pose[2];
+    }
+
+    void AlvikComponent::maze_turn_back()
+    {
+        //turn back - sharp, keeping the center unmoved
+        //this->rotate(180);
+        set_wheels_speed(this->maze_crawling_speed_ / 2, -(this->maze_crawling_speed_ / 2) * 0.7);
+        this->maze_saved_cycle_counter_ = this->cycle_;
+        this->maze_crawling_state_ = CRAWLING_INTERSECTION ;
+        this->intersection_dir_ = INTERSECTION_DEAD_END;
+        this->maze_solution_.push_back('B');
+        ESP_LOGD(TAG, "U turn with confidence: %.2f", dead_end_conf);
+        this->maze_left_turn_confidence = 0;
+        this->maze_right_turn_confidence = 0;
+        this->maze_dead_end_confidence   = 0;
+        this->maze_straight_continue_confidence_inverze_ = 1;
+        this->maze_turn_start_yaw_ = this->robot_pose[2];
+    }
+
+    void AlvikComponent::maze_keep_straight()
+    {
+        this->maze_solution_.push_back('S');
+        ESP_LOGD(TAG, "Keep straight with straight confidence: %.2f, and right turn confidence: %.2f", maze_straight_continue_confidence_inverze_, right_turn_conf);
+        this->maze_left_turn_confidence = 0;
+        this->maze_right_turn_confidence = 0;
+        this->maze_dead_end_confidence   = 0;
+        this->maze_straight_continue_confidence_inverze_ = 1;
+    }
+
     void AlvikComponent::maze_are_we_there_yet()
     {
         float left_turn_conf = this->maze_left_turn_confidence;
         float right_turn_conf = this->maze_right_turn_confidence;
         float dead_end_conf = this->maze_dead_end_confidence;
+        char c;
         
         if ((right_turn_conf>= 20) & (left_turn_conf >= 20))
         {
             this->maze_crawling_state_ = CRAWLING_SOLVED ;
         }
-        else if ((left_turn_conf >= 1) & this->maze_left_turn_confidence_decreasing_)
+        else if (this->maze_solved_)
         {
-            // turn left - immediate, smooth turn enough
-            //this->rotate(90);
-            //set_wheels_speed(0, this->maze_crawling_speed_ / 2);
-            if (dead_end_conf < 1){  set_wheels_speed(- (this->maze_crawling_speed_ / 4), this->maze_crawling_speed_ / 2);}
-            else {set_wheels_speed(- (this->maze_crawling_speed_ / 4), this->maze_crawling_speed_ / 2);}
-            this->maze_saved_cycle_counter_ = this->cycle_;
-            this->maze_crawling_state_ = CRAWLING_INTERSECTION ;
-            this->intersection_dir_ = INTERSECTION_LEFT;
-            this->maze_solution_.push_back('L');
-            ESP_LOGD(TAG, "Left turn with confidence: %.2f", left_turn_conf);
-            this->maze_left_turn_confidence = 0;
-            this->maze_right_turn_confidence = 0;
-            this->maze_dead_end_confidence   = 0;
-            this->maze_straight_continue_confidence_inverze_ = 1;
-            this->maze_turn_start_yaw_ = this->robot_pose[2];
-        }
-        else if ((right_turn_conf >= 1) & (dead_end_conf >= 1))
-        {
-            //turn right - we checked if line continues straight, so we neeed sharp turn as the intersection is below the robot
-            //set_wheels_speed(this->maze_crawling_speed_ / 2, 0);
-            set_wheels_speed(this->maze_crawling_speed_ / 4, - (this->maze_crawling_speed_ / 2));
-            this->maze_saved_cycle_counter_ = this->cycle_;
-            this->maze_crawling_state_ = CRAWLING_INTERSECTION ;
-            this->intersection_dir_ = INTERSECTION_RIGHT;
-            this->maze_solution_.push_back('R');
-            ESP_LOGD(TAG, "Right turn with right confidence: %.2f;  dead-end confidence: %.2f", right_turn_conf, dead_end_conf);
-            this->maze_left_turn_confidence = 0;
-            this->maze_right_turn_confidence = 0;
-            this->maze_dead_end_confidence   = 0;
-            this->maze_straight_continue_confidence_inverze_ = 1;
-            this->maze_turn_start_yaw_ = this->robot_pose[2];
-        }
-        else if (dead_end_conf >= 1)
-        {
-            //turn back - sharp, keeping the center unmoved
-            //this->rotate(180);
-            set_wheels_speed(this->maze_crawling_speed_ / 2, -(this->maze_crawling_speed_ / 2) * 0.7);
-            this->maze_saved_cycle_counter_ = this->cycle_;
-            this->maze_crawling_state_ = CRAWLING_INTERSECTION ;
-            this->intersection_dir_ = INTERSECTION_DEAD_END;
-            this->maze_solution_.push_back('B');
-            ESP_LOGD(TAG, "U turn with confidence: %.2f", dead_end_conf);
-            this->maze_left_turn_confidence = 0;
-            this->maze_right_turn_confidence = 0;
-            this->maze_dead_end_confidence   = 0;
-            this->maze_straight_continue_confidence_inverze_ = 1;
-            this->maze_turn_start_yaw_ = this->robot_pose[2];
-        }
-        else if  (right_turn_conf >= 1) // right turn confirmed, but we go straight 
-        {
-            this->maze_straight_continue_confidence_inverze_ -= 0.1;
-            if (this->maze_straight_continue_confidence_inverze_ <=0)
+            //What is the next move from the solution?
+            if (this->maze_solution_saved_.length() > this->maze_solution_.length())
             {
-                this->maze_solution_.push_back('S');
-                ESP_LOGD(TAG, "Keep straight with straight confidence: %.2f, and right turn confidence: %.2f", maze_straight_continue_confidence_inverze_, right_turn_conf);
-                this->maze_left_turn_confidence = 0;
-                this->maze_right_turn_confidence = 0;
-                this->maze_dead_end_confidence   = 0;
-                this->maze_straight_continue_confidence_inverze_ = 1;
+                c = this->maze_solution_saved_[this->maze_solution_.length()];
+            }
+            else
+            {
+                c = " ";
+            }
+            
+            
+        }
+        else 
+        {
+            if ((left_turn_conf >= 1) & this->maze_left_turn_confidence_decreasing_)
+            {
+                this->maze_turn_left();
+            }
+            else if ((right_turn_conf >= 1) & (dead_end_conf >= 1))
+            {
+                this->maze_turn_right();
+            }
+            else if (dead_end_conf >= 1)
+            {
+                this->maze_turn_back()
+            }
+            else if  (right_turn_conf >= 1) // right turn confirmed, but we go straight 
+            {
+                this->maze_straight_continue_confidence_inverze_ -= 0.1;
+                if (this->maze_straight_continue_confidence_inverze_ <=0)
+                {
+                    this->maze_keep_straight();
+                }
             }
         }
     }
@@ -763,6 +801,7 @@ namespace alvik {
                     this->maze_optimize_solution();
                 }
                 this->maze_solution_saved_ = this->maze_solution_;
+                
                 break;
             }
             default:
@@ -1375,6 +1414,7 @@ namespace alvik {
                 this->maze_solver_start_ = true;
                 this->maze_crawling_speed_  = 0;
                 this->maze_intersection_counter_ = 0;
+                this->maze_solution_.clear();
                 break;
             default:
                 break;
