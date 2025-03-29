@@ -135,7 +135,7 @@ async def to_code(config):
             linefollower_pid_config,
             min_value=-100,
             max_value=100,
-            step=0.01,
+            step=0.001,
         )
         await cg.register_parented(n, alvik_id)
         cg.add(alvik_id.set_linefollower_d_config(n))
@@ -144,7 +144,7 @@ async def to_code(config):
             linefollower_pid_config,
             min_value=-20,
             max_value=20,
-            step=0.01,
+            step=0.0001,
         )
         await cg.register_parented(n, alvik_id)
         cg.add(alvik_id.set_linefollower_i_config(n))
@@ -153,7 +153,7 @@ async def to_code(config):
             linefollower_pid_config,
             min_value=0,
             max_value=100,
-            step=0.01,
+            step=0.001,
         )
         await cg.register_parented(n, alvik_id)
         cg.add(alvik_id.set_linefollower_p_config(n))
