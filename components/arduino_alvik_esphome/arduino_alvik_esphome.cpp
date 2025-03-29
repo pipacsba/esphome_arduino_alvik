@@ -628,7 +628,7 @@ namespace alvik {
             {
                 if (this->maze_crawling_speed_max_ > this->maze_crawling_speed_)
                 {
-                    this->maze_crawling_speed_ += 0.5;
+                    this->maze_crawling_speed_ += 0.25;
                     this->alvik_line_follower();
                 }
                 else
