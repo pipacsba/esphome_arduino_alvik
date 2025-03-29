@@ -502,43 +502,47 @@ namespace alvik {
 
     void AlvikComponent::alvik_line_follower()
     {
-        float sum_weight, sum_values, centoid;
-         float diff_speed, diff_speed_p, diff_speed_i, diff_speed_d;
-         float centoid_difference;
-         float common_speed;
- 
-         common_speed = this->maze_crawling_speed_;
- 
-         //calculate axial (difference) wheel speeds
-         sum_weight = this->line_sensors[0] + this->line_sensors[1] + this->line_sensors[1];
-         sum_values = this->line_sensors[0] + 2 * this->line_sensors[1] + 3 * this->line_sensors[2];
-         if (sum_weight != 0) { centoid = 2 - (sum_values / sum_weight); }
-         else { centoid = 0.0; }
- 
-         if (this->line_follower_centoid_previous_ != 0.0)
-         {
-             centoid_difference = centoid - this->line_follower_centoid_previous_;
-         }
-         else
-         {
-             centoid_difference = 0.0;
-         }
-         this->line_follower_centoid_integral_ += centoid;
- 
-         common_speed = common_speed / (abs(centoid) + 1);
-         //if (abs(centoid) > 0.5)
-         //{
-         //    common_speed = 0;
-         //}
- 
-         diff_speed_p = centoid * this->line_follower_p_;
-         diff_speed_i = this->line_follower_centoid_integral_ * this->line_follower_i_;
-         diff_speed_d = centoid_difference * this->line_follower_d_;
-         diff_speed = diff_speed_p + diff_speed_i + diff_speed_d;
- 
-         set_wheels_speed(common_speed - diff_speed, common_speed + diff_speed);
- 
-         this->line_follower_centoid_previous_ = centoid;
+        float sum_weight, sum_values, centoid, line_left, line_center, line_right;
+        float diff_speed, diff_speed_p, diff_speed_i, diff_speed_d;
+        float centoid_difference;
+        float common_speed;
+        
+        line_left =this->line_sensors[0] - 60;
+        line_center =this->line_sensors[1] - 60;
+        line_right =this->line_sensors[2] - 60;
+        
+        common_speed = this->maze_crawling_speed_;
+        
+        //calculate axial (difference) wheel speeds
+        sum_weight = line_left + line_center + line_right;
+        sum_values = line_left + 2 * line_center + 3 * line_right;
+        if (sum_weight != 0) { centoid = 2 - (sum_values / sum_weight); }
+        else { centoid = 0.0; }
+        
+        if (this->line_follower_centoid_previous_ != 0.0)
+        {
+         centoid_difference = centoid - this->line_follower_centoid_previous_;
+        }
+        else
+        {
+         centoid_difference = 0.0;
+        }
+        this->line_follower_centoid_integral_ += centoid;
+        
+        common_speed = common_speed / (abs(centoid) + 1);
+        //if (abs(centoid) > 0.5)
+        //{
+        //    common_speed = 0;
+        //}
+        
+        diff_speed_p = centoid * this->line_follower_p_;
+        diff_speed_i = this->line_follower_centoid_integral_ * this->line_follower_i_;
+        diff_speed_d = centoid_difference * this->line_follower_d_;
+        diff_speed = diff_speed_p + diff_speed_i + diff_speed_d;
+        
+        set_wheels_speed(common_speed - diff_speed, common_speed + diff_speed);
+        
+        this->line_follower_centoid_previous_ = centoid;
     }
 
     void AlvikComponent::maze_are_we_there_yet()
