@@ -633,7 +633,7 @@ namespace alvik {
                 }
                 else
                 {
-                    if (line_sum > 700) //more than one line is present
+                    if (line_sum > 770) //more than one line is present
                     {
                         if (this->line_sensors[0] > this->line_detection_threshold_ * 2 ) 
                         {
