@@ -506,6 +506,7 @@ namespace alvik {
         float diff_speed, diff_speed_p, diff_speed_i, diff_speed_d;
         float centoid_difference;
         float common_speed;
+        float line_sensor_error;
 
         common_speed = this->maze_crawling_speed_;
         
@@ -530,11 +531,27 @@ namespace alvik {
         //{
         //    common_speed = 0;
         //}
-        
-        diff_speed_p = centoid * this->line_follower_p_;
-        diff_speed_i = this->line_follower_centoid_integral_ * this->line_follower_i_;
-        diff_speed_d = centoid_difference * this->line_follower_d_;
-        diff_speed = diff_speed_p + diff_speed_i + diff_speed_d;
+
+        if (abs(centoid) > 0.5)
+        {
+            diff_speed_p = centoid * this->line_follower_p_;
+            diff_speed_i = this->line_follower_centoid_integral_ * this->line_follower_i_;
+            diff_speed_d = centoid_difference * this->line_follower_d_;
+            diff_speed = diff_speed_p + diff_speed_i + diff_speed_d;
+        }
+        else
+        {
+            if (this->line_sensors[1] < 600)
+            {
+                line_sensor_error = 600 - this->line_sensors[1];
+                line_sensor_error = line_sensor_error * centoid;
+                diff_speed = line_sensor_error / this->line_follower_p_;
+            }
+            else
+            {
+                diff_speed = 0;
+            }
+        }
         
         set_wheels_speed(common_speed - diff_speed, common_speed + diff_speed);
 
