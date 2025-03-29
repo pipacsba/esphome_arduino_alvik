@@ -550,6 +550,8 @@ namespace alvik {
         diff_speed_i = this->line_follower_centoid_integral_ * this->line_follower_i_;
         diff_speed_d = centoid_difference * this->line_follower_d_;
         diff_speed = diff_speed_p + diff_speed_i + diff_speed_d;
+
+        diff_speed = diff_speed * common_speed / this->maze_crawling_speed_max_
         
         set_wheels_speed(common_speed - diff_speed, common_speed + diff_speed);
 
