@@ -470,6 +470,10 @@ namespace alvik {
                                             this->maze_crawling_state_sensor_->publish_state(this->maze_crawling_state_);
                                         if (this->maze_descriptor_sensor_ != nullptr)
                                             this->maze_descriptor_sensor_->publish_state(this->maze_solution_);
+                                        if (this->maze_solution_descriptor_sensor_ != nullptr)
+                                            this->maze_solution_descriptor_sensor_->publish_state(this->maze_solution_saved_);
+                                        if (this->maze_solved_sensor_ != nullptr)
+                                            this->maze_solved_sensor_->publish_state(this->maze_solved_);
                                         this->sensor_group_ = this->sensor_group_ + 1;
                                         break;
                                     }
