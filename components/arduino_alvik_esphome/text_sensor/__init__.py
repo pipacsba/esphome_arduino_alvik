@@ -31,6 +31,7 @@ CONF_FW_VERSION_SENSOR = "firmware_version"
 CONF_LIB_VERSION_SENSOR = "library_version"
 CONF_COMMAND_LIST_SENSOR = "command_list"
 CONF_MAZE_MAP_DESCRIPTOR_SENSOR = "maze_descriptor_sensor"
+CONF_MAZE_KNOWN_MAP_DESCRIPTOR_SENSOR = "maze_solution_descriptor_sensor"
 
 
 CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
@@ -42,6 +43,8 @@ CONFIG_SCHEMA = ALVIK_COMPONENT_SCHEMA.extend(
         cv.Optional(CONF_COMMAND_LIST_SENSOR): text_sensor.text_sensor_schema(
         ),
         cv.Optional(CONF_MAZE_MAP_DESCRIPTOR_SENSOR): text_sensor.text_sensor_schema(
+        ),
+        cv.Optional(CONF_MAZE_KNOWN_MAP_DESCRIPTOR_SENSOR): text_sensor.text_sensor_schema(
         ),
     }
 )
@@ -64,3 +67,7 @@ async def to_code(config):
     if maze_descriptor_config := config.get(CONF_MAZE_MAP_DESCRIPTOR_SENSOR):
         tsens = await text_sensor.new_text_sensor(maze_descriptor_config)
         cg.add(alvik_id.set_maze_descriptor_sensor(tsens))
+
+    if maze_descriptor_config := config.get(CONF_MAZE_KNOWN_MAP_DESCRIPTOR_SENSOR):
+        tsens = await text_sensor.new_text_sensor(maze_descriptor_config)
+        cg.add(alvik_id.set_maze_solution_descriptor_sensor(tsens))
