@@ -628,7 +628,7 @@ namespace alvik {
             }
             else
             {
-                c = " ";
+                c = ' ';
             }
             if ((left_turn_conf >= 1) & this->maze_left_turn_confidence_decreasing_)
             {
@@ -656,7 +656,7 @@ namespace alvik {
                     this->maze_turn_right();
                     this->maze_solved_ = false;
                 }
-                else if ((dead_end_conf >= 1)
+                else if (dead_end_conf >= 1)
                 {
                     maze_solution_trust_confidence_ -= 0.1;
                 }
