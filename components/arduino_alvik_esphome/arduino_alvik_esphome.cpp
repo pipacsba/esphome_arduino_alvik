@@ -677,6 +677,7 @@ namespace alvik {
             {
                 if ( (left_turn_conf > 1) | (right_turn_conf > 1) )
                 {
+                    //EZ MÉG NEM JÓ!!!!
                     this->maze_straight_continue_confidence_inverze_ -= 0.1;
                     if (this->maze_straight_continue_confidence_inverze_ <=0)
                     {
