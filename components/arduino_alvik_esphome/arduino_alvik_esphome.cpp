@@ -663,7 +663,7 @@ namespace alvik {
                 }
                 else if (dead_end_conf >= 1) { this->maze_solution_trust_confidence_ -= 0.1; }
             }
-            if ((dead_end_conf >= 1) & (left_turn_conf == 0) & (right_turn_conf == 0))
+            if ((dead_end_conf >= 1) & (left_turn_conf <= 0.5) & (right_turn_conf <= 0.5))
             {
                 if (this->maze_solution_trust_confidence_ > 0) { this->maze_solution_trust_confidence_ -= 0.1; }
                 else
