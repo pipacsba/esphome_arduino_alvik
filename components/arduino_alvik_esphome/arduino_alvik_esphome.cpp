@@ -630,10 +630,8 @@ namespace alvik {
             {
                 c = this->maze_solution_saved_[this->maze_solution_.length()];
             }
-            else
-            {
-                c = ' ';
-            }
+            else { c = ' '; }
+            
             if ((left_turn_conf >= 1) & this->maze_left_turn_confidence_decreasing_)
             {
                 if ((c == 'L') | (maze_solution_trust_confidence_ <= 0))
@@ -653,27 +651,18 @@ namespace alvik {
             }
             if (right_turn_conf >= 1)
             {
-                if (c == 'R')
-                {
-                    this->maze_turn_right();
-                }
+                if (c == 'R') { this->maze_turn_right(); }
                 else if ((dead_end_conf >= 1) & (maze_solution_trust_confidence_ <= 0))
                 {
                     this->maze_turn_right();
                     this->maze_solved_ = false;
                     ESP_LOGD(TAG,"Maze known solution is invalidated, and turned right");
                 }
-                else if (dead_end_conf >= 1)
-                {
-                    maze_solution_trust_confidence_ -= 0.1;
-                }
+                else if (dead_end_conf >= 1) { maze_solution_trust_confidence_ -= 0.1; }
             }
             if ((dead_end_conf >= 1) & (left_turn_conf == 0) & (right_turn_conf == 0))
             {
-                if (maze_solution_trust_confidence_ > 0)
-                {
-                    maze_solution_trust_confidence_ -= 0.1;
-                }
+                if (maze_solution_trust_confidence_ > 0) { maze_solution_trust_confidence_ -= 0.1; }
                 else
                 {
                     this->maze_turn_back();
@@ -687,10 +676,7 @@ namespace alvik {
                 if (this->maze_straight_continue_confidence_inverze_ <=0)
                 {
                     this->maze_keep_straight();
-                    if (c != 'S')
-                    {
-                        this->maze_solved_ = false;
-                    }
+                    if (c != 'S') { this->maze_solved_ = false; }
                 }
             }
         }
