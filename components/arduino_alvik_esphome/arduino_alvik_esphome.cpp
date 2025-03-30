@@ -583,6 +583,7 @@ namespace alvik {
         this->maze_dead_end_confidence   = 0;
         this->maze_straight_continue_confidence_inverze_ = 1;
         this->maze_turn_start_yaw_ = this->robot_pose[2];
+        this->maze_solution_trust_confidence_ = 1;
     }
 
     void AlvikComponent::maze_turn_back()
@@ -600,6 +601,7 @@ namespace alvik {
         this->maze_dead_end_confidence   = 0;
         this->maze_straight_continue_confidence_inverze_ = 1;
         this->maze_turn_start_yaw_ = this->robot_pose[2];
+        this->maze_solution_trust_confidence_ = 1;
     }
 
     void AlvikComponent::maze_keep_straight()
@@ -610,6 +612,7 @@ namespace alvik {
         this->maze_right_turn_confidence = 0;
         this->maze_dead_end_confidence   = 0;
         this->maze_straight_continue_confidence_inverze_ = 1;
+        this->maze_solution_trust_confidence_ = 1;
     }
 
     void AlvikComponent::maze_are_we_there_yet()
@@ -1461,6 +1464,7 @@ namespace alvik {
                 this->maze_solver_start_ = true;
                 this->maze_crawling_speed_  = 0;
                 this->maze_intersection_counter_ = 0;
+                this->maze_solution_trust_confidence_ = 1;
                 this->maze_solution_.clear();
                 if (this->maze_solved_)
                 {
