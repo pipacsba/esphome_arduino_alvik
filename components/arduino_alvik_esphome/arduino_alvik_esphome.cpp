@@ -638,6 +638,7 @@ namespace alvik {
                     if (maze_solution_trust_confidence_ <= 0)
                     {
                         this->maze_solved_ = false;
+                        ESPLOGD(TAG,"Maze known solution is invalidated, and turned left")
                     }
                 }
                 else
@@ -655,6 +656,7 @@ namespace alvik {
                 {
                     this->maze_turn_right();
                     this->maze_solved_ = false;
+                    ESPLOGD(TAG,"Maze known solution is invalidated, and turned right")
                 }
                 else if (dead_end_conf >= 1)
                 {
@@ -671,6 +673,7 @@ namespace alvik {
                 {
                     this->maze_turn_back();
                     this->maze_solved_ = false;
+                    ESPLOGD(TAG,"Maze known solution is invalidated, as back turn is detected")
                 }
             }
             if (c == 'S')
@@ -1471,6 +1474,14 @@ namespace alvik {
                 this->maze_crawling_speed_  = 0;
                 this->maze_intersection_counter_ = 0;
                 this->maze_solution_.clear();
+                if (this->maze_solved_)
+                {
+                    ESPLOGD(TAG,"Maze solving started with known solution")
+                }
+                else
+                {
+                    ESPLOGD(TAG,"Maze solving started without known solution")
+                }
                 break;
             default:
                 break;
