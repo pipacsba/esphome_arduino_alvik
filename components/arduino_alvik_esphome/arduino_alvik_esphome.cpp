@@ -635,7 +635,7 @@ namespace alvik {
                 if ((c == 'L') | (maze_solution_trust_confidence_ <= 0))
                 {
                     this->maze_turn_left();
-                    if (maze_solution_trust_confidence_ <= 0))
+                    if (maze_solution_trust_confidence_ <= 0)
                     {
                         this->maze_solved_ = false;
                     }
