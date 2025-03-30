@@ -118,6 +118,7 @@ namespace alvik {
         maze_left_turn_confidence  = 0;
         maze_right_turn_confidence = 0;
         maze_dead_end_confidence   = 0;
+        maze_solution_trust_confidence_ = 1;
         maze_straight_continue_confidence_inverze_ = 1;
         maze_turn_started_confidence = 0;
         maze_turn_start_yaw_ = 0;
@@ -630,8 +631,64 @@ namespace alvik {
             {
                 c = " ";
             }
-            
-            
+            if ((left_turn_conf >= 1) & this->maze_left_turn_confidence_decreasing_)
+            {
+                if ((c == 'L') | (maze_solution_trust_confidence_ <= 0))
+                {
+                    this->maze_turn_left();
+                    if (maze_solution_trust_confidence_ <= 0))
+                    {
+                        this->maze_solved_ = false;
+                    }
+                }
+                else
+                {
+                    maze_solution_trust_confidence_ -= 0.1;
+                }
+            }
+            if (right_turn_conf >= 1)
+            {
+                if (c == 'R')
+                {
+                    this->maze_turn_right();
+                }
+                else if ((dead_end_conf >= 1) & (maze_solution_trust_confidence_ <= 0))
+                {
+                    this->maze_turn_right();
+                    this->maze_solved_ = false;
+                }
+                else if ((dead_end_conf >= 1)
+                {
+                    maze_solution_trust_confidence_ -= 0.1;
+                }
+            }
+            if ((dead_end_conf >= 1) & (left_turn_conf == 0) & (right_turn_conf == 0))
+            {
+                if (maze_solution_trust_confidence_ > 0)
+                {
+                    maze_solution_trust_confidence_ -= 0.1;
+                }
+                else
+                {
+                    this->maze_turn_back();
+                    this->maze_solved_ = false;
+                }
+            }
+            if (c == 'S')
+            {
+                if ( (left_turn_conf > 1) | (right_turn_conf > 1) )
+                {
+                    this->maze_straight_continue_confidence_inverze_ -= 0.1;
+                    if (this->maze_straight_continue_confidence_inverze_ <=0)
+                    {
+                        this->maze_keep_straight();
+                    }
+                }
+                else if (dead_end_conf >= 1)
+                {
+                    maze_solution_trust_confidence_ -= 0.1;
+                }
+            }
         }
         else 
         {
@@ -645,7 +702,7 @@ namespace alvik {
             }
             else if (dead_end_conf >= 1)
             {
-                this->maze_turn_back()
+                this->maze_turn_back();
             }
             else if  (right_turn_conf >= 1) // right turn confirmed, but we go straight 
             {
