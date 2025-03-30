@@ -222,6 +222,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_line_sensor_left(sensor::Sensor *sensor1) { line_sensor_left_ = sensor1; }
     void set_line_sensor_center(sensor::Sensor *sensor1) { line_sensor_center_ = sensor1; }
     void set_line_sensor_right(sensor::Sensor *sensor1) { line_sensor_right_ = sensor1; }
+    void set_maze_solved_bool_sensor(sensor::Sensor *sensor1) { maze_solved_sensor_ = sensor1; }
 
     // NUMBERS
     void set_forward_distance_number(number::Number *a_number) { forward_distance_ = a_number; }
@@ -243,6 +244,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     void set_lib_sensor(text_sensor::TextSensor *sensor1) { lib_version_sensor_ = sensor1; }
     void set_command_list_sensor(text_sensor::TextSensor *sensor1) { command_list_sensor_ = sensor1; }
     void set_maze_descriptor_sensor(text_sensor::TextSensor *sensor1) { maze_descriptor_sensor_ = sensor1; }
+    void set_maze_solution_descriptor_sensor(text_sensor::TextSensor *sensor1) { maze_solution_descriptor_sensor_ = sensor1; }
 
     //SWITCHES
     void set_enable_alvik_switch(switch_::Switch *sw) { enable_alvik_switch_ = sw; }
@@ -481,6 +483,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     sensor::Sensor *line_sensor_center_;
     sensor::Sensor *line_sensor_right_;
     sensor::Sensor *maze_crawling_state_sensor_;
+    sensor::Sensor *maze_solved_sensor_;
 
     //NUMBER    
     number::Number *forward_distance_;
@@ -512,6 +515,7 @@ class AlvikComponent  : public Component, public uart::UARTDevice {
     text_sensor::TextSensor *lib_version_sensor_;
     text_sensor::TextSensor *command_list_sensor_;
     text_sensor::TextSensor *maze_descriptor_sensor_;
+    text_sensor::TextSensor *maze_solution_descriptor_sensor_;
 
     //SWITCH
     switch_::Switch *enable_alvik_switch_;
