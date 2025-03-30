@@ -647,7 +647,8 @@ namespace alvik {
                 }
                 else
                 {
-                    maze_solution_trust_confidence_ -= 0.1;
+                    if ((c == 'R') & (right_turn_conf < 0.5)) { maze_solution_trust_confidence_ -= 0.1;}
+                    if ((c == 'S') & (dead_end_conf > 0)) { maze_solution_trust_confidence_ -= 0.1;}
                 }
             }
             if (right_turn_conf >= 1)
