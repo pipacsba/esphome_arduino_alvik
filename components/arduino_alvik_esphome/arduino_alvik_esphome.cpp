@@ -675,7 +675,7 @@ namespace alvik {
             }
             if (c == 'S')
             {
-                if ( (left_turn_conf >= 1)  | (right_turn_conf > 1) )
+                if (((left_turn_conf >= 1)  | (right_turn_conf > 1)) & this->maze_left_turn_confidence_decreasing_)
                 {
                     this->maze_straight_continue_confidence_inverze_ -= 0.1;
                     if (this->maze_straight_continue_confidence_inverze_ <=0)
@@ -683,7 +683,7 @@ namespace alvik {
                         this->maze_keep_straight();
                     }
                 }
-                if ((dead_end_conf >= 1) | this->maze_left_turn_confidence_decreasing_)
+                if (dead_end_conf >= 1)
                 {
                     maze_solution_trust_confidence_ -= 0.1;
                 }
