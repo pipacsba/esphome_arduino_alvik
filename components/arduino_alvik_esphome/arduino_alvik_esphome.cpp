@@ -634,10 +634,10 @@ namespace alvik {
             
             if ((left_turn_conf >= 1) & this->maze_left_turn_confidence_decreasing_)
             {
-                if ((c == 'L') | (maze_solution_trust_confidence_ <= 0))
+                if ((c == 'L') | (this->maze_solution_trust_confidence_ <= 0))
                 {
                     this->maze_turn_left();
-                    if (maze_solution_trust_confidence_ <= 0)
+                    if (this->maze_solution_trust_confidence_ <= 0)
                     {
                         this->maze_solved_ = false;
                         ESP_LOGD(TAG,"Maze known solution is invalidated, and turned left");
@@ -645,24 +645,24 @@ namespace alvik {
                 }
                 else
                 {
-                    if ((c == 'R') & (right_turn_conf < 0.5)) { maze_solution_trust_confidence_ -= 0.1;}
-                    if ((c == 'S') & (dead_end_conf > 0)) { maze_solution_trust_confidence_ -= 0.1;}
+                    if ((c == 'R') & (right_turn_conf < 0.5)) { this->maze_solution_trust_confidence_ -= 0.1;}
+                    if ((c == 'S') & (dead_end_conf > 0)) { this->maze_solution_trust_confidence_ -= 0.1;}
                 }
             }
             if (right_turn_conf >= 1)
             {
                 if (c == 'R') { this->maze_turn_right(); }
-                else if ((dead_end_conf >= 1) & (maze_solution_trust_confidence_ <= 0))
+                else if ((dead_end_conf >= 1) & (this->maze_solution_trust_confidence_ <= 0))
                 {
                     this->maze_turn_right();
                     this->maze_solved_ = false;
                     ESP_LOGD(TAG,"Maze known solution is invalidated, and turned right");
                 }
-                else if (dead_end_conf >= 1) { maze_solution_trust_confidence_ -= 0.1; }
+                else if (dead_end_conf >= 1) { this->maze_solution_trust_confidence_ -= 0.1; }
             }
             if ((dead_end_conf >= 1) & (left_turn_conf == 0) & (right_turn_conf == 0))
             {
-                if (maze_solution_trust_confidence_ > 0) { maze_solution_trust_confidence_ -= 0.1; }
+                if (this->maze_solution_trust_confidence_ > 0) { this->maze_solution_trust_confidence_ -= 0.1; }
                 else
                 {
                     this->maze_turn_back();
