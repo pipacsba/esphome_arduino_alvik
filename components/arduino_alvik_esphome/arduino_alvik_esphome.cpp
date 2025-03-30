@@ -675,16 +675,15 @@ namespace alvik {
             }
             if (c == 'S')
             {
-                if ( (left_turn_conf > 1) | (right_turn_conf > 1) )
+                if ( (left_turn_conf >= 1)  | (right_turn_conf > 1) )
                 {
-                    //EZ MÉG NEM JÓ!!!!
                     this->maze_straight_continue_confidence_inverze_ -= 0.1;
                     if (this->maze_straight_continue_confidence_inverze_ <=0)
                     {
                         this->maze_keep_straight();
                     }
                 }
-                else if (dead_end_conf >= 1)
+                if ((dead_end_conf >= 1) | this->maze_left_turn_confidence_decreasing_))
                 {
                     maze_solution_trust_confidence_ -= 0.1;
                 }
