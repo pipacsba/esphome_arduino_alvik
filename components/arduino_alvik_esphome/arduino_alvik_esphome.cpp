@@ -684,7 +684,7 @@ namespace alvik {
             {
                 if (((left_turn_conf >= 1)  | (right_turn_conf > 1)) & this->maze_left_turn_confidence_decreasing_)
                 {
-                    this->maze_straight_continue_confidence_inverze_ -= 0.1;
+                    this->maze_straight_continue_confidence_inverze_ -= 0.2;
                     if (this->maze_straight_continue_confidence_inverze_ <=0)
                     {
                         this->maze_keep_straight();
