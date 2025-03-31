@@ -554,7 +554,7 @@ namespace alvik {
     {
         //turn right - we checked if line continues straight, so we neeed sharp turn as the intersection is below the robot
         //set_wheels_speed(this->maze_crawling_speed_ / 2, 0);
-        set_wheels_speed(this->maze_crawling_speed_ / 4, - (this->maze_crawling_speed_ / 2));
+        set_wheels_speed(this->maze_crawling_speed_ / 2, - (this->maze_crawling_speed_ / 4));
         this->maze_saved_cycle_counter_ = this->cycle_;
         this->maze_crawling_state_ = CRAWLING_INTERSECTION ;
         this->intersection_dir_ = INTERSECTION_RIGHT;
@@ -1439,6 +1439,7 @@ namespace alvik {
         //alvik_command_list_.push_back('x'); // x: Cancel
         this->alvik_command_list_.clear();
         this->maze_solution_.clear();
+        this->maze_solved_ = false;
         this->change_alvik_left_right_leds(LEFT_RED + RIGHT_RED, true);
         this->line_follower_centoid_integral_ = 0;
         this->maze_solver_start_ = false;

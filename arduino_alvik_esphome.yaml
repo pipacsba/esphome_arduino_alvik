@@ -154,6 +154,19 @@ sensor:
       name: follow_start
     constant_direction_start:
       name: constant_direction_start
+    maze_solver_start:
+      name: maze_solver_start
+    maze_crawling_state:
+      name: maze_crawling_state
+    line_sensor_left:
+      name: line_sensor_left
+    line_sensor_center:
+      name: line_sensor_center
+    line_sensor_right:
+      name: line_sensor_right
+    maze_solved_bool:
+      name: maze_solved_bool
+
      
 
 text_sensor:
@@ -161,6 +174,10 @@ text_sensor:
     alvik_id: "alvik_nano"
     command_list:
       name: command_list
+    maze_descriptor_sensor:
+      name: maze_descriptor_sensor
+    maze_solution_descriptor_sensor:
+      name: maze_solution_descriptor_sensor
 #    firmware_version:
 #      name: "firmware version"
 #    library_version:
@@ -229,6 +246,18 @@ number:
       mode: BOX
     constant_direction_target:
       name: constant_direction_target
+      mode: BOX
+    line_follower_p:
+      name: line_follower_p
+      mode: BOX
+    line_follower_i:
+      name: line_follower_i
+      mode: BOX
+    line_follower_d:
+      name: line_follower_d
+      mode: BOX
+    maze_crawling_speed:
+      name: maze_crawling_speed
       mode: BOX
 
 i2c:
