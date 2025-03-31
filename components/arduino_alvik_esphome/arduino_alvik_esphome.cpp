@@ -1439,6 +1439,7 @@ namespace alvik {
         //alvik_command_list_.push_back('x'); // x: Cancel
         this->alvik_command_list_.clear();
         this->maze_solution_.clear();
+        this->maze_solved_ = false;
         this->change_alvik_left_right_leds(LEFT_RED + RIGHT_RED, true);
         this->line_follower_centoid_integral_ = 0;
         this->maze_solver_start_ = false;
