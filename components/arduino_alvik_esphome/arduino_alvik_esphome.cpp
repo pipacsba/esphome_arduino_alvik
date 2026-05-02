@@ -1075,13 +1075,11 @@ namespace alvik {
             
             this->i2c_switch1_pin_->pin_mode(gpio::FLAG_NONE);
             this->i2c_switch2_pin_->pin_mode(gpio::FLAG_NONE); 
-            
-            if ((this->battery_sensor_->write(&icreg, 1) != i2c::ERROR_OK) || !this->battery_sensor_->read_bytes_raw(batt_regs, 2)) {
+
+            if (this->battery_sensor_->read_register(icreg, batt_regs, 2) != i2c::ERROR_OK) {
                 ESP_LOGE(TAG, "I2C recover failed");
                 this->cycle_ = 0;
-            }
-            else
-            {
+            } else {
                 battery_val = encode_uint16(batt_regs[1], batt_regs[0]);
                 battery_soc = (int)((float)battery_val * 0.00390625);
                 this->battery = battery_soc;
@@ -1338,7 +1336,7 @@ namespace alvik {
         float normalized_y;
         float normalized_z;
 
-        if ((this->compass_sensor_->write(&M_REG_MEASUREMENT, 1) != i2c::ERROR_OK) || !this->compass_sensor_->read_bytes_raw(raw_data, M_REG_MEASUREMENT_LEN  )) 
+        if (this->compass_sensor_->read_register(M_REG_MEASUREMENT, raw_data, M_REG_MEASUREMENT_LEN) != i2c::ERROR_OK)
         {
             ESP_LOGE(TAG, "Unable to read compass data");
         }
